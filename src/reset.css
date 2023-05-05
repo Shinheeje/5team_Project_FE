@@ -52,11 +52,7 @@ table {
 	border-spacing: 0;
 }
 
-body, input, button, textarea {
-  overflow-x: hidden;
+body{
+	background-color: #FCF5EE;
 	font-family: 'Nunito Sans', 'Gothic A1';
-}
-
-body::-webkit-scrollbar {
-  display: none;
 }
