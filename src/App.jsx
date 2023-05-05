@@ -4,6 +4,8 @@ import Main from "./pages/Main";
 import Detail from "./pages/Detail";
 import Post from "./pages/Post";
 import Modify from "./pages/Modify"
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 const queryClient = new QueryClient()
 
@@ -14,7 +16,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/post" element={<Post />} />
-          <Route path="/Detail/:id" element={<Detail />} />
+          <Route path="/detail/:id" element={<Detail />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
