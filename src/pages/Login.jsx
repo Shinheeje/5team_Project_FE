@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 function Login() {
   return (
@@ -17,7 +18,7 @@ function Login() {
 
           <LoginBtnWrap>
             <LoginBtn>로그인</LoginBtn>
-            <LoginBtn color='#FBE8E7'>회원 가입</LoginBtn>
+            <LoginBtn color='#FBE8E7' to={'/signup'}>회원 가입</LoginBtn>
           </LoginBtnWrap>
         </Loginbox>
       </LoginWrap>
@@ -79,13 +80,17 @@ const LoginBtnWrap = styled.div`
   gap: 20px;
 `
 
-const LoginBtn = styled.button`
+const LoginBtn = styled(Link)`
   width: 50%;
   height: 50px;
   border: none;
   background-color: ${(props) => {
     return props.color ? '#FFC4D0' : '#F7DDDE'
   }};
+  text-align: center;
+  line-height: 50px;
+  text-decoration: none;
+  color: black;
   font-size: 16px;
   font-weight: 900;
   cursor: pointer;
