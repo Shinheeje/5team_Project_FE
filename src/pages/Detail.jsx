@@ -1,6 +1,45 @@
 import React from 'react'
+import { useState } from 'react'
+import { useMutation, useQueryClient, useQuery } from 'react-query'
 import styled from 'styled-components'
+import { addPosts, getPosts } from '../api/data'
 function Detail() {
+  const { data } = useQuery('comments', getPosts)
+
+  const [reply, setReply] = useState({
+    // write: '',
+    content: ''
+  })
+
+  const queryClient = useQueryClient()
+  const mutation = useMutation(addPosts, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('comments');
+    }
+  })
+
+  const onChangeReplyContent = (e) => {
+    setReply({
+      ...reply, 
+      [e.target.name]: e.target.value
+    })
+  } 
+  console.log(reply.content)
+  const onSubmitClickHandler = (e) => {
+    e.preventDefault();
+    // if (reply.write === '' || reply.content === '') {
+    if (reply.content === '') {
+      alert('양식을 모두 입력해주세요.');
+      return;
+    };
+
+    const newPost = {
+      // write: reply.write,
+      content: reply.content
+    }
+    mutation.mutate(newPost);
+  }
+
   return (
     <>
       <DetailWrap>
@@ -17,9 +56,15 @@ function Detail() {
         </DetailFirstItemWrap>
 
         <DetailSecondItemWrap>
-          <DetailSecondItemtext>댓글</DetailSecondItemtext>
-          <DetailSecondItemInput type="text" />
-          <DetailSecondItemBtn>등록</DetailSecondItemBtn>
+          {
+            data && data.map((e, i) => {
+              return (
+                <DetailSecondItemtext key={i}>{e.write} {e.content}</DetailSecondItemtext>
+              )
+            })
+          }
+          <DetailSecondItemInput type="text" value={reply.content} onChange={onChangeReplyContent} name='content'/>
+          <DetailSecondItemBtn onClick={onSubmitClickHandler}>등록</DetailSecondItemBtn>
         </DetailSecondItemWrap>
       </DetailWrap>
     </>
@@ -88,7 +133,7 @@ const DetailBtn = styled.button`
   }
 `
 
-const DetailSecondItemWrap = styled.div`
+const DetailSecondItemWrap = styled.form`
   padding: 20px;
   background-color: white;
   border-radius: 8px;
