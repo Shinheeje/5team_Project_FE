@@ -40,11 +40,12 @@ function Modal({ setModalOpen }: ProsType) {
               회원가입
             </Button>
             <Button
+              id="closeModal"
               backgroundColor="#FFC4D0"
               color="#FCF5EE"
               onClick={closeModal}
             >
-              close
+              x
             </Button>
           </Buttonbox>
         </Modalstyle>
@@ -89,6 +90,22 @@ const Button = styled.button`
   margin-right: 10px;
   font-weight: bold;
   border: none;
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(90%);
+    transition: all 0.5s;
+  }
+
+  &:last-child {
+    background-color: "#FFC4D0";
+    position: absolute;
+    color: white;
+    top: 15px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+  }
 `;
 
 const Buttonbox = styled.div`

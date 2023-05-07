@@ -5,7 +5,7 @@ function Signup() {
   return (
     <SignupWrap>
       <Signupbox>
-        <SignupTitle>회원가입</SignupTitle>
+        <SignupTitle>Signup</SignupTitle>
         <IdBox>
           <IdText>아이디</IdText>
           <IdInput type="text" placeholder="아이디" />
