@@ -19,38 +19,20 @@
       "id": 4,
       "write": "박씨",
       "content": "asdsadㅁㄴㅇdsa"
-    },
+    }
+  ],
+
+  "list": [
     {
-      "id": 5,
-      "write": "황씨",
-      "content": "aㅁsa"
+      "id": 1,
+      "title": "조씨",
+      "content": "asdsadasdsa"
     },
+
     {
-      "id": 6,
-      "write": "하씨",
-      "content": "ㅊsdsa"
-    },
-    {
-      "id": 7
-    },
-    {
-      "id": 8
-    },
-    {
-      "content": "ㅁㄴㅇㅁㄴㅇㄴㅁㅇㄴㅇ",
-      "id": 9
-    },
-    {
-      "content": "ㅁㄴㅇㅁㄴㅇㄴㅁㅇㄴㅇ",
-      "id": 10
-    },
-    {
-      "content": "ㅁㅁㄴㅇㅁㄴㅇㄴㅁㅇ",
-      "id": 11
-    },
-    {
-      "content": "asdads",
-      "id": 12
+      "id": 2,
+      "title": "황씨",
+      "content": "바보"
     }
   ]
 }
