@@ -2,17 +2,20 @@ import React from 'react'
 import { useState } from 'react'
 import { useMutation, useQueryClient, useQuery } from 'react-query'
 import styled from 'styled-components'
-import { addPosts, getPosts } from '../api/data'
+import { addPosts, getPosts, removePosts } from '../api/data'
+import { useParams } from 'react-router-dom'
 function Detail() {
   const { data } = useQuery('comments', getPosts)
-
+  // const params = useParams()
   const [reply, setReply] = useState({
     // write: '',
     content: ''
   })
 
   const queryClient = useQueryClient()
-  const mutation = useMutation(addPosts, {
+
+  // * 댓글추가
+  const addMutation = useMutation(addPosts, {
     onSuccess: () => {
       queryClient.invalidateQueries('comments');
     }
@@ -20,11 +23,11 @@ function Detail() {
 
   const onChangeReplyContent = (e) => {
     setReply({
-      ...reply, 
+      ...reply,
       [e.target.name]: e.target.value
     })
-  } 
-  console.log(reply.content)
+  }
+
   const onSubmitClickHandler = (e) => {
     e.preventDefault();
     // if (reply.write === '' || reply.content === '') {
@@ -37,11 +40,28 @@ function Detail() {
       // write: reply.write,
       content: reply.content
     }
-    mutation.mutate(newPost);
+    addMutation.mutate(newPost);
+  }
+
+  // * 댓글삭제
+  const removeMutation = useMutation(removePosts, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('comments');
+    }
+  })
+
+  const removeReplyHandler = (event, id) => {
+    event.preventDefault();
+    removeMutation.mutate(id)
   }
 
   return (
-    <>
+    <div style={{
+      marginTop:'150px',
+      display:'flex',
+      justifyContent: 'center',
+      alignItems:'center',
+    }}>
       <DetailWrap>
         <DetailFirstItemWrap>
           <DetailFirstItemTitle>토코몬</DetailFirstItemTitle>
@@ -59,26 +79,31 @@ function Detail() {
           {
             data && data.map((e, i) => {
               return (
-                <DetailSecondItemtext key={i}>{e.write} {e.content}</DetailSecondItemtext>
+                <>
+                  <DetailSecondItemtext key={i}>{e.write} {e.content} <button onClick={(event) => {
+                    removeReplyHandler(event, e.id)
+                  }}>삭제</button></DetailSecondItemtext>
+                </>
               )
             })
-          }
-          <DetailSecondItemInput type="text" value={reply.content} onChange={onChangeReplyContent} name='content'/>
+          } 
+          <DetailSecondItemInput type="text" value={reply.content} onChange={onChangeReplyContent} name='content' />
           <DetailSecondItemBtn onClick={onSubmitClickHandler}>등록</DetailSecondItemBtn>
         </DetailSecondItemWrap>
       </DetailWrap>
-    </>
+    </div>
   )
 }
+
 
 const DetailWrap = styled.div`
   width: 800px;
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 50%;
+  /* position: absolute; */
+  /* top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); */
 `
 
 const DetailFirstItemWrap = styled.div`
@@ -138,12 +163,18 @@ const DetailSecondItemWrap = styled.form`
   background-color: white;
   border-radius: 8px;
   margin-top: 20px;
+  margin-bottom: 20px;
+  position: relative;
 `
 
 const DetailSecondItemtext = styled.p`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background-color: #F7DDDE;
   padding: 10px;
   border-radius: 8px;
+  margin-bottom: 10px;
 `
 
 const DetailSecondItemInput = styled.input`
@@ -159,7 +190,7 @@ const DetailSecondItemBtn = styled.button`
   width: 50px;
   height: 25px;
   right: 25px;
-  bottom: 25px;
+  bottom: 28px;
   background-color: white;
   border: 1px solid black;
   cursor: pointer;
