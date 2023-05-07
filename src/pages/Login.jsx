@@ -3,6 +3,11 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 function Login() {
+  
+  const IdInputOnChangeHandler = (e) => {
+
+  }
+
   return (
     <LoginWrap>
       <Loginbox>
@@ -15,6 +20,9 @@ function Login() {
         <IdBox>
           <IdText>비밀번호</IdText>
           <IdInput type="password" placeholder="비밀번호" />
+          {
+
+          }
         </IdBox>
 
         <LoginBtnWrap>

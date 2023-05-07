@@ -17,7 +17,7 @@ function Signup() {
         </IdBox>
 
         <IdBox>
-          <IdText>이메일</IdText>
+          <IdText>관리자</IdText>
           <IdInput type="password" placeholder="이메일" />
         </IdBox>
 
@@ -38,7 +38,7 @@ const SignupWrap = styled.div`
   transform: translate(-50%, -50%);
 `;
 
-const Signupbox = styled.div`
+const Signupbox = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
