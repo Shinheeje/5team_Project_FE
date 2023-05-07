@@ -22,7 +22,7 @@ function Signup() {
         </IdBox>
 
         <SignupBtnWrap>
-          <SignupBtn color="#FBE8E7">회원 가입</SignupBtn>
+          <SignupBtn color="#FBE8E7">회원가입</SignupBtn>
         </SignupBtnWrap>
       </Signupbox>
     </SignupWrap>
