@@ -1,28 +1,7 @@
 {
-<<<<<<< HEAD
   "comments": [
-    {
-      "id": 1,
-      "write": "김씨",
-      "content": "asdsadasdsa"
-    },
-    {
-      "id": 2,
-      "write": "최씨",
-      "content": "안녕"
-    },
-    {
-      "id": 3,
-      "write": "신씨",
-      "content": "asdsㄴㅋㅌㅍ"
-    },
-    {
-      "id": 4,
-      "write": "박씨",
-      "content": "asdsadㅁㄴㅇdsa"
-    }
+    
   ],
-
   "list": [
     {
       "id": 1,
@@ -37,7 +16,6 @@
     }
   ]
 }
-=======
-  "comments": []
-}
->>>>>>> 6703b7297d017bca9f25458b0a6c615ceedbb7d5
+
+
+
