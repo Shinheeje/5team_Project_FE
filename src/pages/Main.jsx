@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Modal from "./Modal";
+import { getList } from "../api/listdata";
+import { useQuery } from "react-query";
+import List from "./List";
 
 function Main() {
-  //민트색모달오픈
+  const listdata = useQuery("listdata", getList);
+  const data = listdata.data;
+  // console.log(listdata.data);
+  console.log(data);
   const [modalOpen, setModalOpen] = useState(false);
   // 모달창 노출
   const showModal = () => {
@@ -11,12 +17,6 @@ function Main() {
   };
   return (
     <>
-      <Header>
-        <image>로고</image>
-        <div>로그인</div>
-        <div>회원가입</div>
-      </Header>
-
       <InfoBox>사이트 이름 및 소개</InfoBox>
 
       <WriteBox>
@@ -25,29 +25,11 @@ function Main() {
         {modalOpen && <Modal setModalOpen={setModalOpen} />}
       </WriteBox>
 
-      <ListWrap>
-        <ImageBox>
-          <Image>조선아</Image>
-          <div>타이틀</div>
-        </ImageBox>
-        <ImageBox>
-          <Image>조선아</Image>
-          <div>타이틀</div>
-        </ImageBox>
-        <ImageBox>
-          <Image>조선아</Image>
-          <div>타이틀</div>
-        </ImageBox>
-        <ImageBox>
-          <Image>조선아</Image>
-          <div>타이틀</div>
-        </ImageBox>
-        <ImageBox>
-          <Image>조선아</Image>
-          <div>타이틀</div>
-        </ImageBox>
-      </ListWrap>
-
+      <List />
+      {data &&
+        data.map((item) => {
+          return <List key={item.id} title={item.title} />;
+        })}
       <VideoBox>캐릭터관련동영상</VideoBox>
     </>
   );
@@ -59,14 +41,6 @@ const InfoBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const Header = styled.div`
-  background-color: #fbe8e7;
-
-  div {
-    float: right;
-  }
 `;
 
 const WriteBox = styled.div`
@@ -82,31 +56,6 @@ const WriteBox = styled.div`
   button {
     margin-left: 20px;
   }
-`;
-
-const ListWrap = styled.div`
-  /* background-color: red; */
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  margin-top: 30px;
-  width: 70%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  margin-left: 65px;
-`;
-
-const ImageBox = styled.div`
-  flex-direction: column;
-  margin-right: 30px;
-  margin-bottom: 30px;
-`;
-
-const Image = styled.image`
-  display: block;
-  width: 270px;
-  height: 250px;
-  border: 1px solid red;
 `;
 
 const VideoBox = styled.video`
