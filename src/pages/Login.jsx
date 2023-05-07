@@ -36,7 +36,7 @@ const LoginWrap = styled.div`
   transform: translate(-50%, -50%);
 `;
 
-const Loginbox = styled.div`
+const Loginbox = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
