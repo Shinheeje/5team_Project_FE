@@ -28,7 +28,7 @@ function Login() {
         <LoginBtnWrap>
           <LoginBtn>로그인</LoginBtn>
           <LoginBtn color="#FBE8E7" to={"/signup"}>
-            회원 가입
+            회원가입
           </LoginBtn>
         </LoginBtnWrap>
       </Loginbox>
