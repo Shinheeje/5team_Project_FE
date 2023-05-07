@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "comments": [
     {
       "id": 1,
@@ -27,17 +26,26 @@
     {
       "id": 1,
       "title": "조씨",
-      "content": "asdsadasdsa"
+      "content": "asdsadasdsa",
+      "files": "토코몬.png"
     },
-
     {
       "id": 2,
       "title": "황씨",
-      "content": "바보"
+      "content": "바보",
+      "files": "무민.png"
+    },
+    {
+      "id": 3,
+      "title": "빡",
+      "content": "asdsadasdsa",
+      "files": "스폰지밥.png"
+    },
+    {
+      "id": 4,
+      "title": "경",
+      "content": "asdsadasdsa",
+      "files": "피카츄.png"
     }
   ]
 }
-=======
-  "comments": []
-}
->>>>>>> 6703b7297d017bca9f25458b0a6c615ceedbb7d5

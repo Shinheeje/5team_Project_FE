@@ -1,20 +1,23 @@
 import React from "react";
 import styled from "styled-components";
 
-function List(title, id) {
+function List(listdata) {
+  // console.log(listdata.listdata);
+  const data = listdata.listdata;
   return (
     <ListWrap>
       <ImageBox>
-        <Image>조선아</Image>
-        <div>{title}</div>
+        <Image src={data.files} alt="" />
+        <div>{data.title}</div>
+        <div>{data.id}</div>
       </ImageBox>
     </ListWrap>
   );
 }
 
 const ListWrap = styled.div`
-  /* background-color: red; */
   display: grid;
+  /* grid-auto-flow: row; */
   grid-template-columns: 1fr 1fr 1fr 1fr;
   margin-top: 30px;
   width: 70%;
@@ -28,13 +31,17 @@ const ImageBox = styled.div`
   flex-direction: column;
   margin-right: 30px;
   margin-bottom: 30px;
+
+  div {
+    margin-top: 10px;
+  }
 `;
 
-const Image = styled.image`
+const Image = styled.img`
   display: block;
   width: 270px;
   height: 250px;
-  border: 1px solid red;
+  border: 1px solid #fbe8e7;
 `;
 
 export default List;

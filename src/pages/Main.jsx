@@ -6,10 +6,10 @@ import { useQuery } from "react-query";
 import List from "./List";
 
 function Main() {
-  const listdata = useQuery("listdata", getList);
-  const data = listdata.data;
-  // console.log(listdata.data);
-  console.log(data);
+  const { data } = useQuery("listdata", getList);
+
+  // console.log(data);
+
   const [modalOpen, setModalOpen] = useState(false);
   // 모달창 노출
   const showModal = () => {
@@ -21,15 +21,15 @@ function Main() {
 
       <WriteBox>
         작성하기
-        <button onClick={showModal}>click</button>
+        <button onClick={showModal}>click!</button>
         {modalOpen && <Modal setModalOpen={setModalOpen} />}
       </WriteBox>
 
-      <List />
       {data &&
         data.map((item) => {
-          return <List key={item.id} title={item.title} />;
+          return <List key={item.id} listdata={item} />;
         })}
+
       <VideoBox>캐릭터관련동영상</VideoBox>
     </>
   );
@@ -44,10 +44,11 @@ const InfoBox = styled.div`
 `;
 
 const WriteBox = styled.div`
+  border-radius: 20px;
   width: 70%;
   margin-left: 50px;
   background-color: #fbe8e7;
-  height: 100px;
+  height: 80px;
   margin-top: 30px;
   display: flex;
   justify-content: center;
@@ -55,6 +56,8 @@ const WriteBox = styled.div`
 
   button {
     margin-left: 20px;
+    background-color: #ffcceb;
+    border: none;
   }
 `;
 
@@ -62,9 +65,11 @@ const VideoBox = styled.video`
   height: 100%;
   width: 20%;
   position: absolute;
+  /* float: right; */
   right: 0;
   top: 230px;
   background-color: red;
   margin-right: 50px;
+  /* https://developing-move.tistory.com/145 얘를다시보자 */
 `;
 export default Main;
