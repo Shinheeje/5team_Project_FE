@@ -5,27 +5,15 @@ function List(listdata) {
   // console.log(listdata.listdata);
   const data = listdata.listdata;
   return (
-    <ListWrap>
+    <div>
       <ImageBox>
         <Image src={data.files} alt="" />
         <div>{data.title}</div>
         <div>{data.id}</div>
       </ImageBox>
-    </ListWrap>
+    </div>
   );
 }
-
-const ListWrap = styled.div`
-  display: grid;
-  /* grid-auto-flow: row; */
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  margin-top: 30px;
-  width: 70%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  margin-left: 65px;
-`;
 
 const ImageBox = styled.div`
   flex-direction: column;

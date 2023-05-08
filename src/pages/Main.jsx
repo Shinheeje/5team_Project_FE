@@ -25,15 +25,30 @@ function Main() {
         {modalOpen && <Modal setModalOpen={setModalOpen} />}
       </WriteBox>
 
-      {data &&
-        data.map((item) => {
-          return <List key={item.id} listdata={item} />;
-        })}
+      <ListWrap>
+        {data &&
+          data.map((item) => {
+            return <List key={item.id} listdata={item} />;
+          })}
+      </ListWrap>
 
       <VideoBox>캐릭터관련동영상</VideoBox>
     </>
   );
 }
+const ListWrap =styled.div`
+  display: grid;
+  grid-auto-flow: row;
+  /* grid-template-columns: 1fr 1fr 1fr 1fr; */
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 30px;
+  width: 70%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-left: 65px;
+`
+
 const InfoBox = styled.div`
   width: 100%;
   background: #fbe8e7;

@@ -1,32 +1,80 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { loginmock, getinga} from "../api/mock";
+import { useMutation } from "react-query";
+import {Cookies, useCookies} from 'react-cookie'
 
-function Login() {
-  
-  const IdInputOnChangeHandler = (e) => {
 
+function Login() {  
+  const cookies = new Cookies()
+
+  const [login, setLogin] = useState({
+    id:'',
+    password:'',
+  })
+  const onChangeLoginContent = (e) => {
+    setLogin({
+      ...login,
+      [e.target.name]: e.target.value
+    })
   }
 
+
+  const mockPostMutation = useMutation(loginmock, {
+    onSuccess: (response) => {
+      cookies.set('cookie',response.token)
+    }
+  })
+
+  const mockingaMutation = useMutation(getinga, {
+    onSuccess: (response) => {
+      console.log(response)
+    }
+  })
+  const cookiesHandler = (e) => {
+    e.preventDefault();
+    // if (reply.write === '' || reply.content === '') {
+    const newCookie = cookies.get('cookie')
+    const newHeaders = {
+      headers:{
+        Authorization : `Bearer ${newCookie}`
+      }
+    }
+    mockingaMutation.mutate(newHeaders);
+  }
+
+  const IdInputOnChangeHandler = (e) => {
+    e.preventDefault();
+    // if (reply.write === '' || reply.content === '') {
+    if (setLogin.id === '' || setLogin.password === '') {
+      alert('양식을 모두 입력해주세요.');
+      return;
+    };
+
+    const newPost = {
+      // write: reply.write,
+      id: login.id,
+      password: login.password
+    }
+    mockPostMutation.mutate(newPost);
+  }
   return (
     <LoginWrap>
       <Loginbox>
         <LoginTitle>Login</LoginTitle>
         <IdBox>
           <IdText>아이디</IdText>
-          <IdInput type="text" placeholder="아이디" />
+          <IdInput type="text" placeholder="아이디" name="id" onChange={onChangeLoginContent}/>
         </IdBox>
 
         <IdBox>
           <IdText>비밀번호</IdText>
-          <IdInput type="password" placeholder="비밀번호" />
-          {
-
-          }
+          <IdInput type="password" placeholder="비밀번호" name="password" onChange={onChangeLoginContent}/>
         </IdBox>
 
         <LoginBtnWrap>
-          <LoginBtn>로그인</LoginBtn>
+          <LoginBtn onClick={IdInputOnChangeHandler}>로그인</LoginBtn>
           <LoginBtn color="#FBE8E7" to={"/signup"}>
             회원가입
           </LoginBtn>
