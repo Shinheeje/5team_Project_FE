@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { loginmock, getinga} from "../api/mock";
+import { loginmock, getinga} from "../api/signup";
 import { useMutation } from "react-query";
 import {Cookies, useCookies} from 'react-cookie'
 
@@ -73,7 +73,7 @@ function Login() {
           <IdText>비밀번호</IdText>
           <IdInput type="password" placeholder="비밀번호" name="password" onChange={onChangeLoginContent}/>
         </IdBox>
-
+x
         <LoginBtnWrap>
           {/* <LoginBtn onClick={IdInputOnChangeHandler}>로그인</LoginBtn> */}
           <LoginBtn>로그인</LoginBtn>
