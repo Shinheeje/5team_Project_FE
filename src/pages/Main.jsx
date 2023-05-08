@@ -76,15 +76,26 @@ const WriteBox = styled.div`
   }
 `;
 
+// const VideoBox = styled.video`
+//   height: 100%;
+//   width: 20%;
+//   position: absolute;
+//   /* float: right; */
+//   right: 0;
+//   top: 230px;
+//   background-color: red;
+//   margin-right: 50px;
+//   /* https://developing-move.tistory.com/145 얘를다시보자 */
+// `;
+
 const VideoBox = styled.video`
   height: 100%;
   width: 20%;
-  position: absolute;
-  /* float: right; */
+  position: fixed;
+  bottom: 0;
   right: 0;
-  top: 230px;
+  top: 300px;
   background-color: red;
   margin-right: 50px;
-  /* https://developing-move.tistory.com/145 얘를다시보자 */
 `;
 export default Main;
