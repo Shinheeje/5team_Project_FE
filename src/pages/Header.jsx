@@ -6,11 +6,18 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Headerbox = styled.header`
+  padding: 10px;
   background-color: #fbe8e7;
+`;
 
-  div {
-    float: right;
-    margin-right: 10px;
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+  float: right;
+  margin-right: 10px;
+
+  &:hover {
+    color: #ffaaa4;
   }
 `;
 
@@ -25,12 +32,9 @@ function Header() {
     <>
       <Headerbox>
         <image>로고</image>
-        <div>
-          <Link to="/login">로그인</Link>
-        </div>
-        <div>
-          <Link to="/signup">회원가입</Link>
-        </div>
+
+        <StyledLink to="/login">Login</StyledLink>
+        <StyledLink to="/signup">Signup</StyledLink>
       </Headerbox>
       <Outlet />
     </>
@@ -38,7 +42,7 @@ function Header() {
     <>
       <Headerbox>
         <image>로고</image>
-        <div>로그아웃</div>
+        <StyledLink to="/signup">Logeout</StyledLink>
       </Headerbox>
       <Outlet />
     </>

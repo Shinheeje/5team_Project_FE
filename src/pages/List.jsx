@@ -5,19 +5,21 @@ function List(listdata) {
   // console.log(listdata.listdata);
   const data = listdata.listdata;
   return (
-    <ListWrap>
-      <ImageBox>
-        <Image src={data.files} alt="" />
-        <div>{data.title}</div>
-        <div>{data.id}</div>
-      </ImageBox>
-    </ListWrap>
+    <div>
+      <ListWrap>
+        <ImageBox>
+          {/* <Image src={data.files} alt="" /> */}
+          <img src={data.files} alt="" />
+          <div>{data.title}</div>
+          <div>{data.id}</div>
+        </ImageBox>
+      </ListWrap>
+    </div>
   );
 }
 
 const ListWrap = styled.div`
   display: grid;
-  /* grid-auto-flow: row; */
   grid-template-columns: 1fr 1fr 1fr 1fr;
   margin-top: 30px;
   width: 70%;
@@ -28,6 +30,7 @@ const ListWrap = styled.div`
 `;
 
 const ImageBox = styled.div`
+  display: flex;
   flex-direction: column;
   margin-right: 30px;
   margin-bottom: 30px;
