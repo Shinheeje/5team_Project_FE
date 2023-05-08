@@ -1,10 +1,36 @@
 import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { addList } from "../api/listdata";
+import { useNavigate } from "react-router-dom";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 function Post() {
   const [fileName, setFileName] = useState("");
   const [preview, setPreview] = useState("");
+  const [title, setTitle] = useState("");
+
+  const [content, setContent] = useState("");
+  const navigate = useNavigate(`/`);
+  const queryClient = useQueryClient();
+  const mutation = useMutation(addList, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("list");
+    },
+  });
+
+  const submitButtonHandler = () => {
+    const newList = {
+      title,
+      content,
+      files: fileName,
+      id: uuidv4(),
+    };
+
+    mutation.mutate(newList);
+    navigate("/");
+  };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -19,16 +45,28 @@ function Post() {
   return (
     <PostWrap>
       <PostItemWrap method="post" encType="multipart/form-data">
-        <PostItemTitle placeholder="제목" />
+        <PostItemTitle
+          placeholder="제목"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
         <PostImg src={preview} alt="" />
         <FileWrap>
           <FileTextInput value={fileName} placeholder="첨부파일" readOnly />
           <FileButton for="file">파일찾기</FileButton>
           <FileInput type="file" id="file" onChange={handleFileChange} />
         </FileWrap>
-        <PostBody>파닥파닥몬</PostBody>
+        <PostBody value={content} onChange={(e) => setContent(e.target.value)}>
+          파닥파닥몬
+        </PostBody>
         <PostBtnWrap>
-          <PostBtn>제출하기</PostBtn>
+          <PostBtn
+            onClick={() => {
+              submitButtonHandler();
+            }}
+          >
+            제출하기
+          </PostBtn>
         </PostBtnWrap>
       </PostItemWrap>
     </PostWrap>

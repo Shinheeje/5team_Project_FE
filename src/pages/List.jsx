@@ -1,12 +1,19 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 function List(listdata) {
+  const navigate = useNavigate();
   // console.log(listdata.listdata);
   const data = listdata.listdata;
+
   return (
     <div>
-      <ImageBox>
+      <ImageBox
+        onClick={() => {
+          navigate(`/detail/${data.id}`);
+        }}
+      >
         <Image src={data.files} alt="" />
         <div>{data.title}</div>
         <div>{data.id}</div>
@@ -16,6 +23,7 @@ function List(listdata) {
 }
 
 const ImageBox = styled.div`
+  display: flex;
   flex-direction: column;
   margin-right: 30px;
   margin-bottom: 30px;
