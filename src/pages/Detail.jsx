@@ -5,13 +5,19 @@ import styled from "styled-components";
 import { addPosts, getPosts, removePosts } from "../api/data";
 import { useParams } from "react-router-dom";
 import { deleteList } from "../api/listdata";
+import { detailList } from "../api/listdata";
+
 function Detail() {
+  const params = useParams();
   const { data } = useQuery("comments", getPosts);
   // const params = useParams()
   const [reply, setReply] = useState({
     // write: '',
     content: "",
   });
+
+  const detaildata = useQuery("list", () => detailList(params.id));
+  const detaillist = detaildata.data;
 
   const queryClient = useQueryClient();
 
@@ -77,13 +83,28 @@ function Detail() {
       }}
     >
       <DetailWrap>
-        <DetailFirstItemWrap>
+        {/* <DetailFirstItemWrap>
           <DetailFirstItemTitle>토코몬</DetailFirstItemTitle>
           <DetailFirstItem
             src={`${process.env.PUBLIC_URL}/토코몬.png`}
             alt=""
           />
           <DetailBody>파닥파닥몬</DetailBody>
+          <DetailBtnWrap>
+            <DetailBtn>수정하기</DetailBtn>
+            <DetailBtn color="#FBE8E7" onClick={onDeleteClickHandler}>
+              삭제하기
+            </DetailBtn>
+          </DetailBtnWrap>
+        </DetailFirstItemWrap> */}
+        <DetailFirstItemWrap>
+          <DetailFirstItemTitle>{detaillist.title}</DetailFirstItemTitle>
+          <DetailFirstItem
+            // src={`${process.env.PUBLIC_URL}/토코몬.png`}
+            src={`${process.env.PUBLIC_URL}/토코몬.png`}
+            alt=""
+          />
+          <DetailBody>{detaillist.content}</DetailBody>
           <DetailBtnWrap>
             <DetailBtn>수정하기</DetailBtn>
             <DetailBtn color="#FBE8E7" onClick={onDeleteClickHandler}>
