@@ -22,7 +22,6 @@ function App() {
             <Route path="/post" element={<Post />} />
             <Route path="/detail/:id" element={<Detail />} />
           </Route>
-
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>

@@ -6,6 +6,7 @@ function List(listdata) {
   const data = listdata.listdata;
   return (
     <div>
+<<<<<<< HEAD
       <ListWrap>
         <ImageBox>
           {/* <Image src={data.files} alt="" /> */}
@@ -14,10 +15,18 @@ function List(listdata) {
           <div>{data.id}</div>
         </ImageBox>
       </ListWrap>
+=======
+      <ImageBox>
+        <Image src={data.files} alt="" />
+        <div>{data.title}</div>
+        <div>{data.id}</div>
+      </ImageBox>
+>>>>>>> 5a294215ae76790347e85b38798a4e271be97ee7
     </div>
   );
 }
 
+<<<<<<< HEAD
 const ListWrap = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -29,6 +38,8 @@ const ListWrap = styled.div`
   margin-left: 65px;
 `;
 
+=======
+>>>>>>> 5a294215ae76790347e85b38798a4e271be97ee7
 const ImageBox = styled.div`
   display: flex;
   flex-direction: column;

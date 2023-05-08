@@ -19,7 +19,7 @@ function Modify() {
   return (
     <>
       <ModifyWrap>
-        <ModifyItemWrap method='post' encType='multipart/form-data'>
+        <ModifyItemWrap method='post' encType='multipart/form-data' name='files'>
           <ModifyItemTitle />
           <ModifyImg src={preview} alt="" />
           <FileWrap>
