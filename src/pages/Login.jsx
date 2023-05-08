@@ -1,82 +1,181 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { loginmock, getinga} from "../api/signup";
+import { loginmock, getinga } from "../api/signup";
 import { useMutation } from "react-query";
-import {Cookies, useCookies} from 'react-cookie'
+import { Cookies, useCookies } from "react-cookie";
+import axios from "axios";
+import { userlogin } from "../api/login";
 
-
-function Login() {  
-  const cookies = new Cookies()
+function Login() {
+  const cookies = new Cookies();
 
   const [login, setLogin] = useState({
-    id:'',
-    password:'',
-  })
+    userid: "",
+    password: "",
+  });
+
   const onChangeLoginContent = (e) => {
     setLogin({
       ...login,
-      [e.target.name]: e.target.value
-    })
-  }
-
+      [e.target.name]: e.target.value,
+    });
+  };
 
   // const mockPostMutation = useMutation(loginmock, {
   //   onSuccess: (response) => {
-  //     cookies.set('cookie',response.token)
-  //   }
-  // })
+  //     cookies.set("cookie", response.token);
+  //   },
+  // });
 
   // const mockingaMutation = useMutation(getinga, {
   //   onSuccess: (response) => {
-  //     console.log(response)
-  //   }
-  // })
+  //     console.log(response);
+  //   },
+  // });
+
+  const userIdMutation = useMutation(login, {
+    onSuccess: (response) => {
+      console.log("바보:", response);
+    },
+  });
+
+  const userlogin = async (newLogin) => {
+    const response = await axios.post(
+      "http://3.37.22.175:8080/api/login",
+      newLogin
+    );
+    console.log(response.data);
+    return response.data;
+  };
+
+  const LoginMutation = useMutation(userlogin, {
+    onSuccess: (data) => {
+      const responseData = data || {}; // 응답 데이터가 없을 경우 빈 객체로 초기화
+      const responseHeaders = responseData.headers.get("ACCESS_KEY") || {};
+      console.log(responseHeaders);
+
+      // ACCESS_KEY 추출
+      const accessKey = responseHeaders["ACCESS_KEY"];
+
+      // console.log(accessKey);
+    },
+  });
+
+  const testHandler = (e) => {
+    e.preventDefault();
+
+    const newlogin = {
+      userid: login.userid,
+      password: login.password,
+    };
+
+    LoginMutation.mutate(newlogin);
+  };
 
   // const cookiesHandler = (e) => {
   //   e.preventDefault();
   //   // if (reply.write === '' || reply.content === '') {
-  //   const newCookie = cookies.get('cookie')
+  //   const newCookie = cookies.get("cookie");
   //   const newHeaders = {
-  //     headers:{
-  //       Authorization : `Bearer ${newCookie}`
-  //     }
-  //   }
-  //   mockingaMutation.mutate(newHeaders);
-  // }
-
-  // const IdInputOnChangeHandler = (e) => {
-  //   e.preventDefault();
-  //   // if (reply.write === '' || reply.content === '') {
-  //   if (setLogin.id === '' || setLogin.password === '') {
-  //     alert('양식을 모두 입력해주세요.');
-  //     return;
+  //     headers: {
+  //       Authorization: `Bearer ${newCookie}`,
+  //     },
   //   };
+  //   mockingaMutation.mutate(newHeaders);
+  // };
 
-  //   const newPost = {
-  //     // write: reply.write,
-  //     id: login.id,
-  //     password: login.password
-  //   }
-  //   mockPostMutation.mutate(newPost);
-  // }
+  const IdInputOnChangeHandler = (e) => {
+    e.preventDefault();
+
+    // axios.post("http://3.37.22.175:8080/api/login", {
+    //   userid: login.userid,
+    //   password: login.password,
+    // });
+
+    //얘가 원래거
+    // const response = axios.post("http://3.37.22.175:8080/api/login", {
+    //   userid: login.userid,
+    //   password: login.password,
+    // });
+
+    //얘가 원래거2
+    // const response = axios
+    //   .post("http://3.37.22.175:8080/api/login", {
+    //     userid: login.userid,
+    //     password: login.password,
+    //   })
+    //   .then((response) => {
+    //     console.log(response.data);
+    //   });
+
+    //희제ㅣ님
+    // const response = axios
+    //   .post("http://3.37.22.175:8080/api/login", {
+    //     userid: login.userid,
+    //     password: login.password,
+    //   })
+    //   .then((response) => {
+    //     console.log(response.data["ACCESS_KEY"]);
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
+
+    // console.log(response.data["refresh-token"]);
+
+    // const login = async (newLogin) => {
+    //   const response = await axios.post(
+    //     "http://3.37.22.175:8080/api/login",
+    //     newLogin
+    //   );
+    //   return response.data;
+    // };
+
+    // const accessToken = response.ACCESS_TOKEN;
+
+    // console.log(accessToken);
+
+    // if (reply.write === '' || reply.content === '') {
+    if (setLogin.id === "" || setLogin.password === "") {
+      alert("양식을 모두 입력해주세요.");
+      return;
+    }
+
+    const newPost = {
+      // write: reply.write,
+      userid: login.userid,
+      password: login.password,
+    };
+    userIdMutation.mutate(newPost);
+  };
   return (
     <LoginWrap>
       <Loginbox>
         <LoginTitle>Login</LoginTitle>
         <IdBox>
           <IdText>아이디</IdText>
-          <IdInput type="text" placeholder="아이디" name="id" onChange={onChangeLoginContent}/>
+          <IdInput
+            type="text"
+            placeholder="아이디"
+            name="userid"
+            onChange={onChangeLoginContent}
+          />
         </IdBox>
-
         <IdBox>
           <IdText>비밀번호</IdText>
-          <IdInput type="password" placeholder="비밀번호" name="password" onChange={onChangeLoginContent}/>
+          <IdInput
+            type="password"
+            placeholder="비밀번호"
+            name="password"
+            onChange={onChangeLoginContent}
+          />
         </IdBox>
-x
+        x
         <LoginBtnWrap>
           {/* <LoginBtn onClick={IdInputOnChangeHandler}>로그인</LoginBtn> */}
-          <LoginBtn>로그인</LoginBtn>
+          <LoginBtn onClick={testHandler}>로그인</LoginBtn>
+
           <LoginBtn color="#FBE8E7" to={"/signup"}>
             회원가입
           </LoginBtn>

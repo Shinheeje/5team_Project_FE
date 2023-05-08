@@ -31,7 +31,9 @@ function App() {
         <Routes>
           <Route element={<Header />}>
             <Route path="/" element={<Main />} />
-            <Route path="/modify" element={<Modify />} />
+            {/* <Route path="/modify" element={<Modify />} /> */}
+            <Route path="/modify/:id" element={<Modify />} />
+
             <Route path="/post" element={<Post />} />
             <Route path="/detail/:id" element={<Detail />} />
           </Route>

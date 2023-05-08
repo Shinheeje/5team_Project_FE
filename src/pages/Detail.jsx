@@ -6,6 +6,7 @@ import { addPosts, getPosts, removePosts } from "../api/data";
 import { useParams } from "react-router-dom";
 import { deleteList } from "../api/listdata";
 import { detailList } from "../api/listdata";
+import { useNavigate } from "react-router-dom";
 
 function Detail() {
   const params = useParams();
@@ -15,6 +16,8 @@ function Detail() {
     // write: '',
     content: "",
   });
+
+  const navigate = useNavigate();
 
   console.log(params);
   const detaildata = useQuery("list", () => detailList(params.id));
@@ -122,7 +125,13 @@ function Detail() {
             )} */}
             <DetailBody>{detaillist.content}</DetailBody>
             <DetailBtnWrap>
-              <DetailBtn>수정하기</DetailBtn>
+              <DetailBtn
+                onClick={() => {
+                  navigate(`/modify/${detaillist.id}`);
+                }}
+              >
+                수정하기
+              </DetailBtn>
               <DetailBtn color="#FBE8E7" onClick={onDeleteClickHandler}>
                 삭제하기
               </DetailBtn>
