@@ -12,6 +12,8 @@ const getList = async () => {
 //게시글추가
 const addList = async (newList) => {
   const response = await axios.post("http://localhost:4000/list", newList);
+  // const response = await axios.post("http://3.37.22.175:8080", newList);
+
   return response;
 };
 
@@ -26,4 +28,10 @@ const deleteList = async (id) => {
   }
 };
 
-export { getList, addList, deleteList };
+//개별게시글조회
+const detailList = async (id) => {
+  const response = await axios.get(`http://localhost:4000/list/${id}`);
+  return response.data;
+};
+
+export { getList, addList, deleteList, detailList };

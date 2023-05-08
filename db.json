@@ -1,25 +1,6 @@
 {
   "comments": [
-    {
-<<<<<<< HEAD
-      "id": 2,
-      "write": "최씨",
-      "content": "안녕"
-    },
-    {
-      "id": 3,
-      "write": "신씨",
-      "content": "asdsㄴㅋㅌㅍ"
-    },
-    {
-      "id": 4,
-      "write": "박씨",
-      "content": "asdsadㅁㄴㅇdsa"
-=======
-      "content": "asdaasd",
-      "id": 1
->>>>>>> 5a294215ae76790347e85b38798a4e271be97ee7
-    }
+    {}
   ],
   "list": [
     {
@@ -57,6 +38,12 @@
       "content": "v무미니",
       "files": "무민.png",
       "id": "201e5aeb-4848-407d-9a2e-38efa29ac537"
+    },
+    {
+      "title": "ddb",
+      "content": "바보",
+      "files": "스폰지밥.png",
+      "id": "d36c8264-5d60-47fe-a11a-8a99fc673fb2"
     }
   ]
 }
