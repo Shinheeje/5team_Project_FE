@@ -2,30 +2,6 @@
   "comments": [],
   "list": [
     {
-      "id": 1,
-      "title": "조씨",
-      "content": "asdsadasdsa",
-      "files": "토코몬.png"
-    },
-    {
-      "id": 2,
-      "title": "경씨",
-      "content": "바보",
-      "files": "무민.png"
-    },
-    {
-      "id": 3,
-      "title": "빡",
-      "content": "asdsadasdsa",
-      "files": "스폰지밥.png"
-    },
-    {
-      "id": 4,
-      "title": "경",
-      "content": "asdsadasdsa",
-      "files": "피카츄.png"
-    },
-    {
       "title": "vv",
       "content": "bb",
       "files": "피카츄.png",
@@ -42,6 +18,18 @@
       "content": "바보",
       "files": "스폰지밥.png",
       "id": "d36c8264-5d60-47fe-a11a-8a99fc673fb2"
+    },
+    {
+      "title": "ddd",
+      "content": "무민",
+      "files": "무민.png",
+      "id": "e0ca8b45-c95a-4c3d-b2dd-90d61f4011d9"
+    },
+    {
+      "title": "dd",
+      "content": "피카츄",
+      "files": "피카츄.png",
+      "id": "ecc4aacd-0cd1-4c5a-9428-a778d13859af"
     }
   ]
 }
