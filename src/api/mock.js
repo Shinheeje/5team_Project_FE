@@ -1,10 +1,10 @@
 import axios from "axios";
 
 // * 조회
-const getmock = async () => {
-  const response = await axios.get('');
-  return response.data;
-}
+// const getmock = async () => {
+//   const response = await axios.get('');
+//   return response.data;
+// }
 
 // const getinga = async (newInga) => {
 //   const response = await axios.get('http://3.38.191.164/user', newInga);
@@ -13,13 +13,18 @@ const getmock = async () => {
 
 // * post
 const addmock = async (newPost) => {
-  await axios.post('/api/signup', newPost)
+  try {
+    const response = await axios.post('http://3.37.22.175:8080/api/signup', newPost)
+    return response
+  }catch(error) {
+    console.log(error)
+  }
 }
 
-// * post
-const loginmock = async (newLogin) => {
-  const response = await axios.post('/api/login', newLogin)
-  return response.data
-}
+// // * post
+// const loginmock = async (newLogin) => {
+//   const response = await axios.post('/api/login', newLogin)
+//   return response.data
+// }
 
-export { getmock, addmock, loginmock}
+export {addmock}

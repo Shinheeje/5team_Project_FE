@@ -21,11 +21,11 @@ function Login() {
   }
 
 
-  const mockPostMutation = useMutation(loginmock, {
-    onSuccess: (response) => {
-      cookies.set('cookie',response.token)
-    }
-  })
+  // const mockPostMutation = useMutation(loginmock, {
+  //   onSuccess: (response) => {
+  //     cookies.set('cookie',response.token)
+  //   }
+  // })
 
   // const mockingaMutation = useMutation(getinga, {
   //   onSuccess: (response) => {
@@ -45,21 +45,21 @@ function Login() {
   //   mockingaMutation.mutate(newHeaders);
   // }
 
-  const IdInputOnChangeHandler = (e) => {
-    e.preventDefault();
-    // if (reply.write === '' || reply.content === '') {
-    if (setLogin.id === '' || setLogin.password === '') {
-      alert('양식을 모두 입력해주세요.');
-      return;
-    };
+  // const IdInputOnChangeHandler = (e) => {
+  //   e.preventDefault();
+  //   // if (reply.write === '' || reply.content === '') {
+  //   if (setLogin.id === '' || setLogin.password === '') {
+  //     alert('양식을 모두 입력해주세요.');
+  //     return;
+  //   };
 
-    const newPost = {
-      // write: reply.write,
-      id: login.id,
-      password: login.password
-    }
-    mockPostMutation.mutate(newPost);
-  }
+  //   const newPost = {
+  //     // write: reply.write,
+  //     id: login.id,
+  //     password: login.password
+  //   }
+  //   mockPostMutation.mutate(newPost);
+  // }
   return (
     <LoginWrap>
       <Loginbox>
@@ -75,7 +75,8 @@ function Login() {
         </IdBox>
 
         <LoginBtnWrap>
-          <LoginBtn onClick={IdInputOnChangeHandler}>로그인</LoginBtn>
+          {/* <LoginBtn onClick={IdInputOnChangeHandler}>로그인</LoginBtn> */}
+          <LoginBtn>로그인</LoginBtn>
           <LoginBtn color="#FBE8E7" to={"/signup"}>
             회원가입
           </LoginBtn>

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { getmock, addmock } from "../api/mock";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 function Signup() {
-  const { data } = useQuery('comments', getmock)
+  // const { data } = useQuery('comments', getmock)
 
 const pwRef = useRef(null)
 
@@ -54,8 +54,8 @@ const pwRef = useRef(null)
 
 
   const mockPostMutation = useMutation(addmock, {
-    onSuccess: () => {
-      console.log('보냄')
+    onSuccess: (response) => {
+      console.log(response)
     }
   })
 
@@ -68,13 +68,15 @@ const pwRef = useRef(null)
     };
 
     const newPost = {
-      // write: reply.write,
-      userid: signUp.userid,
-      password: signUp.password
+      // headers: {
+      //   'Access-Control-Allow-Origin': 'http://localhost:3000',
+      // },
+        userid: signUp.userid,
+        password: signUp.password
     }
     mockPostMutation.mutate(newPost);
   }
-
+  console.log(signUp.password)
   return (
     <SignupWrap>
       <Signupbox>
@@ -106,10 +108,10 @@ const pwRef = useRef(null)
           }
         </IdBox>
 
-        <IdBox>
+        {/* <IdBox>
           <IdText>닉네임</IdText>
           <IdInput type="text" placeholder="닉네임" />
-        </IdBox>
+        </IdBox> */}
 
         <SignupBtnWrap>
           <SignupBtn color="#FBE8E7" onClick={onSubmitClickHandler}>회원가입</SignupBtn>
