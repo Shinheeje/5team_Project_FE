@@ -3,116 +3,146 @@ import styled from "styled-components";
 import { getmock, addmock } from "../api/mock";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 function Signup() {
-  const { data } = useQuery('comments', getmock)
+  // const { data } = useQuery('comments', getmock)
 
-const pwRef = useRef(null)
+  const pwRef = useRef(null);
 
   const [signUp, setSignUp] = useState({
-    id: '',
-    password: '',
-    pwCheck:''
-  })
+    userid: "",
+    password: "",
+    pwCheck: "",
+  });
 
-  const [idConfirm, setIdConfirm] = useState('')
-  const [pwConfirm, setPwConfirm] = useState('')
-  const [pwAccord, setPwAccord] = useState('')
-
+  const [idConfirm, setIdConfirm] = useState("");
+  const [pwConfirm, setPwConfirm] = useState("");
+  const [pwAccord, setPwAccord] = useState("");
 
   const idConfirmHandler = () => {
-    if (signUp.id !== '' && /^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{6,12}$/g.test(signUp.id)) {
-      setIdConfirm(false)
+    if (
+      signUp.userid !== "" &&
+      /^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{6,12}$/g.test(signUp.userid)
+    ) {
+      setIdConfirm(false);
     } else {
       setIdConfirm(true);
     }
-  }
-
-
+  };
 
   const pwConfirmHandler = () => {
-    if (signUp.password !== '' && (/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W])[a-zA-Z\d\W]{6,12}$/g).test(signUp.password)) {
-      setPwConfirm(false)
-    }else {
+    if (
+      signUp.password !== "" &&
+      /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W])[a-zA-Z\d\W]{6,12}$/g.test(
+        signUp.password
+      )
+    ) {
+      setPwConfirm(false);
+    } else {
       setPwConfirm(true);
     }
-    pwRef.current.focus()
-  }
+    pwRef.current.focus();
+  };
 
   const pwAccordHandler = () => {
-    if (signUp.pwCheck !== '' && signUp.pw !== signUp.pwCheck) {
-      setPwAccord(true)
+    if (signUp.pwCheck !== "" && signUp.pw !== signUp.pwCheck) {
+      setPwAccord(true);
     } else {
       setPwAccord(false);
     }
-  }
+  };
 
   const onChangeSignUpContent = (e) => {
     setSignUp({
       ...signUp,
-      [e.target.name]: e.target.value
-    })
-  }
-
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const mockPostMutation = useMutation(addmock, {
-    onSuccess: () => {
-      console.log('보냄')
-    }
-  })
+    onSuccess: (response) => {
+      console.log(response);
+    },
+  });
 
   const onSubmitClickHandler = (e) => {
     e.preventDefault();
     // if (reply.write === '' || reply.content === '') {
-    if (signUp.id === '' || signUp.password === '') {
-      alert('양식을 모두 입력해주세요.');
+    if (signUp.userid === "" || signUp.password === "") {
+      alert("양식을 모두 입력해주세요.");
       return;
-    };
+    }
 
     const newPost = {
-      // write: reply.write,
-      id: signUp.id,
-      password: signUp.password
-    }
+      // headers: {
+      //   'Access-Control-Allow-Origin': 'http://localhost:3000',
+      // },
+      userid: signUp.userid,
+      password: signUp.password,
+    };
     mockPostMutation.mutate(newPost);
-  }
-
+  };
+  console.log(signUp.password);
   return (
     <SignupWrap>
       <Signupbox>
         <SignupTitle>Sign Up</SignupTitle>
         <IdBox>
           <IdText>아이디</IdText>
-          <IdInput type="text" placeholder="아이디" name="id" onChange={onChangeSignUpContent} onBlur={idConfirmHandler}/>
-          {
-            idConfirm &&
-            <TextComfirm>영문 소문자, 숫자가 각각 1자 이상 포함된 6~12자 이내 문자여야 합니다.</TextComfirm>
-          }
+          <IdInput
+            type="text"
+            placeholder="아이디"
+            name="userid"
+            onChange={onChangeSignUpContent}
+            onBlur={idConfirmHandler}
+          />
+          {idConfirm && (
+            <TextComfirm>
+              영문 소문자, 숫자가 각각 1자 이상 포함된 6~12자 이내 문자여야
+              합니다.
+            </TextComfirm>
+          )}
         </IdBox>
 
         <IdBox>
           <IdText>비밀번호</IdText>
-          <IdInput type="password" placeholder="비밀번호" name="password" onChange={onChangeSignUpContent} onBlur={pwConfirmHandler}/>
-          {
-            pwConfirm &&
-            <TextComfirm>영문, 숫자, 특수문자가 각각 1자 이상 포함된 6~12자 이내 문자여야 합니다.</TextComfirm>
-          }
+          <IdInput
+            type="password"
+            placeholder="비밀번호"
+            name="password"
+            onChange={onChangeSignUpContent}
+            onBlur={pwConfirmHandler}
+          />
+          {pwConfirm && (
+            <TextComfirm>
+              영문, 숫자, 특수문자가 각각 1자 이상 포함된 6~12자 이내 문자여야
+              합니다.
+            </TextComfirm>
+          )}
         </IdBox>
 
         <IdBox>
           <IdText>비밀번호 확인</IdText>
-          <IdInput type="password" placeholder="비밀번호 확인" name="pwCheck" onChange={onChangeSignUpContent} onBlur={pwAccordHandler} ref={pwRef}/>
-          {
-            pwAccord &&
+          <IdInput
+            type="password"
+            placeholder="비밀번호 확인"
+            name="pwCheck"
+            onChange={onChangeSignUpContent}
+            onBlur={pwAccordHandler}
+            ref={pwRef}
+          />
+          {pwAccord && (
             <TextComfirm>작성한 비밀번호가 일치하지않습니다.</TextComfirm>
-          }
+          )}
         </IdBox>
 
-        <IdBox>
+        {/* <IdBox>
           <IdText>닉네임</IdText>
           <IdInput type="text" placeholder="닉네임" />
-        </IdBox>
+        </IdBox> */}
 
         <SignupBtnWrap>
-          <SignupBtn color="#FBE8E7" onClick={onSubmitClickHandler}>회원가입</SignupBtn>
+          <SignupBtn color="#FBE8E7" onClick={onSubmitClickHandler}>
+            회원가입
+          </SignupBtn>
         </SignupBtnWrap>
       </Signupbox>
     </SignupWrap>
@@ -168,12 +198,12 @@ const IdInput = styled.input`
 `;
 
 const TextComfirm = styled.p`
-  font-size:14px;
-  color:red;
-  margin-top:20px;
+  font-size: 14px;
+  color: red;
+  margin-top: 20px;
   padding-left: 20px;
   font-weight: 700;
-`
+`;
 const SignupBtnWrap = styled.div`
   display: flex;
   justify-content: center;
