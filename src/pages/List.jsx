@@ -7,6 +7,8 @@ function List(listdata) {
   // console.log(listdata.listdata);
   const data = listdata.listdata;
 
+  console.log(data.files);
+
   return (
     <div>
       <ImageBox

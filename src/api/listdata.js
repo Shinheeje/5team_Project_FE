@@ -4,7 +4,7 @@ import axios from "axios";
 const getList = async () => {
   // const SERVER_URI = "http://localhost:4000";
   const response = await axios.get("http://localhost:4000/list");
-  // const response = await axios.get("http://3.37.22.175:8080");
+  // const response = await axios.get("http://localhost:8080/");
 
   return response.data;
 };
@@ -13,12 +13,15 @@ const getList = async () => {
 const addList = async (newList) => {
   const response = await axios.post("http://localhost:4000/list", newList);
   // const response = await axios.post("http://3.37.22.175:8080", newList);
+  // const response = await axios.post(
+  //   "http://3.37.22.175:8080/api/posts",
+  //   newList
+  // );
 
   return response;
 };
 
 //게시글삭제
-
 const deleteList = async (id) => {
   try {
     const response = await axios.delete(`http://localhost:4000/list/${id}`);
