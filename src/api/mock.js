@@ -22,4 +22,4 @@ const loginmock = async (newLogin) => {
   return response.data
 }
 
-export { getmock, addmock, loginmock, getinga}
+export { getmock, addmock, loginmock}

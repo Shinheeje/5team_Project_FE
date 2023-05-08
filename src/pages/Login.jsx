@@ -27,22 +27,23 @@ function Login() {
     }
   })
 
-  const mockingaMutation = useMutation(getinga, {
-    onSuccess: (response) => {
-      console.log(response)
-    }
-  })
-  const cookiesHandler = (e) => {
-    e.preventDefault();
-    // if (reply.write === '' || reply.content === '') {
-    const newCookie = cookies.get('cookie')
-    const newHeaders = {
-      headers:{
-        Authorization : `Bearer ${newCookie}`
-      }
-    }
-    mockingaMutation.mutate(newHeaders);
-  }
+  // const mockingaMutation = useMutation(getinga, {
+  //   onSuccess: (response) => {
+  //     console.log(response)
+  //   }
+  // })
+
+  // const cookiesHandler = (e) => {
+  //   e.preventDefault();
+  //   // if (reply.write === '' || reply.content === '') {
+  //   const newCookie = cookies.get('cookie')
+  //   const newHeaders = {
+  //     headers:{
+  //       Authorization : `Bearer ${newCookie}`
+  //     }
+  //   }
+  //   mockingaMutation.mutate(newHeaders);
+  // }
 
   const IdInputOnChangeHandler = (e) => {
     e.preventDefault();
