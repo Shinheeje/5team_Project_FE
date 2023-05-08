@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { addList } from "../api/listdata";
+import { addwrite } from "../api/posts";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
@@ -14,9 +14,10 @@ function Post() {
   const [content, setContent] = useState("");
   const navigate = useNavigate(`/`);
   const queryClient = useQueryClient();
-  const mutation = useMutation(addList, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("list");
+  const mutation = useMutation(addwrite, {
+    onSuccess: (response) => {
+      console.log(response)
+      // queryClient.invalidateQueries("list");
     },
   });
 
@@ -25,7 +26,6 @@ function Post() {
       title,
       content,
       files: fileName,
-      id: uuidv4(),
     };
 
     mutation.mutate(newList);
@@ -41,7 +41,7 @@ function Post() {
     const objectUrl = URL.createObjectURL(event.target.files[0]);
     setPreview(objectUrl);
   };
-
+  console.log(preview)
   return (
     <PostWrap>
       <PostItemWrap method="post" encType="multipart/form-data">

@@ -1,10 +1,10 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
-import { getmock, addmock } from "../api/mock";
+import { addmock } from "../api/signup";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useNavigate } from "react-router";
 function Signup() {
-  // const { data } = useQuery('comments', getmock)
-
+  const navigate = useNavigate();
   const pwRef = useRef(null);
 
   const [signUp, setSignUp] = useState({
@@ -18,10 +18,7 @@ function Signup() {
   const [pwAccord, setPwAccord] = useState("");
 
   const idConfirmHandler = () => {
-    if (
-      signUp.userid !== "" &&
-      /^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{6,12}$/g.test(signUp.userid)
-    ) {
+    if (signUp.userid !== "" && /[a-zA-z0-9]{4,15}$/g.test(signUp.userid)) {
       setIdConfirm(false);
     } else {
       setIdConfirm(true);
@@ -31,7 +28,7 @@ function Signup() {
   const pwConfirmHandler = () => {
     if (
       signUp.password !== "" &&
-      /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W])[a-zA-Z\d\W]{6,12}$/g.test(
+      /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,15}$/g.test(
         signUp.password
       )
     ) {
@@ -43,7 +40,7 @@ function Signup() {
   };
 
   const pwAccordHandler = () => {
-    if (signUp.pwCheck !== "" && signUp.pw !== signUp.pwCheck) {
+    if (signUp.pwCheck !== "" && signUp.password !== signUp.pwCheck) {
       setPwAccord(true);
     } else {
       setPwAccord(false);
@@ -60,21 +57,18 @@ function Signup() {
   const mockPostMutation = useMutation(addmock, {
     onSuccess: (response) => {
       console.log(response);
+      navigate("/login");
     },
   });
 
   const onSubmitClickHandler = (e) => {
     e.preventDefault();
-    // if (reply.write === '' || reply.content === '') {
     if (signUp.userid === "" || signUp.password === "") {
       alert("양식을 모두 입력해주세요.");
       return;
     }
 
     const newPost = {
-      // headers: {
-      //   'Access-Control-Allow-Origin': 'http://localhost:3000',
-      // },
       userid: signUp.userid,
       password: signUp.password,
     };
@@ -96,8 +90,7 @@ function Signup() {
           />
           {idConfirm && (
             <TextComfirm>
-              영문 소문자, 숫자가 각각 1자 이상 포함된 6~12자 이내 문자여야
-              합니다.
+              영문자, 숫자가 각각 1자 이상 포함된 4~15자 이내 문자여야 합니다.
             </TextComfirm>
           )}
         </IdBox>
@@ -113,7 +106,7 @@ function Signup() {
           />
           {pwConfirm && (
             <TextComfirm>
-              영문, 숫자, 특수문자가 각각 1자 이상 포함된 6~12자 이내 문자여야
+              영문자, 숫자, 특수문자가 각각 1자 이상 포함된 8~15자 이내 문자여야
               합니다.
             </TextComfirm>
           )}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { loginmock, getinga } from "../api/mock";
+import { loginmock, getinga } from "../api/signup";
 import { useMutation } from "react-query";
 import { Cookies, useCookies } from "react-cookie";
 import axios from "axios";
@@ -162,7 +162,6 @@ function Login() {
             onChange={onChangeLoginContent}
           />
         </IdBox>
-
         <IdBox>
           <IdText>비밀번호</IdText>
           <IdInput
@@ -172,7 +171,7 @@ function Login() {
             onChange={onChangeLoginContent}
           />
         </IdBox>
-
+        x
         <LoginBtnWrap>
           {/* <LoginBtn onClick={IdInputOnChangeHandler}>로그인</LoginBtn> */}
           <LoginBtn onClick={testHandler}>로그인</LoginBtn>
