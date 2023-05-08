@@ -8,7 +8,7 @@ function Signup() {
 const pwRef = useRef(null)
 
   const [signUp, setSignUp] = useState({
-    id: '',
+    userid: '',
     password: '',
     pwCheck:''
   })
@@ -19,7 +19,7 @@ const pwRef = useRef(null)
 
 
   const idConfirmHandler = () => {
-    if (signUp.id !== '' && /^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{6,12}$/g.test(signUp.id)) {
+    if (signUp.userid !== '' && /^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{6,12}$/g.test(signUp.userid)) {
       setIdConfirm(false)
     } else {
       setIdConfirm(true);
@@ -62,14 +62,14 @@ const pwRef = useRef(null)
   const onSubmitClickHandler = (e) => {
     e.preventDefault();
     // if (reply.write === '' || reply.content === '') {
-    if (signUp.id === '' || signUp.password === '') {
+    if (signUp.userid === '' || signUp.password === '') {
       alert('양식을 모두 입력해주세요.');
       return;
     };
 
     const newPost = {
       // write: reply.write,
-      id: signUp.id,
+      userid: signUp.userid,
       password: signUp.password
     }
     mockPostMutation.mutate(newPost);
@@ -81,7 +81,7 @@ const pwRef = useRef(null)
         <SignupTitle>Sign Up</SignupTitle>
         <IdBox>
           <IdText>아이디</IdText>
-          <IdInput type="text" placeholder="아이디" name="id" onChange={onChangeSignUpContent} onBlur={idConfirmHandler}/>
+          <IdInput type="text" placeholder="아이디" name="userid" onChange={onChangeSignUpContent} onBlur={idConfirmHandler}/>
           {
             idConfirm &&
             <TextComfirm>영문 소문자, 숫자가 각각 1자 이상 포함된 6~12자 이내 문자여야 합니다.</TextComfirm>
