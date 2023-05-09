@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { deleteList } from "../api/listdata";
 import { detailList } from "../api/listdata";
 import { useNavigate } from "react-router-dom";
+import Modify from "./Modify";
 
 function Detail() {
   const params = useParams();
