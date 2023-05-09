@@ -10,10 +10,11 @@ const getList = async () => {
 
 //게시글추가
 const addList = async (newList) => {
+  // console.log(newList)
   try {
     const token = Cookies.get("token");
     const response = await axios.post(
-      "http://3.37.22.175:8080/api/posts",
+      "http://3.34.85.5:8080/api/posts",
       newList,
       {
         headers: {
@@ -21,6 +22,7 @@ const addList = async (newList) => {
         },
       }
     );
+
     return response;
   } catch (error) {
     console.log(error);

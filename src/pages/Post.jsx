@@ -22,49 +22,36 @@ function Post() {
 
   const mutation = useMutation(addList, {
     onSuccess: (response) => {
-      console.log(response)
+      console.log(response.data)
       // queryClient.invalidateQueries("list");
     },
   });
 
-  const [cookies] = useCookies(['token']); //* 'token'이라는 이름의 쿠키를 가져옵니다.
-  const token = cookies.token; //* 토큰 값을 변수에 할당합니다.
 
-  const submitButtonHandler = () => {
-    const newList = new FormData()
 
-    newList.append("title", title);
-    newList.append("content", content);
-    newList.append("image", preview);
 
-    console.log(newList)
-    mutation.mutate(newList);
-    navigate("/");
-  };
-  console.log(fileAttach)
   const handleFileChange = (event) => {
     setFileAttach(event.target.files[0])
     const file = event.target.files[0];
     const fileName = file ? file.name : "";
     setFileName(fileName);
 
-    //set preview image
-    // const objectUrl = URL.createObjectURL(event.target.files[0]);
-    // setPreview(objectUrl);
+    const objectUrl = URL.createObjectURL(event.target.files[0]);
+    setPreview(objectUrl);
   };
+  console.log(preview)
 
-  const [imageSelected, setImageSelected] = useState('')
 
-  const uploadImage = () => {
-    const formData = new FormData()
-    formData.append('file', imageSelected)
-    formData.append('upload_preset', 'bss24hwh')
+  const submitButtonHandler = () => {
+    const newList = new FormData()
+    newList.append("title", title);
+    newList.append("contents", content);
+    newList.append("image", fileAttach);
 
-    axios.post("https://api.cloudinary.com/v1_1/dgqi38rqo/image/upload", formData)
-      .then((response) => {
-        setPreview(response.data.secure_url)
-      })
-  }
+
+    mutation.mutate(newList);
+    navigate("/");
+  };
   return (
     <PostWrap>
       <PostItemWrap method="post" encType="multipart/form-data" onSubmit={(e) => {
@@ -75,19 +62,21 @@ function Post() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+        <PostImg src={preview} alt="" />
         <FileWrap>
-          <Image cloudName='dgqi38rqo' publicId={preview} style={{
-            height: '200px'
-          }} />
-          <input type="file" onChange={(event) => { setImageSelected(event.target.files[0]) }} />
-          <button onClick={uploadImage}>Upload</button>
+          <FileTextInput value={fileName} placeholder="첨부파일" readOnly />
+          <FileButton for="file">파일찾기</FileButton>
+          <FileInput type="file" id="file" onChange={handleFileChange} />
         </FileWrap>
         <PostBody value={content} onChange={(e) => setContent(e.target.value)}>
           파닥파닥몬
         </PostBody>
         <PostBtnWrap>
           <PostBtn
-            onClick={submitButtonHandler}>
+            onClick={() => {
+              submitButtonHandler();
+            }}
+          >
             제출하기
           </PostBtn>
         </PostBtnWrap>
@@ -128,11 +117,11 @@ const ImageWrapper = styled.div`
   /* height: 400px; */
 `
 
-const ImageHeight = styled.div`
-  /* display: flex;
+const PostImg = styled.img`
+  display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px; */
+  height: 200px;
 `;
 
 const PostBody = styled.textarea`
