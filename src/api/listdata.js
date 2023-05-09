@@ -11,15 +11,19 @@ const getList = async () => {
 //게시글추가
 const addList = async (newList) => {
   try {
-    const token = Cookies.get('token')
-    const response = await axios.post("http://3.37.22.175:8080/api/posts", newList, {
-      headers: {
-        ACCESS_KEY: `Bearer ${token}`
+    const token = Cookies.get("token");
+    const response = await axios.post(
+      "http://3.37.22.175:8080/api/posts",
+      newList,
+      {
+        headers: {
+          ACCESS_KEY: `Bearer ${token}`,
+        },
       }
-    });
+    );
     return response;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 
@@ -47,5 +51,17 @@ const editList = async (id, editedList) => {
   );
   return response.data;
 };
+
+// const editList = async (id, editedList) => {
+//   try {
+//   const response = await axios.patch(
+//     `http://localhost:4000/list/${id}`,,
+//     editedList
+//   );
+//   } catch (error) {
+//     console.error(error);
+//   }
+//     // return response.data;
+// };
 
 export { getList, addList, deleteList, detailList, editList };

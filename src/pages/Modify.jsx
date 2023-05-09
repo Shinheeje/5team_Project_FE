@@ -1,19 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
-import { useMutation } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import { editList, getList, detailList } from "../api/listdata";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "react-query";
+// import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 
 function Modify() {
-  const modifylist = useQuery("modifylist", () => detailList(params.id));
-  // console.log(modifylist);
-  // console.log(modifylist.data.id);
-
   const params = useParams();
-
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [fileName, setFileName] = useState("");
   const [preview, setPreview] = useState("");
@@ -32,24 +28,36 @@ function Modify() {
   };
 
   //게시글수정하기
-  const mutation = useMutation(modifylist, {
-    onSuccess: (response) => {
-      console.log(response);
+
+  const modifylist = useQuery("modifylist", () => detailList(params.id));
+  console.log("전데이터: ", modifylist.data);
+  // console.log(modifylist.data.id);
+
+  const mutation = useMutation(editList, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("modifylist");
     },
   });
 
   const modifyButtonHandler = () => {
     const editedList = {
+      id: modifylist.data.id,
       title: modifyTitle,
       content: modifybody,
-      files: fileName,
+      files: modifylist.data.files,
     };
 
     // console.log(editedList);
-    mutation.mutate(modifylist.data.id, editedList);
+
+    mutation.mutate({ editedList });
     navigate(`/detail/${modifylist.data.id}`);
     console.log(editedList);
   };
+
+  // const testHandler = () => {
+  //   navigate(`/detail/${modifylist.data.id}`);
+  //   console.log("바보");
+  // };
 
   return (
     <>

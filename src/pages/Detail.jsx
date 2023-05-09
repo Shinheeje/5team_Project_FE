@@ -20,9 +20,9 @@ function Detail() {
 
   const navigate = useNavigate();
 
-  console.log(params);
+  // console.log(params);
   const detaildata = useQuery("list", () => detailList(params.id));
-  console.log(detaildata);
+  // console.log(detaildata);
   // const detaillist = detaildata.data;
   // console.log(detaillist);
 
@@ -85,7 +85,7 @@ function Detail() {
   }
 
   const detaillist = detaildata.data;
-  console.log(detaillist.files);
+  // console.log(detaillist.files);
 
   return (
     <div

@@ -5,7 +5,7 @@ const loginCertify = async (newLogin) => {
   console.log(newLogin);
   try {
     const response = await axios.post(
-      "http://3.37.22.175:8080/api/login",
+      "http://3.34.85.5:8080/api/login",
       newLogin
     );
     return response;
