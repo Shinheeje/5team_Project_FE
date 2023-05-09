@@ -1,15 +1,25 @@
 import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
+import { useMutation } from "react-query";
+import { editList, getList, detailList } from "../api/listdata";
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
+
 function Modify() {
+  const modifylist = useQuery("modifylist", () => detailList(params.id));
+  // console.log(modifylist);
+  // console.log(modifylist.data.id);
+
+  const params = useParams();
+
+  const navigate = useNavigate();
   const [fileName, setFileName] = useState("");
   const [preview, setPreview] = useState("");
 
   const [modifyTitle, setModifyTitle] = useState("");
   const [modifybody, setModifyBody] = useState("");
-
-  // console.log(modifyTitle);
-  // console.log(modifybody);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -19,6 +29,23 @@ function Modify() {
     //set preview image
     const objectUrl = URL.createObjectURL(event.target.files[0]);
     setPreview(objectUrl);
+  };
+
+  //게시글수정하기
+  const mutation = useMutation(modifylist, {
+    onSuccess: (response) => {
+      console.log(response);
+    },
+  });
+
+  const modifyButtonHandler = () => {
+    const editedList = {
+      title: modifyTitle,
+      content: modifybody,
+      files: fileName,
+    };
+    mutation.mutate(modifylist.data.id, editedList);
+    navigate(`/detail/${modifylist.data.id}`);
   };
 
   return (
@@ -31,6 +58,7 @@ function Modify() {
         >
           <ModifyItemTitle
             value={modifyTitle}
+            placeholder="수정할 제목"
             onChange={(e) => setModifyTitle(e.target.value)}
           />
           <ModifyImg src={preview} alt="" />
@@ -46,7 +74,13 @@ function Modify() {
             파닥파닥몬
           </ModifyBody>
           <ModifyBtnWrap>
-            <ModifyBtn>수정하기</ModifyBtn>
+            <ModifyBtn
+              onClick={() => {
+                modifyButtonHandler();
+              }}
+            >
+              수정완료
+            </ModifyBtn>
           </ModifyBtnWrap>
         </ModifyItemWrap>
       </ModifyWrap>

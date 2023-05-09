@@ -39,4 +39,13 @@ const detailList = async (id) => {
   return response.data;
 };
 
-export { getList, addList, deleteList, detailList };
+//게시글수정
+const editList = async (id, editedList) => {
+  const response = await axios.patch(
+    `http://localhost:4000/list/${id}`,
+    editedList
+  );
+  return response.data;
+};
+
+export { getList, addList, deleteList, detailList, editList };
