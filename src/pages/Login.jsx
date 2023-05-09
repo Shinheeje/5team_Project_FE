@@ -7,10 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
 
-
 function Login() {
   const navigate = useNavigate();
-
   const [login, setLogin] = useState({
     userid: "",
     password: "",
@@ -27,8 +25,8 @@ function Login() {
 
   const LoginMutation = useMutation(loginCertify, {
     onSuccess: (response) => {
-      const token = response.headers.get('access_key').split(' ')[1]
-      Cookies.set('token', token)
+      const token = response.headers.get("access_key").split(" ")[1];
+      Cookies.set("token", token);
     },
   });
 
@@ -40,14 +38,12 @@ function Login() {
     } else if (!login.password) {
       alert("비밀번호 입력");
     }
-
     const newlogin = {
       userid: login.userid,
       password: login.password,
     };
     LoginMutation.mutate(newlogin);
   };
-
   return (
     <LoginWrap>
       <Loginbox>

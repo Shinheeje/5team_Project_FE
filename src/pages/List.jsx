@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 function List(listdata) {
   const navigate = useNavigate();
-  // console.log(listdata.listdata);
+
   const data = listdata.listdata;
 
   console.log(data.files);

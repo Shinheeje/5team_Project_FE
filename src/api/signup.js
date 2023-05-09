@@ -14,17 +14,23 @@ import axios from "axios";
 // * post
 const addmock = async (newPost) => {
   try {
-    const response = await axios.post('http://3.37.22.175:8080/api/signup', newPost)
-    return response
-  }catch(error) {
-    console.log(error)
+    const response = await axios.post(
+      "http://3.34.85.5:8080/api/signup",
+      newPost
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
   }
-}
+};
 
 // // * post
-const login = async (newLogin) => {
-  const response = await axios.post('http://3.37.22.175:8080/api/login', newLogin)
-  return response.data
-}
+// const login = async (newLogin) => {
+//   const response = await axios.post(
+//     "http://3.37.22.175:8080/api/login",
+//     newLogin
+//   );
+//   return response.data;
+// };
 
-export {addmock}
+export { addmock };
