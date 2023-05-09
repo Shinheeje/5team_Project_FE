@@ -12,7 +12,7 @@ const getList = async () => {
 const addList = async (newList) => {
   try {
     const token = Cookies.get('token')
-    const response = await axios.post("http://localhost:8080/api/posts", newList, {
+    const response = await axios.post("http://3.37.22.175:8080/api/posts", newList, {
       headers: {
         ACCESS_KEY: `Bearer ${token}`
       }
