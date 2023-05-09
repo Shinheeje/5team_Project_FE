@@ -1,24 +1,26 @@
 import axios from "axios";
+import Cookies from "js-cookie";
+// import { Cookies, useCookies } from 'react-cookie';
 
 //게시글조회
 const getList = async () => {
-  // const SERVER_URI = "http://localhost:4000";
-  const response = await axios.get("http://localhost:4000/list");
-  // const response = await axios.get("http://localhost:8080/");
-
+  const response = await axios.get("http://localhost:8080/");
   return response.data;
 };
 
 //게시글추가
 const addList = async (newList) => {
-  const response = await axios.post("http://localhost:4000/list", newList);
-  // const response = await axios.post("http://3.37.22.175:8080", newList);
-  // const response = await axios.post(
-  //   "http://3.37.22.175:8080/api/posts",
-  //   newList
-  // );
-
-  return response;
+  try {
+    const token = Cookies.get('token')
+    const response = await axios.post("http://localhost:8080/api/posts", newList, {
+      headers: {
+        ACCESS_KEY: `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 //게시글삭제

@@ -44,15 +44,13 @@ function Login() {
     userid: "",
     password: "",
   });
-
   const onChangeLoginContent = (e) => {
     setLogin({
       ...login,
       [e.target.name]: e.target.value,
     });
   };
-
-  // const userIdMutation = useMutation(login, {
+  // const mockPostMutation = useMutation(loginmock, {
   //   onSuccess: (response) => {
   //     console.log("바보:", response);
   //   },
@@ -98,7 +96,6 @@ function Login() {
       });
     }
   };
-
   const LoginMutation = useMutation(userlogin, {
     onSuccess: (data) => {
       const responseData = data || {}; // 응답 데이터가 없을 경우 빈 객체로 초기화
@@ -106,7 +103,6 @@ function Login() {
       console.log(responseHeaders);
     },
   });
-
   const testHandler = (e) => {
     e.preventDefault();
 
@@ -120,7 +116,6 @@ function Login() {
       userid: login.userid,
       password: login.password,
     };
-
     LoginMutation.mutate(newlogin);
   };
 
@@ -140,7 +135,6 @@ function Login() {
   //   };
   //   userIdMutation.mutate(newPost);
   // };
-
   return (
     <LoginWrap>
       <Loginbox>
@@ -167,7 +161,6 @@ function Login() {
         <LoginBtnWrap>
           {/* <LoginBtn onClick={IdInputOnChangeHandler}>로그인</LoginBtn> */}
           <LoginBtn onClick={testHandler}>로그인</LoginBtn>
-
           <LoginBtn color="#FBE8E7" to={"/signup"}>
             회원가입
           </LoginBtn>
@@ -176,7 +169,6 @@ function Login() {
     </LoginWrap>
   );
 }
-
 const LoginWrap = styled.div`
   width: 600px;
   height: 600px;
@@ -185,7 +177,6 @@ const LoginWrap = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
 `;
-
 const Loginbox = styled.form`
   width: 100%;
   display: flex;
@@ -197,22 +188,18 @@ const Loginbox = styled.form`
   left: 50%;
   transform: translate(-50%, -50%);
 `;
-
 const LoginTitle = styled.h1`
   font-size: 54px;
   margin-bottom: 60px;
 `;
-
 const IdBox = styled.div`
   margin-bottom: 40px;
 `;
-
 const IdText = styled.p`
   font-size: 14px;
   font-weight: 900;
   margin-bottom: 10px;
 `;
-
 const IdInput = styled.input`
   width: 100%;
   border: none;
@@ -224,14 +211,12 @@ const IdInput = styled.input`
     font-weight: 900;
   }
 `;
-
 const LoginBtnWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
 `;
-
 const LoginBtn = styled(Link)`
   width: 50%;
   height: 50px;
