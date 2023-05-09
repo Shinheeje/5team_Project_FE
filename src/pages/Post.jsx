@@ -6,6 +6,8 @@ import { addList } from "../api/listdata";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useCookies } from 'react-cookie';
+import { Image } from "cloudinary-react";
+import axios from "axios";
 
 
 function Post() {
@@ -33,7 +35,7 @@ function Post() {
 
     newList.append("title", title);
     newList.append("content", content);
-    newList.append("files", fileAttach);
+    newList.append("image", preview);
 
     console.log(newList)
     mutation.mutate(newList);
@@ -47,10 +49,22 @@ function Post() {
     setFileName(fileName);
 
     //set preview image
-    const objectUrl = URL.createObjectURL(event.target.files[0]);
-    setPreview(objectUrl);
+    // const objectUrl = URL.createObjectURL(event.target.files[0]);
+    // setPreview(objectUrl);
   };
 
+  const [imageSelected, setImageSelected] = useState('')
+
+  const uploadImage = () => {
+    const formData = new FormData()
+    formData.append('file', imageSelected)
+    formData.append('upload_preset', 'bss24hwh')
+
+    axios.post("https://api.cloudinary.com/v1_1/dgqi38rqo/image/upload", formData)
+      .then((response) => {
+        setPreview(response.data.secure_url)
+      })
+  }
   return (
     <PostWrap>
       <PostItemWrap method="post" encType="multipart/form-data" onSubmit={(e) => {
@@ -61,21 +75,19 @@ function Post() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <PostImg src={preview} alt="" />
         <FileWrap>
-          <FileTextInput value={fileName} placeholder="첨부파일" readOnly />
-          <FileButton for="file">파일찾기</FileButton>
-          <FileInput type="file" id="file" onChange={handleFileChange} />
+          <Image cloudName='dgqi38rqo' publicId={preview} style={{
+            height: '200px'
+          }} />
+          <input type="file" onChange={(event) => { setImageSelected(event.target.files[0]) }} />
+          <button onClick={uploadImage}>Upload</button>
         </FileWrap>
         <PostBody value={content} onChange={(e) => setContent(e.target.value)}>
           파닥파닥몬
         </PostBody>
         <PostBtnWrap>
           <PostBtn
-            onClick={() => {
-              submitButtonHandler();
-            }}
-          >
+            onClick={submitButtonHandler}>
             제출하기
           </PostBtn>
         </PostBtnWrap>
@@ -101,6 +113,7 @@ const PostItemWrap = styled.form`
   border-radius: 8px;
 `;
 
+
 const PostItemTitle = styled.input`
   font-size: 24px;
   font-weight: 900;
@@ -111,10 +124,15 @@ const PostItemTitle = styled.input`
   outline: none;
 `;
 
-const PostImg = styled.img`
-  display: flex;
-  height: 200px;
-  margin: 0 auto;
+const ImageWrapper = styled.div`
+  /* height: 400px; */
+`
+
+const ImageHeight = styled.div`
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; */
 `;
 
 const PostBody = styled.textarea`
@@ -149,10 +167,10 @@ const PostBtn = styled.button`
   }};
   &:hover {
     background-color: ${(props) => {
-      return props.color
-        ? "rgba(255, 196, 208, 0.8)"
-        : "rgba(247, 221, 222, 0.8)";
-    }};
+    return props.color
+      ? "rgba(255, 196, 208, 0.8)"
+      : "rgba(247, 221, 222, 0.8)";
+  }};
     transition: all 0.3s;
   }
 `;
@@ -195,10 +213,10 @@ const FileButton = styled.label`
   box-sizing: border-box;
   &:hover {
     background-color: ${(props) => {
-      return props.color
-        ? "rgba(255, 196, 208, 0.8)"
-        : "rgba(247, 221, 222, 0.8)";
-    }};
+    return props.color
+      ? "rgba(255, 196, 208, 0.8)"
+      : "rgba(247, 221, 222, 0.8)";
+  }};
     transition: all 0.3s;
   }
 `;

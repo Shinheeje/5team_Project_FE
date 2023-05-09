@@ -2,7 +2,8 @@ import axios from "axios"
 
 const addwrite = async (newPost) => {
   try {
-    const response = await axios.post('http://3.37.22.175:8080/api/posts', newPost)
+    const response = await axios.post('http://3.34.85.5:8080/api/posts', newPost)
+    console.log(response)
     return response
   }catch(error) {
     console.log(error)

@@ -6,17 +6,14 @@ import { useNavigate } from "react-router";
 function Signup() {
   const navigate = useNavigate();
   const pwRef = useRef(null);
-
   const [signUp, setSignUp] = useState({
     userid: "",
     password: "",
     pwCheck: "",
   });
-
   const [idConfirm, setIdConfirm] = useState("");
   const [pwConfirm, setPwConfirm] = useState("");
   const [pwAccord, setPwAccord] = useState("");
-
   const idConfirmHandler = () => {
     if (signUp.userid !== "" && /[a-zA-z0-9]{4,15}$/g.test(signUp.userid)) {
       setIdConfirm(false);
@@ -24,7 +21,6 @@ function Signup() {
       setIdConfirm(true);
     }
   };
-
   const pwConfirmHandler = () => {
     if (
       signUp.password !== "" &&
@@ -38,7 +34,6 @@ function Signup() {
     }
     pwRef.current.focus();
   };
-
   const pwAccordHandler = () => {
     if (signUp.pwCheck !== "" && signUp.password !== signUp.pwCheck) {
       setPwAccord(true);
@@ -46,28 +41,24 @@ function Signup() {
       setPwAccord(false);
     }
   };
-
   const onChangeSignUpContent = (e) => {
     setSignUp({
       ...signUp,
       [e.target.name]: e.target.value,
     });
   };
-
   const mockPostMutation = useMutation(addmock, {
     onSuccess: (response) => {
       console.log(response);
       navigate("/login");
     },
   });
-
   const onSubmitClickHandler = (e) => {
     e.preventDefault();
     if (signUp.userid === "" || signUp.password === "") {
       alert("양식을 모두 입력해주세요.");
       return;
     }
-
     const newPost = {
       userid: signUp.userid,
       password: signUp.password,
@@ -94,7 +85,6 @@ function Signup() {
             </TextComfirm>
           )}
         </IdBox>
-
         <IdBox>
           <IdText>비밀번호</IdText>
           <IdInput
@@ -111,7 +101,6 @@ function Signup() {
             </TextComfirm>
           )}
         </IdBox>
-
         <IdBox>
           <IdText>비밀번호 확인</IdText>
           <IdInput
@@ -126,12 +115,10 @@ function Signup() {
             <TextComfirm>작성한 비밀번호가 일치하지않습니다.</TextComfirm>
           )}
         </IdBox>
-
         {/* <IdBox>
           <IdText>닉네임</IdText>
           <IdInput type="text" placeholder="닉네임" />
         </IdBox> */}
-
         <SignupBtnWrap>
           <SignupBtn color="#FBE8E7" onClick={onSubmitClickHandler}>
             회원가입
@@ -141,7 +128,6 @@ function Signup() {
     </SignupWrap>
   );
 }
-
 const SignupWrap = styled.div`
   width: 600px;
   height: 600px;
@@ -150,7 +136,6 @@ const SignupWrap = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
 `;
-
 const Signupbox = styled.form`
   width: 100%;
   display: flex;
@@ -162,22 +147,18 @@ const Signupbox = styled.form`
   left: 50%;
   transform: translate(-50%, -50%);
 `;
-
 const SignupTitle = styled.h1`
   font-size: 54px;
   margin-bottom: 60px;
 `;
-
 const IdBox = styled.div`
   margin-bottom: 20px;
 `;
-
 const IdText = styled.p`
   font-size: 14px;
   font-weight: 900;
   margin-bottom: 10px;
 `;
-
 const IdInput = styled.input`
   width: 100%;
   border: none;
@@ -189,7 +170,6 @@ const IdInput = styled.input`
     font-weight: 900;
   }
 `;
-
 const TextComfirm = styled.p`
   font-size: 14px;
   color: red;
@@ -203,7 +183,6 @@ const SignupBtnWrap = styled.div`
   align-items: center;
   gap: 20px;
 `;
-
 const SignupBtn = styled.button`
   width: 50%;
   height: 50px;
