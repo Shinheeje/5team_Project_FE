@@ -28,14 +28,14 @@ function Modify() {
   };
 
   //게시글수정하기
-
   const modifylist = useQuery("modifylist", () => detailList(params.id));
-  console.log("전데이터: ", modifylist.data);
+  // console.log("전데이터: ", modifylist.data);
   // console.log(modifylist.data.id);
 
   const mutation = useMutation(editList, {
     onSuccess: () => {
       queryClient.invalidateQueries("modifylist");
+      navigate(`/detail/${modifylist.data.id}`);
     },
   });
 
@@ -49,8 +49,8 @@ function Modify() {
 
     // console.log(editedList);
 
-    mutation.mutate({ editedList });
-    navigate(`/detail/${modifylist.data.id}`);
+    mutation.mutate(editedList);
+
     console.log(editedList);
   };
 

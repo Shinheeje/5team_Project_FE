@@ -44,9 +44,9 @@ const detailList = async (id) => {
 };
 
 //게시글수정
-const editList = async (id, editedList) => {
+const editList = async (editedList) => {
   const response = await axios.patch(
-    `http://localhost:4000/list/${id}`,
+    `http://localhost:4000/list/${editedList.id}`,
     editedList
   );
   return response.data;

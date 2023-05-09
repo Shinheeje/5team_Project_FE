@@ -5,13 +5,12 @@ import { v4 as uuidv4 } from "uuid";
 import { addList } from "../api/listdata";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useCookies } from 'react-cookie';
+import { useCookies } from "react-cookie";
 import { Image } from "cloudinary-react";
 import axios from "axios";
 
-
 function Post() {
-  const [fileAttach, setFileAttach] = useState('')
+  const [fileAttach, setFileAttach] = useState("");
   const [fileName, setFileName] = useState("");
   const [preview, setPreview] = useState("");
   const [title, setTitle] = useState("");
@@ -22,28 +21,28 @@ function Post() {
 
   const mutation = useMutation(addList, {
     onSuccess: (response) => {
-      console.log(response)
+      console.log(response);
       // queryClient.invalidateQueries("list");
     },
   });
 
-  const [cookies] = useCookies(['token']); //* 'token'이라는 이름의 쿠키를 가져옵니다.
+  const [cookies] = useCookies(["token"]); //* 'token'이라는 이름의 쿠키를 가져옵니다.
   const token = cookies.token; //* 토큰 값을 변수에 할당합니다.
 
   const submitButtonHandler = () => {
-    const newList = new FormData()
+    const newList = new FormData();
 
     newList.append("title", title);
-    newList.append("content", content);
+    newList.append("contents", content);
     newList.append("image", preview);
 
-    console.log(newList)
+    console.log(newList);
     mutation.mutate(newList);
     navigate("/");
   };
-  console.log(fileAttach)
+  console.log(fileAttach);
   const handleFileChange = (event) => {
-    setFileAttach(event.target.files[0])
+    setFileAttach(event.target.files[0]);
     const file = event.target.files[0];
     const fileName = file ? file.name : "";
     setFileName(fileName);
@@ -53,43 +52,54 @@ function Post() {
     // setPreview(objectUrl);
   };
 
-  const [imageSelected, setImageSelected] = useState('')
+  const [imageSelected, setImageSelected] = useState("");
 
   const uploadImage = () => {
-    const formData = new FormData()
-    formData.append('file', imageSelected)
-    formData.append('upload_preset', 'bss24hwh')
+    const formData = new FormData();
+    formData.append("file", imageSelected);
+    formData.append("upload_preset", "bss24hwh");
 
-    axios.post("https://api.cloudinary.com/v1_1/dgqi38rqo/image/upload", formData)
+    axios
+      .post("https://api.cloudinary.com/v1_1/dgqi38rqo/image/upload", formData)
       .then((response) => {
-        setPreview(response.data.secure_url)
-      })
-  }
+        setPreview(response.data.secure_url);
+      });
+  };
   return (
     <PostWrap>
-      <PostItemWrap method="post" encType="multipart/form-data" onSubmit={(e) => {
-        e.preventDefault()
-      }}>
+      <PostItemWrap
+        method="post"
+        encType="multipart/form-data"
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
         <PostItemTitle
           placeholder="제목"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
         <FileWrap>
-          <Image cloudName='dgqi38rqo' publicId={preview} style={{
-            height: '200px'
-          }} />
-          <input type="file" onChange={(event) => { setImageSelected(event.target.files[0]) }} />
+          <Image
+            cloudName="dgqi38rqo"
+            publicId={preview}
+            style={{
+              height: "200px",
+            }}
+          />
+          <input
+            type="file"
+            onChange={(event) => {
+              setImageSelected(event.target.files[0]);
+            }}
+          />
           <button onClick={uploadImage}>Upload</button>
         </FileWrap>
         <PostBody value={content} onChange={(e) => setContent(e.target.value)}>
           파닥파닥몬
         </PostBody>
         <PostBtnWrap>
-          <PostBtn
-            onClick={submitButtonHandler}>
-            제출하기
-          </PostBtn>
+          <PostBtn onClick={submitButtonHandler}>제출하기</PostBtn>
         </PostBtnWrap>
       </PostItemWrap>
     </PostWrap>
@@ -113,7 +123,6 @@ const PostItemWrap = styled.form`
   border-radius: 8px;
 `;
 
-
 const PostItemTitle = styled.input`
   font-size: 24px;
   font-weight: 900;
@@ -126,7 +135,7 @@ const PostItemTitle = styled.input`
 
 const ImageWrapper = styled.div`
   /* height: 400px; */
-`
+`;
 
 const ImageHeight = styled.div`
   /* display: flex;
@@ -167,10 +176,10 @@ const PostBtn = styled.button`
   }};
   &:hover {
     background-color: ${(props) => {
-    return props.color
-      ? "rgba(255, 196, 208, 0.8)"
-      : "rgba(247, 221, 222, 0.8)";
-  }};
+      return props.color
+        ? "rgba(255, 196, 208, 0.8)"
+        : "rgba(247, 221, 222, 0.8)";
+    }};
     transition: all 0.3s;
   }
 `;
@@ -213,10 +222,10 @@ const FileButton = styled.label`
   box-sizing: border-box;
   &:hover {
     background-color: ${(props) => {
-    return props.color
-      ? "rgba(255, 196, 208, 0.8)"
-      : "rgba(247, 221, 222, 0.8)";
-  }};
+      return props.color
+        ? "rgba(255, 196, 208, 0.8)"
+        : "rgba(247, 221, 222, 0.8)";
+    }};
     transition: all 0.3s;
   }
 `;
