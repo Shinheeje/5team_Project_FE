@@ -2,36 +2,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useMutation } from "react-query";
-import { Cookies, useCookies } from "react-cookie";
-import axios from "axios";
 import { loginCertify } from "../api/login";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-
-const cookies = new Cookies();
-//쿠키저장
-export const setCookie = (name, value, option) => {
-  return cookies.set(name, value, { ...option });
-};
-//로그인되어있는지확인해야하는부분에 사용
-export const getCookie = (name) => {
-  return cookies.get(name);
-};
-//로그아웃용도
-export const removeCookie = (name, option) => {
-  return cookies.remove(name, { ...option });
-};
-//로그인로딩중일때
-// const [loading, setLoading] = useState(false);
-// const [msg, setMsg] = useState("");
-// useEffect(() => {
-//   if (msg) {
-//     setTimeout(() => {
-//       setMsg("");
-//       setLoading(false);
-//     }, 1500);
-//   }
-// }, [msg]);
+import Cookies from "js-cookie";
 
 function Login() {
   const navigate = useNavigate();
@@ -47,16 +21,18 @@ function Login() {
     });
   };
 
+  //TODO  토큰 보낼때 Cookies.get('token') 으로 보내기
+
   const LoginMutation = useMutation(loginCertify, {
     onSuccess: (response) => {
-      console.log(response);
-      // const responseData = data || {}; // 응답 데이터가 없을 경우 빈 객체로 초기화
-      // const responseHeaders = responseData.headers.get("ACCESS_KEY") || {};
-      // console.log(responseHeaders);
+      const token = response.headers.get("access_key").split(" ")[1];
+      Cookies.set("token", token);
     },
   });
+
   const loginHandler = (e) => {
     e.preventDefault();
+
     if (!login.userid) {
       alert("아이디 입력");
     } else if (!login.password) {
@@ -68,45 +44,6 @@ function Login() {
     };
     LoginMutation.mutate(newlogin);
   };
-  //얘가 진짜정상작동된애
-  // const userlogin = async (newLogin) => {
-  //   const response = await axios.post(
-  //     "http://3.37.22.175:8080/api/login",
-  //     newLogin
-  //   );
-  //   console.log(response.headers.access_key);
-  //   // return response.data;
-  //   if (response.headers.access_key) {
-  //     setCookie("token", `JWT ${response.headers.access_key}`, {
-  //       path: "/",
-  //       sameSite: "strict",
-  //     });
-  //   }
-  // };
-  // const userlogin = async (newLogin) => {
-  //   const response = await axios
-  //     .post("http://3.37.22.175:8080/api/login", newLogin)
-  //     .then((response) => {
-  //       console.log("리스:", response.data);
-  //       // if ((response.data = "아이디 또는 비밀번호가 일치하지 않습니다.")) {
-  //       //   alert("로그인실패");
-  //       // }
-  //     });
-  //토큰담기
-  //   if (response.headers.access_key) {
-  //     setCookie("token", `${response.headers.access_key}`, {
-  //       path: "/",
-  //       sameSite: "strict",
-  //     });
-  //   }
-  // };
-  // const LoginMutation = useMutation(userlogin, {
-  //   onSuccess: (data) => {
-  //     const responseData = data || {}; // 응답 데이터가 없을 경우 빈 객체로 초기화
-  //     const responseHeaders = responseData.headers.get("ACCESS_KEY") || {};
-  //     console.log(responseHeaders);
-  //   },
-  // });
   return (
     <LoginWrap>
       <Loginbox>

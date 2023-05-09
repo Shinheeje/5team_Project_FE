@@ -15,14 +15,13 @@ import axios from "axios";
 const addmock = async (newPost) => {
   try {
     const response = await axios.post(
-      "http://3.37.22.175:8080/api/signup",
-      newPost
-    );
+      "http://3.37.22.175:8080/api/signup",newPost);
     return response;
   } catch (error) {
     console.log(error);
   }
 };
+
 
 // // * post
 // const loginmock = async (newLogin) => {
