@@ -2,11 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { addwrite } from "../api/posts";
+import { addList } from "../api/listdata";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useCookies } from 'react-cookie';
+
 
 function Post() {
+  const [fileAttach, setFileAttach] = useState('')
   const [fileName, setFileName] = useState("");
   const [preview, setPreview] = useState("");
   const [title, setTitle] = useState("");
@@ -14,25 +17,31 @@ function Post() {
   const [content, setContent] = useState("");
   const navigate = useNavigate(`/`);
   const queryClient = useQueryClient();
-  const mutation = useMutation(addwrite, {
+
+  const mutation = useMutation(addList, {
     onSuccess: (response) => {
       console.log(response)
       // queryClient.invalidateQueries("list");
     },
   });
 
-  const submitButtonHandler = () => {
-    const newList = {
-      title,
-      content,
-      files: fileName,
-    };
+  const [cookies] = useCookies(['token']); //* 'token'이라는 이름의 쿠키를 가져옵니다.
+  const token = cookies.token; //* 토큰 값을 변수에 할당합니다.
 
+  const submitButtonHandler = () => {
+    const newList = new FormData()
+
+    newList.append("title", title);
+    newList.append("content", content);
+    newList.append("files", fileAttach);
+
+    console.log(newList)
     mutation.mutate(newList);
     navigate("/");
   };
-
+  console.log(fileAttach)
   const handleFileChange = (event) => {
+    setFileAttach(event.target.files[0])
     const file = event.target.files[0];
     const fileName = file ? file.name : "";
     setFileName(fileName);
@@ -41,10 +50,12 @@ function Post() {
     const objectUrl = URL.createObjectURL(event.target.files[0]);
     setPreview(objectUrl);
   };
-  console.log(preview)
+
   return (
     <PostWrap>
-      <PostItemWrap method="post" encType="multipart/form-data">
+      <PostItemWrap method="post" encType="multipart/form-data" onSubmit={(e) => {
+        e.preventDefault()
+      }}>
         <PostItemTitle
           placeholder="제목"
           value={title}
