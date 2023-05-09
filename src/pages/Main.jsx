@@ -8,8 +8,6 @@ import List from "./List";
 function Main() {
   const { data } = useQuery("listdata", getList);
 
-  // console.log(data);
-
   const [modalOpen, setModalOpen] = useState(false);
   // 모달창 노출
   const showModal = () => {
@@ -36,10 +34,10 @@ function Main() {
     </>
   );
 }
-const ListWrap =styled.div`
+const ListWrap = styled.div`
   display: grid;
   grid-auto-flow: row;
-  /* grid-template-columns: 1fr 1fr 1fr 1fr; */
+
   grid-template-columns: repeat(4, 1fr);
   margin-top: 30px;
   width: 70%;
@@ -47,7 +45,7 @@ const ListWrap =styled.div`
   justify-content: center;
   align-items: center;
   margin-left: 65px;
-`
+`;
 
 const InfoBox = styled.div`
   width: 100%;

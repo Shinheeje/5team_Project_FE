@@ -20,9 +20,9 @@ function Detail() {
 
   const navigate = useNavigate();
 
-  console.log(params);
+  // console.log(params);
   const detaildata = useQuery("list", () => detailList(params.id));
-  console.log(detaildata);
+  // console.log(detaildata);
   // const detaillist = detaildata.data;
   // console.log(detaillist);
 
@@ -85,7 +85,7 @@ function Detail() {
   }
 
   const detaillist = detaildata.data;
-  console.log(detaillist.files);
+  // console.log(detaillist.files);
 
   return (
     <div
@@ -97,21 +97,6 @@ function Detail() {
       }}
     >
       <DetailWrap>
-        {/* <DetailFirstItemWrap>
-          <DetailFirstItemTitle>토코몬</DetailFirstItemTitle>
-          <DetailFirstItem
-            src={`${process.env.PUBLIC_URL}/토코몬.png`}
-            alt=""
-          />
-          <DetailBody>파닥파닥몬</DetailBody>
-          <DetailBtnWrap>
-            <DetailBtn>수정하기</DetailBtn>
-            <DetailBtn color="#FBE8E7" onClick={onDeleteClickHandler}>
-              삭제하기
-            </DetailBtn>
-          </DetailBtnWrap>
-        </DetailFirstItemWrap> */}
-
         {
           <DetailFirstItemWrap>
             <DetailFirstItemTitle>{detaillist.title}</DetailFirstItemTitle>
