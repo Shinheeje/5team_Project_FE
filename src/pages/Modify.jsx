@@ -44,8 +44,11 @@ function Modify() {
       content: modifybody,
       files: fileName,
     };
+
+    // console.log(editedList);
     mutation.mutate(modifylist.data.id, editedList);
     navigate(`/detail/${modifylist.data.id}`);
+    console.log(editedList);
   };
 
   return (
