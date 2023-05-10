@@ -46,9 +46,9 @@ function Modify() {
 
   //게시글수정하기
   const modifylist = useQuery("modifylist", () => detailList(params.id));
-  console.log(modifylist);
-  console.log("전데이터11", modifylist.data);
-  console.log(modifylist?.data?.id);
+  // console.log(modifylist);
+  // console.log("전데이터11", modifylist.data);
+  console.log("아이디:", modifylist?.data?.id);
 
   const mutation = useMutation(editList, {
     onSuccess: () => {
@@ -60,21 +60,17 @@ function Modify() {
   // newList.append("image", fileAttach);
 
   const modifyButtonHandler = () => {
-    const editedList = {
-      id: modifylist.data.id,
-      // id: pathId,
-      title: modifyTitle,
-      contents: modifybody,
-      // image: modifylist.data.files,
-      image: fileAttach,
-    };
+    const editedList = new FormData();
 
-    console.log(editedList);
-
+    editedList.append("title", modifyTitle);
+    editedList.append("contents", modifybody);
+    editedList.append("image", fileAttach);
+    editedList.append("id", modifylist.data.id);
+    // console.log([...editedList]);
     mutation.mutate(editedList);
-
-    console.log(editedList);
   };
+
+  // console.log(modifylist.data.id);
 
   // const testHandler = () => {
   //   navigate(`/detail/${modifylist.data.id}`);

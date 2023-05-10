@@ -75,7 +75,8 @@ function Detail() {
   //   event.preventDefault();
   //   removeMutation.mutate(id);
   // };
-  console.log(location.state?.currentUserInfo);
+  // console.log("얘:", location.state.currentUserInfo);
+  // console.log("^^:", currentUserInfo);
   return (
     <div
       style={{
