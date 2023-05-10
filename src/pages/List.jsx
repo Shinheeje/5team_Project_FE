@@ -8,17 +8,17 @@ function List(listdata) {
   const navigate = useNavigate();
 
   const data = listdata.listdata;
-  console.log(data)
+  console.log(data);
 
   // const 변수 = true 변수가 ? 버튼보이는거 : 안보이는거
   return (
     <div>
       <ImageBox
         onClick={() => {
-          navigate(`/detail/${data.id}`,{
-            state : {
-              currentUserInfo:data
-            }
+          navigate(`/detail/${data.id}`, {
+            state: {
+              currentUserInfo: data,
+            },
           });
         }}
       >
