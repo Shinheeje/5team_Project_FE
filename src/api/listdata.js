@@ -2,11 +2,13 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 //* 유저조회
-// const getUser = async () => {
-//   const response = await axios.get("http://3.34.85.5:8080/api/user-info");
-//   console.log(response);
-//   return response.data;
-// };
+const getUser = async () => {
+  const token = Cookies.get("token");
+  const response = await axios.get("http://3.34.85.5:8080/api/user-info", {
+    headers: { ACCESS_KEY: `Bearer ${token}` },
+  });
+  return response.data;
+};
 
 // //*게시글조회
 const getList = async () => {
@@ -52,12 +54,12 @@ const detailList = async (id) => {
   return response.data;
 };
 
-//게시글수정
+//게시글수정 얘가 원래거
 const editList = async (editedList) => {
+  console.log("넘어온애:", editedList);
   try {
     const token = Cookies.get("token");
-    const response = await axios.patch(
-      // `http://3.34.85.5:8080/list/${editedList.id}`,
+    const response = await axios.put(
       `http://3.34.85.5:8080/api/posts/${editedList.id}`,
       editedList,
       {
@@ -66,12 +68,30 @@ const editList = async (editedList) => {
         },
       }
     );
-
     return response.data;
   } catch (error) {
     console.log(error);
   }
 };
+
+// const editList = async (editedList, id) => {
+//   try {
+//     const token = Cookies.get("token");
+//     const response = await axios.put(
+//       // `http://3.34.85.5:8080/list/${editedList.id}`,
+//       `http://3.34.85.5:8080/api/posts/${id}`,
+//       editedList,
+//       {
+//         headers: {
+//           ACCESS_KEY: `Bearer ${token}`,
+//         },
+//       }
+//     );
+//     return response.data;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 // * 댓글조회
 // const getPosts = async () => {
@@ -132,7 +152,7 @@ export {
   addList,
   detailList,
   editList,
-  // getUser,
+  getUser,
   removeList,
   addPosts,
 };

@@ -75,7 +75,8 @@ function Detail() {
   //   event.preventDefault();
   //   removeMutation.mutate(id);
   // };
-  console.log(location.state?.currentUserInfo);
+  // console.log("얘:", location.state.currentUserInfo);
+  // console.log("^^:", currentUserInfo);
   return (
     <div
       style={{
@@ -88,13 +89,13 @@ function Detail() {
       <DetailWrap>
         <DetailFirstItemWrap>
           <DetailFirstItemTitle>
-            {navigate.state?.currentUserInfo.title}
+            {location.state.currentUserInfo.title}
           </DetailFirstItemTitle>
           <DetailFirstItem
-            src={navigate.state?.currentUserInfo.imageUrl}
+            src={location.state.currentUserInfo.imageUrl}
             alt=""
           />
-          <DetailBody>{navigate.state?.currentUserInfo.contents}</DetailBody>
+          <DetailBody>{location.state.currentUserInfo.contents}</DetailBody>
           <DetailBtnWrap>
             <DetailBtn
               onClick={() => {
