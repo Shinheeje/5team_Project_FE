@@ -61,7 +61,7 @@ function Modify() {
   const editList = async (modifyList) => {
   try {
     const token = Cookies.get("token");
-    await axios.put(
+    await axios.patch(
       `http://3.34.85.5:8080/api/posts/${data.id}`,modifyList,
       {
         headers: {
