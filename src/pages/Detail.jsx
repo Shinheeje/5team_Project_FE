@@ -88,6 +88,12 @@ function Detail() {
     removeMutation.mutate({ id, postId });
   };
 
+  // * 댓글수정
+  const editReplyHandler = (event) => {
+    event.preventDefault();
+    alert("수정하기");
+  };
+
   return (
     <div
       style={{
@@ -133,6 +139,7 @@ function Detail() {
                 <>
                   <DetailSecondItemtext key={item.id}>
                     {item.contents}
+                    <button onClick={editReplyHandler}>수정</button>
                     <button
                       onClick={(event) =>
                         removeReplyHandler(

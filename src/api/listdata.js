@@ -167,6 +167,7 @@ const addPosts = async (newPost) => {
 //   }
 // };
 
+//댓글삭제
 const removePosts = async (deletePost) => {
   const token = Cookies.get("token");
   const { id, postId } = deletePost;
