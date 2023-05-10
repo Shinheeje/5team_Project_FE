@@ -5,56 +5,48 @@ import { v4 as uuidv4 } from "uuid";
 import { addList } from "../api/listdata";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useCookies } from 'react-cookie';
+import { useCookies } from "react-cookie";
 import { Image } from "cloudinary-react";
 import axios from "axios";
-
-
 function Post() {
-  const [fileAttach, setFileAttach] = useState('')
+  const [fileAttach, setFileAttach] = useState("");
   const [fileName, setFileName] = useState("");
   const [preview, setPreview] = useState("");
   const [title, setTitle] = useState("");
-
   const [content, setContent] = useState("");
   const navigate = useNavigate(`/`);
 
   const mutation = useMutation(addList, {
     onSuccess: (response) => {
-      navigate("/")
+      navigate("/");
       // queryClient.invalidateQueries("list");
     },
   });
-
-
-
-
   const handleFileChange = (event) => {
-    setFileAttach(event.target.files[0])
+    setFileAttach(event.target.files[0]);
     const file = event.target.files[0];
     const fileName = file ? file.name : "";
     setFileName(fileName);
-
     const objectUrl = URL.createObjectURL(event.target.files[0]);
     setPreview(objectUrl);
   };
-  console.log(preview)
-
-
+  console.log(preview);
   const submitButtonHandler = () => {
-    const newList = new FormData()
+    const newList = new FormData();
     newList.append("title", title);
     newList.append("contents", content);
     newList.append("image", fileAttach);
-
-
     mutation.mutate(newList);
   };
   return (
     <PostWrap>
-      <PostItemWrap method="post" encType="multipart/form-data" onSubmit={(e) => {
-        e.preventDefault()
-      }}>
+      <PostItemWrap
+        method="post"
+        encType="multipart/form-data"
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
         <PostItemTitle
           placeholder="제목"
           value={title}
@@ -84,7 +76,6 @@ function Post() {
     </PostWrap>
   );
 }
-
 const PostWrap = styled.div`
   width: 800px;
   display: flex;
@@ -94,15 +85,12 @@ const PostWrap = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
 `;
-
 const PostItemWrap = styled.form`
   background-color: white;
   padding: 20px;
   box-sizing: border-box;
   border-radius: 8px;
 `;
-
-
 const PostItemTitle = styled.input`
   font-size: 24px;
   font-weight: 900;
@@ -112,13 +100,12 @@ const PostItemTitle = styled.input`
   padding: 10px;
   outline: none;
 `;
-
 const ImageWrapper = styled.div`
   height: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const PostImg = styled.img`
   height: 250px;
@@ -138,14 +125,12 @@ const PostBody = styled.textarea`
   border: 1px solid #dddddd;
   box-sizing: border-box;
 `;
-
 const PostBtnWrap = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
   gap: 15px;
 `;
-
 const PostBtn = styled.button`
   width: 200px;
   height: 40px;
@@ -156,21 +141,19 @@ const PostBtn = styled.button`
   }};
   &:hover {
     background-color: ${(props) => {
-    return props.color
-      ? "rgba(255, 196, 208, 0.8)"
-      : "rgba(247, 221, 222, 0.8)";
-  }};
+      return props.color
+        ? "rgba(255, 196, 208, 0.8)"
+        : "rgba(247, 221, 222, 0.8)";
+    }};
     transition: all 0.3s;
   }
 `;
-
 const FileWrap = styled.div`
   margin-bottom: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
-
 const FileTextInput = styled.input`
   display: inline-block;
   height: 40px;
@@ -181,7 +164,6 @@ const FileTextInput = styled.input`
   color: #999999;
   outline: none;
 `;
-
 const FileInput = styled.input.attrs({ type: "file" })`
   position: absolute;
   width: 0;
@@ -190,7 +172,6 @@ const FileInput = styled.input.attrs({ type: "file" })`
   overflow: hidden;
   border: 0;
 `;
-
 const FileButton = styled.label`
   display: inline-block;
   padding: 14px 20px;
@@ -202,12 +183,11 @@ const FileButton = styled.label`
   box-sizing: border-box;
   &:hover {
     background-color: ${(props) => {
-    return props.color
-      ? "rgba(255, 196, 208, 0.8)"
-      : "rgba(247, 221, 222, 0.8)";
-  }};
+      return props.color
+        ? "rgba(255, 196, 208, 0.8)"
+        : "rgba(247, 221, 222, 0.8)";
+    }};
     transition: all 0.3s;
   }
 `;
-
 export default Post;

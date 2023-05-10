@@ -66,7 +66,7 @@ function Login() {
             onChange={onChangeLoginContent}
           />
         </IdBox>
-        
+
         <LoginBtnWrap>
           {/* <LoginBtn onClick={IdInputOnChangeHandler}>로그인</LoginBtn> */}
           <LoginBtn onClick={loginHandler}>로그인</LoginBtn>

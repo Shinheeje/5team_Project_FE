@@ -6,51 +6,73 @@ import { editList, getList, detailList } from "../api/listdata";
 import { useNavigate } from "react-router-dom";
 // import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function Modify() {
+  // const location = useLocation();
+
+  // const pathId = location.pathname.slice(8);
+
   const params = useParams();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [fileName, setFileName] = useState("");
   const [preview, setPreview] = useState("");
+  const [fileAttach, setFileAttach] = useState("");
 
   const [modifyTitle, setModifyTitle] = useState("");
   const [modifybody, setModifyBody] = useState("");
 
+  // const handleFileChange = (event) => {
+  //   const file = event.target.files[0];
+  //   const fileName = file ? file.name : "";
+  //   setFileName(fileName);
+
+  //   //set preview image
+  //   const objectUrl = URL.createObjectURL(event.target.files[0]);
+  //   setPreview(objectUrl);
+  // };
+
   const handleFileChange = (event) => {
+    setFileAttach(event.target.files[0]);
     const file = event.target.files[0];
     const fileName = file ? file.name : "";
     setFileName(fileName);
 
-    //set preview image
     const objectUrl = URL.createObjectURL(event.target.files[0]);
     setPreview(objectUrl);
   };
+  // console.log(preview);
 
   //게시글수정하기
-
   const modifylist = useQuery("modifylist", () => detailList(params.id));
-  console.log("전데이터: ", modifylist.data);
-  // console.log(modifylist.data.id);
+  console.log(modifylist);
+  console.log("전데이터11", modifylist.data);
+  console.log(modifylist?.data?.id);
 
   const mutation = useMutation(editList, {
     onSuccess: () => {
       queryClient.invalidateQueries("modifylist");
+      navigate(`/detail/${modifylist.data.id}`);
     },
   });
+
+  // newList.append("image", fileAttach);
 
   const modifyButtonHandler = () => {
     const editedList = {
       id: modifylist.data.id,
+      // id: pathId,
       title: modifyTitle,
-      content: modifybody,
-      files: modifylist.data.files,
+      contents: modifybody,
+      // image: modifylist.data.files,
+      image: fileAttach,
     };
 
-    // console.log(editedList);
+    console.log(editedList);
 
-    mutation.mutate({ editedList });
-    navigate(`/detail/${modifylist.data.id}`);
+    mutation.mutate(editedList);
+
     console.log(editedList);
   };
 
@@ -65,7 +87,10 @@ function Modify() {
         <ModifyItemWrap
           method="post"
           encType="multipart/form-data"
-          name="files"
+          // name="files"
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
         >
           <ModifyItemTitle
             value={modifyTitle}

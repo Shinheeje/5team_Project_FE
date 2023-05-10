@@ -10,31 +10,27 @@ import { useNavigate } from "react-router-dom";
 
 function Detail() {
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
 
-  const pathId = location.pathname.slice(8)
+  const pathId = location.pathname.slice(8);
 
   const removeListMutation = useMutation(removeList, {
     onSuccess: () => {
-      navigate("/")
+      navigate("/");
     },
   });
 
   const removeButtonHandler = (id) => {
-
     removeListMutation.mutate(id);
   };
   const params = useParams();
   const queryClient = useQueryClient();
 
-
   //* 댓글 데이터 가져오기
-
-
 
   const [reply, setReply] = useState({
     // write: '',
-    content: "",
+    contents: "",
   });
 
   const onChangeReplyContent = (e) => {
@@ -54,17 +50,19 @@ function Detail() {
   const onSubmitClickHandler = (e) => {
     e.preventDefault();
     // if (reply.write === '' || reply.content === '') {
-    if (reply.content === "") {
+    if (reply.contents === "") {
       alert("양식을 모두 입력해주세요.");
       return;
     }
 
     const newPost = {
-      id:pathId,
-      content: reply.content,
+      id: pathId,
+      contents: reply.contents,
     };
     addMutation.mutate(newPost);
   };
+
+  // console.log(reply.content);
 
   // * 댓글삭제
   // const removeMutation = useMutation(removePosts, {
@@ -77,8 +75,7 @@ function Detail() {
   //   event.preventDefault();
   //   removeMutation.mutate(id);
   // };
-
-
+  console.log(location.state?.currentUserInfo);
   return (
     <div
       style={{
@@ -89,16 +86,35 @@ function Detail() {
       }}
     >
       <DetailWrap>
-
         <DetailFirstItemWrap>
+<<<<<<< HEAD
           <DetailFirstItemTitle>{navigate.state.currentUserInfo.title}</DetailFirstItemTitle>
           <DetailFirstItem src={navigate.state.currentUserInfo.imageUrl} alt="" />
           <DetailBody>{navigate.state.currentUserInfo.contents}</DetailBody>
+=======
+          <DetailFirstItemTitle>
+            {navigate.state?.currentUserInfo.title}
+          </DetailFirstItemTitle>
+          <DetailFirstItem
+            src={navigate.state?.currentUserInfo.imageUrl}
+            alt=""
+          />
+          <DetailBody>{navigate.state?.currentUserInfo.contents}</DetailBody>
+>>>>>>> 55537d76e58ffb0779ceda00324bc00ff4ac4059
           <DetailBtnWrap>
-            <DetailBtn>
+            <DetailBtn
+              onClick={() => {
+                navigate(`/modify/${pathId}`);
+              }}
+            >
               수정하기
             </DetailBtn>
-            <DetailBtn color="#FBE8E7" onClick={() => { removeButtonHandler(pathId) }}>
+            <DetailBtn
+              color="#FBE8E7"
+              onClick={() => {
+                removeButtonHandler(pathId);
+              }}
+            >
               삭제하기
             </DetailBtn>
           </DetailBtnWrap>
@@ -134,16 +150,14 @@ function Detail() {
         </DetailSecondItemWrap> */}
 
         <DetailSecondItemWrap>
-          <DetailSecondItemtext >
-            <button>
-              삭제
-            </button>
+          <DetailSecondItemtext>
+            <button>삭제</button>
           </DetailSecondItemtext>
           <DetailSecondItemInput
             type="text"
-            value={reply.content}
+            value={reply.contents}
             onChange={onChangeReplyContent}
-            name="content"
+            name="contents"
           />
           {/* <DetailSecondItemBtn onClick={onSubmitClickHandler}> */}
           <DetailSecondItemBtn onClick={onSubmitClickHandler}>
@@ -212,10 +226,10 @@ const DetailBtn = styled.button`
   }};
   &:hover {
     background-color: ${(props) => {
-    return props.color
-      ? "rgba(255, 196, 208, 0.8)"
-      : "rgba(247, 221, 222, 0.8)";
-  }};
+      return props.color
+        ? "rgba(255, 196, 208, 0.8)"
+        : "rgba(247, 221, 222, 0.8)";
+    }};
     transition: all 0.3s;
   }
 `;
