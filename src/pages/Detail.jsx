@@ -1,62 +1,53 @@
-import React, { useEffect, useMemo } from "react";
-import { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import React, { useEffect, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getPosts } from "../api/detail";
-import { useLocation, useParams } from "react-router-dom";
-import { removeList, addPosts, detailList } from "../api/listdata";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { getList } from "../api/listdata";
-import { useQuery } from "react-query";
-import { type } from "@testing-library/user-event/dist/type";
-import { removePosts } from "../api/listdata";
-
+import { addPosts, detailList, removeList, removePosts } from "../api/listdata";
 function Detail() {
   const navigate = useNavigate();
   const location = useLocation();
-
   const pathId = location.pathname.slice(8);
   // console.log(pathId);
   // console.log(typeof pathId);
-
   //댓글
-  const { data } = useQuery("getReply", getList);
+  // const { data } = useQuery("getReply", getList);
 
-  // console.log(location.state.currentUserInfo.commentList);
+  const { data, isLoading, isError, error } = useQuery("getReply", () => detailList(pathId),{
+    enabled: true,
+    staleTime: 0,
+  });
+
+  const queryClient = useQueryClient(); 
+
   const test = location.state.currentUserInfo.commentList;
   const removeListMutation = useMutation(removeList, {
     onSuccess: () => {
       navigate("/");
     },
   });
-
   const removeButtonHandler = (id) => {
     removeListMutation.mutate(id);
   };
   const params = useParams();
-  const queryClient = useQueryClient();
-
   //* 댓글 데이터 가져오기
   const [reply, setReply] = useState({
     // write: '',
     contents: "",
   });
-
   const onChangeReplyContent = (e) => {
     setReply({
       ...reply,
       [e.target.name]: e.target.value,
     });
   };
-
   // * 댓글추가
   const addMutation = useMutation(addPosts, {
     onSuccess: () => {
       // queryClient.invalidateQueries(`/api/posts/${params.id}`);
+      // queryClient.invalidateQueries("addPosts");
+      queryClient.invalidateQueries("getReply")
     },
   });
-
   const onSubmitClickHandler = (e) => {
     e.preventDefault();
     // if (reply.write === '' || reply.content === '') {
@@ -70,16 +61,13 @@ function Detail() {
     };
     addMutation.mutate(newPost);
   };
-
   // console.log(reply.content);
-
   // * 댓글삭제
   const removeMutation = useMutation(removePosts, {
     onSuccess: () => {
-      queryClient.invalidateQueries(`/api/posts/${params.id}`);
+      queryClient.invalidateQueries("getReply")
     },
   });
-
   const removeReplyHandler = (event, id, postId) => {
     event.preventDefault();
     console.log(postId);
@@ -87,13 +75,15 @@ function Detail() {
     // console.log("댓글 ID:", id);
     removeMutation.mutate({ id, postId });
   };
-
   // * 댓글수정
   const editReplyHandler = (event) => {
     event.preventDefault();
     alert("수정하기");
   };
 
+  useEffect(() => {
+    queryClient.invalidateQueries("getReply");
+  }, []);
   return (
     <div
       style={{
@@ -131,15 +121,13 @@ function Detail() {
             </DetailBtn>
           </DetailBtnWrap>
         </DetailFirstItemWrap>
-
         <DetailSecondItemWrap>
-          {test &&
-            test.map((item) => {
+          {data && data.commentList &&
+            data.commentList.map((item) => {
               return (
                 <>
                   <DetailSecondItemtext key={item.id}>
                     {item.contents}
-                    <button onClick={editReplyHandler}>수정</button>
                     <button
                       onClick={(event) =>
                         removeReplyHandler(
@@ -169,7 +157,6 @@ function Detail() {
     </div>
   );
 }
-
 const DetailWrap = styled.div`
   width: 800px;
   display: flex;
@@ -179,44 +166,38 @@ const DetailWrap = styled.div`
   left: 50%;
   transform: translate(-50%, -50%); */
 `;
-
 const DetailFirstItemWrap = styled.div`
   background-color: white;
   padding: 20px;
   box-sizing: border-box;
   border-radius: 8px;
 `;
-
 const DetailFirstItemTitle = styled.h1`
   font-size: 24px;
   font-weight: 900;
 `;
-
 const DetailFirstItem = styled.img`
   width: 200px;
   display: flex;
   height: 200px;
   margin: 0 auto;
 `;
-
 const DetailBody = styled.p`
   width: 100%;
   height: 200px;
   line-height: 24px;
-  background-color: #fbe8e7;
+  background-color: #FBE8E7;
   border-radius: 8px;
   padding: 10px;
   letter-spacing: 1.4px;
   margin-bottom: 20px;
 `;
-
 const DetailBtnWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 15px;
 `;
-
 const DetailBtn = styled.button`
   width: 50%;
   height: 40px;
@@ -234,7 +215,6 @@ const DetailBtn = styled.button`
     transition: all 0.3s;
   }
 `;
-
 const DetailSecondItemWrap = styled.form`
   padding: 20px;
   background-color: white;
@@ -243,17 +223,15 @@ const DetailSecondItemWrap = styled.form`
   margin-bottom: 20px;
   position: relative;
 `;
-
 const DetailSecondItemtext = styled.p`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f7ddde;
+  background-color: #F7DDDE;
   padding: 10px;
   border-radius: 8px;
   margin-bottom: 10px;
 `;
-
 const DetailSecondItemInput = styled.input`
   margin-top: 50px;
   height: 30px;
@@ -272,7 +250,7 @@ const DetailSecondItemBtn = styled.button`
   border: 1px solid black;
   cursor: pointer;
   &:hover {
-    background-color: #f7ddde;
+    background-color: #F7DDDE;
     transition: all 0.3s;
   }
 `;
