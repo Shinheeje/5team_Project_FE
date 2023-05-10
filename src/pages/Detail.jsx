@@ -91,9 +91,9 @@ function Detail() {
       <DetailWrap>
 
         <DetailFirstItemWrap>
-          <DetailFirstItemTitle>{location.state.currentUserInfo.title}</DetailFirstItemTitle>
-          <DetailFirstItem src={location.state.currentUserInfo.imageUrl} alt="" />
-          <DetailBody>{location.state.currentUserInfo.contents}</DetailBody>
+          <DetailFirstItemTitle>{navigate.state.currentUserInfo.title}</DetailFirstItemTitle>
+          <DetailFirstItem src={navigate.state.currentUserInfo.imageUrl} alt="" />
+          <DetailBody>{navigate.state.currentUserInfo.contents}</DetailBody>
           <DetailBtnWrap>
             <DetailBtn>
               수정하기
