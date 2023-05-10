@@ -1,19 +1,30 @@
 import React, { useEffect, useMemo } from "react";
 import { useState } from "react";
-import { useMutation, useQueryClient, useQuery } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import styled from "styled-components";
-import { getPosts, removePosts } from "../api/detail";
+import { getPosts } from "../api/detail";
 import { useLocation, useParams } from "react-router-dom";
-import { removeList, addPosts } from "../api/listdata";
+import { removeList, addPosts, detailList } from "../api/listdata";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { getList } from "../api/listdata";
+import { useQuery } from "react-query";
+import { type } from "@testing-library/user-event/dist/type";
+import { removePosts } from "../api/listdata";
 
 function Detail() {
   const navigate = useNavigate();
   const location = useLocation();
 
   const pathId = location.pathname.slice(8);
+  // console.log(pathId);
+  // console.log(typeof pathId);
 
+  //댓글
+  const { data } = useQuery("getReply", getList);
+
+  // console.log(location.state.currentUserInfo.commentList);
+  const test = location.state.currentUserInfo.commentList;
   const removeListMutation = useMutation(removeList, {
     onSuccess: () => {
       navigate("/");
@@ -27,7 +38,6 @@ function Detail() {
   const queryClient = useQueryClient();
 
   //* 댓글 데이터 가져오기
-
   const [reply, setReply] = useState({
     // write: '',
     contents: "",
@@ -54,7 +64,6 @@ function Detail() {
       alert("양식을 모두 입력해주세요.");
       return;
     }
-
     const newPost = {
       id: pathId,
       contents: reply.contents,
@@ -65,18 +74,20 @@ function Detail() {
   // console.log(reply.content);
 
   // * 댓글삭제
-  // const removeMutation = useMutation(removePosts, {
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries(`/api/posts/${params.id}`);
-  //   },
-  // });
+  const removeMutation = useMutation(removePosts, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(`/api/posts/${params.id}`);
+    },
+  });
 
-  // const removeReplyHandler = (event, id) => {
-  //   event.preventDefault();
-  //   removeMutation.mutate(id);
-  // };
-  // console.log("얘:", location.state.currentUserInfo);
-  // console.log("^^:", currentUserInfo);
+  const removeReplyHandler = (event, id, postId) => {
+    event.preventDefault();
+    console.log(postId);
+    // const postId = location.state.currentUserInfo.id;
+    // console.log("댓글 ID:", id);
+    removeMutation.mutate({ id, postId });
+  };
+
   return (
     <div
       style={{
@@ -115,17 +126,21 @@ function Detail() {
           </DetailBtnWrap>
         </DetailFirstItemWrap>
 
-        {/* <DetailSecondItemWrap>
-          {replyData &&
-            replyData.map((e, i) => {
+        <DetailSecondItemWrap>
+          {test &&
+            test.map((item) => {
               return (
                 <>
-                  <DetailSecondItemtext key={i}>
-                    {e.write} {e.content}{" "}
+                  <DetailSecondItemtext key={item.id}>
+                    {item.contents}
                     <button
-                      onClick={(event) => {
-                        removeReplyHandler(event, e.id);
-                      }}
+                      onClick={(event) =>
+                        removeReplyHandler(
+                          event,
+                          item.id,
+                          location.state.currentUserInfo.id
+                        )
+                      }
                     >
                       삭제
                     </button>
@@ -135,26 +150,10 @@ function Detail() {
             })}
           <DetailSecondItemInput
             type="text"
-            value={reply.content}
-            onChange={onChangeReplyContent}
-            name="content"
-          />
-          <DetailSecondItemBtn onClick={onSubmitClickHandler}>
-            등록
-          </DetailSecondItemBtn>
-        </DetailSecondItemWrap> */}
-
-        <DetailSecondItemWrap>
-          <DetailSecondItemtext>
-            <button>삭제</button>
-          </DetailSecondItemtext>
-          <DetailSecondItemInput
-            type="text"
             value={reply.contents}
             onChange={onChangeReplyContent}
             name="contents"
           />
-          {/* <DetailSecondItemBtn onClick={onSubmitClickHandler}> */}
           <DetailSecondItemBtn onClick={onSubmitClickHandler}>
             등록
           </DetailSecondItemBtn>

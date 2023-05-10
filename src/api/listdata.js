@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 //* 유저조회
 const getUser = async () => {
   const token = Cookies.get("token");
-  const response = await axios.get("http://3.34.85.5:8080/api/user-info",{
+  const response = await axios.get("http://3.34.85.5:8080/api/user-info", {
     headers: {
       ACCESS_KEY: `Bearer ${token}`,
     },
@@ -133,6 +133,61 @@ const addPosts = async (newPost) => {
   // console.log(token);
 };
 
+// 댓글삭제;
+// const removePosts = async (id) => {
+//   const token = Cookies.get("token");
+//   // await axios.delete(`http://3.34.85.5:8080/api/posts/comments/${id}`);
+//   try {
+//     const response = await axios.delete(
+//       `http://3.34.85.5:8080/api/posts/comments/${id}`
+//     );
+//     return response.data;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+//얘로 쭉했엇음
+// const removePosts = async (id, postId) => {
+//   const token = Cookies.get("token");
+
+//   console.log("포스트:", postId);
+
+//   try {
+//     const response = await axios.delete(
+//       `http://3.34.85.5:8080/api/posts/${postId}/comments/${id}`,
+//       {
+//         headers: {
+//           ACCESS_KEY: `Bearer ${token}`,
+//         },
+//       }
+//     );
+//     return response.data;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+const removePosts = async (deletePost) => {
+  const token = Cookies.get("token");
+  const { id, postId } = deletePost;
+  console.log("포스트:", postId);
+
+  try {
+    const response = await axios.delete(
+      `http://3.34.85.5:8080/api/posts/${postId}/comments/${id}`,
+      {
+        headers: {
+          ACCESS_KEY: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 // // * 댓글삭제
 // const removePosts = async (id) => {
 //   await axios.delete(`http://3.34.85.5:8080/api/posts/comments/${id}`);
@@ -156,5 +211,6 @@ export {
   editList,
   getUser,
   removeList,
+  removePosts,
   addPosts,
 };
