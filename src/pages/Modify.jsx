@@ -13,19 +13,31 @@ function Modify() {
   const navigate = useNavigate();
   const [fileName, setFileName] = useState("");
   const [preview, setPreview] = useState("");
+  const [fileAttach, setFileAttach] = useState("");
 
   const [modifyTitle, setModifyTitle] = useState("");
   const [modifybody, setModifyBody] = useState("");
 
+  // const handleFileChange = (event) => {
+  //   const file = event.target.files[0];
+  //   const fileName = file ? file.name : "";
+  //   setFileName(fileName);
+
+  //   //set preview image
+  //   const objectUrl = URL.createObjectURL(event.target.files[0]);
+  //   setPreview(objectUrl);
+  // };
+
   const handleFileChange = (event) => {
+    setFileAttach(event.target.files[0]);
     const file = event.target.files[0];
     const fileName = file ? file.name : "";
     setFileName(fileName);
 
-    //set preview image
     const objectUrl = URL.createObjectURL(event.target.files[0]);
     setPreview(objectUrl);
   };
+  console.log(preview);
 
   //게시글수정하기
   const modifylist = useQuery("modifylist", () => detailList(params.id));
@@ -43,8 +55,8 @@ function Modify() {
     const editedList = {
       id: modifylist.data.id,
       title: modifyTitle,
-      content: modifybody,
-      files: modifylist.data.files,
+      contents: modifybody,
+      image: modifylist.data.files,
     };
 
     // console.log(editedList);

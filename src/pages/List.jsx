@@ -7,7 +7,7 @@ function List(listdata) {
 
   const data = listdata.listdata;
 
-  console.log(data.files);
+  // console.log(data.files);
 
   return (
     <div>
