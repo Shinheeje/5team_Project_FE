@@ -6,6 +6,7 @@ import { loginCertify } from "../api/login";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
 
 function Login() {
   const navigate = useNavigate();
@@ -23,10 +24,24 @@ function Login() {
 
   //TODO  토큰 보낼때 Cookies.get('token') 으로 보내기
 
+  //얘가 원래거
+  // const LoginMutation = useMutation(loginCertify, {
+  //   onSuccess: (response) => {
+  //     const token = response.headers.get("access_key").split(" ")[1];
+  //     Cookies.set("token", token);
+  //   },
+  // });
+
   const LoginMutation = useMutation(loginCertify, {
     onSuccess: (response) => {
       const token = response.headers.get("access_key").split(" ")[1];
       Cookies.set("token", token);
+
+      // console.log("데이터", response.data);
+      if ((response.data = "로그인 성공")) {
+        alert("로그인 성공");
+        navigate("/");
+      }
     },
   });
 

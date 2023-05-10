@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Modal from "./Modal";
-import { getList,getUser } from "../api/listdata";
+import { getList, getUser } from "../api/listdata";
 import { useQuery } from "react-query";
 import List from "./List";
-
+import { useLocation } from "react-router-dom";
 
 function Main() {
   const { data } = useQuery("getList", getList);
@@ -15,10 +15,12 @@ function Main() {
   const showModal = () => {
     setModalOpen(true);
   };
+
   return (
     <>
       <InfoBox>사이트 이름 및 소개</InfoBox>
 
+      {/* {state !== "" >} */}
       <WriteBox>
         작성하기
         <button onClick={showModal}>click!</button>

@@ -3,22 +3,27 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { addPosts, detailList, removeList, removePosts } from "../api/listdata";
+import { getUser } from "../api/listdata";
 function Detail() {
   const navigate = useNavigate();
   const location = useLocation();
   const pathId = location.pathname.slice(8);
-  // console.log(pathId);
-  // console.log(typeof pathId);
-  //댓글
-  // const { data } = useQuery("getReply", getList);
 
-  const { data, isLoading, isError, error } = useQuery("getReply", () => detailList(pathId),{
-    enabled: true,
-    staleTime: 0,
-  });
+  const nowdata = useQuery("user", getUser);
+  // console.log("현재로그인한애!", data.data);
+  const nowLoginUser = nowdata.data;
+  const postUser = location.state.currentUserInfo.userid;
+  // console.log(postUser);
 
-  const queryClient = useQueryClient(); 
-
+  const { data, isLoading, isError, error } = useQuery(
+    "getReply",
+    () => detailList(pathId),
+    {
+      enabled: true,
+      staleTime: 0,
+    }
+  );
+  const queryClient = useQueryClient();
   const test = location.state.currentUserInfo.commentList;
   const removeListMutation = useMutation(removeList, {
     onSuccess: () => {
@@ -45,7 +50,7 @@ function Detail() {
     onSuccess: () => {
       // queryClient.invalidateQueries(`/api/posts/${params.id}`);
       // queryClient.invalidateQueries("addPosts");
-      queryClient.invalidateQueries("getReply")
+      queryClient.invalidateQueries("getReply");
     },
   });
   const onSubmitClickHandler = (e) => {
@@ -65,7 +70,7 @@ function Detail() {
   // * 댓글삭제
   const removeMutation = useMutation(removePosts, {
     onSuccess: () => {
-      queryClient.invalidateQueries("getReply")
+      queryClient.invalidateQueries("getReply");
     },
   });
   const removeReplyHandler = (event, id, postId) => {
@@ -80,83 +85,143 @@ function Detail() {
     event.preventDefault();
     alert("수정하기");
   };
-
   useEffect(() => {
     queryClient.invalidateQueries("getReply");
   }, []);
-  return (
-    <div
-      style={{
-        marginTop: "150px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <DetailWrap>
-        <DetailFirstItemWrap>
-          <DetailFirstItemTitle>
-            {location.state.currentUserInfo.title}
-          </DetailFirstItemTitle>
-          <DetailFirstItem
-            src={location.state.currentUserInfo.imageUrl}
-            alt=""
-          />
-          <DetailBody>{location.state.currentUserInfo.contents}</DetailBody>
-          <DetailBtnWrap>
-            <DetailBtn
-              onClick={() => {
-                navigate(`/modify/${pathId}`);
-              }}
-            >
-              수정하기
-            </DetailBtn>
-            <DetailBtn
-              color="#FBE8E7"
-              onClick={() => {
-                removeButtonHandler(pathId);
-              }}
-            >
-              삭제하기
-            </DetailBtn>
-          </DetailBtnWrap>
-        </DetailFirstItemWrap>
-        <DetailSecondItemWrap>
-          {data && data.commentList &&
-            data.commentList.map((item) => {
-              return (
-                <>
-                  <DetailSecondItemtext key={item.id}>
-                    {item.contents}
-                    <button
-                      onClick={(event) =>
-                        removeReplyHandler(
-                          event,
-                          item.id,
-                          location.state.currentUserInfo.id
-                        )
-                      }
-                    >
-                      삭제
-                    </button>
-                  </DetailSecondItemtext>
-                </>
-              );
-            })}
-          <DetailSecondItemInput
-            type="text"
-            value={reply.contents}
-            onChange={onChangeReplyContent}
-            name="contents"
-          />
-          <DetailSecondItemBtn onClick={onSubmitClickHandler}>
-            등록
-          </DetailSecondItemBtn>
-        </DetailSecondItemWrap>
-      </DetailWrap>
-    </div>
+  return postUser == nowLoginUser ? (
+    <>
+      <div
+        style={{
+          marginTop: "150px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <DetailWrap>
+          <DetailFirstItemWrap>
+            <DetailFirstItemTitle>
+              {location.state.currentUserInfo.title}
+            </DetailFirstItemTitle>
+            <DetailFirstItem
+              src={location.state.currentUserInfo.imageUrl}
+              alt=""
+            />
+            <DetailBody>{location.state.currentUserInfo.contents}</DetailBody>
+            <DetailBtnWrap>
+              <DetailBtn
+                onClick={() => {
+                  navigate(`/modify/${pathId}`);
+                }}
+              >
+                수정하기
+              </DetailBtn>
+              <DetailBtn
+                color="#FBE8E7"
+                onClick={() => {
+                  removeButtonHandler(pathId);
+                }}
+              >
+                삭제하기
+              </DetailBtn>
+            </DetailBtnWrap>
+          </DetailFirstItemWrap>
+          <DetailSecondItemWrap>
+            {data &&
+              data.commentList &&
+              data.commentList.map((item) => {
+                return (
+                  <>
+                    <DetailSecondItemtext key={item.id}>
+                      {item.contents}
+                      <button
+                        onClick={(event) =>
+                          removeReplyHandler(
+                            event,
+                            item.id,
+                            location.state.currentUserInfo.id
+                          )
+                        }
+                      >
+                        삭제
+                      </button>
+                    </DetailSecondItemtext>
+                  </>
+                );
+              })}
+            <DetailSecondItemInput
+              type="text"
+              value={reply.contents}
+              onChange={onChangeReplyContent}
+              name="contents"
+            />
+            <DetailSecondItemBtn onClick={onSubmitClickHandler}>
+              등록
+            </DetailSecondItemBtn>
+          </DetailSecondItemWrap>
+        </DetailWrap>
+      </div>
+    </>
+  ) : (
+    <>
+      <div
+        style={{
+          marginTop: "150px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <DetailWrap>
+          <DetailFirstItemWrap>
+            <DetailFirstItemTitle>
+              {location.state.currentUserInfo.title}
+            </DetailFirstItemTitle>
+            <DetailFirstItem
+              src={location.state.currentUserInfo.imageUrl}
+              alt=""
+            />
+            <DetailBody>{location.state.currentUserInfo.contents}</DetailBody>
+          </DetailFirstItemWrap>
+          <DetailSecondItemWrap>
+            {data &&
+              data.commentList &&
+              data.commentList.map((item) => {
+                return (
+                  <>
+                    <DetailSecondItemtext key={item.id}>
+                      {item.contents}
+                      <button
+                        onClick={(event) =>
+                          removeReplyHandler(
+                            event,
+                            item.id,
+                            location.state.currentUserInfo.id
+                          )
+                        }
+                      >
+                        삭제
+                      </button>
+                    </DetailSecondItemtext>
+                  </>
+                );
+              })}
+            <DetailSecondItemInput
+              type="text"
+              value={reply.contents}
+              onChange={onChangeReplyContent}
+              name="contents"
+            />
+            <DetailSecondItemBtn onClick={onSubmitClickHandler}>
+              등록
+            </DetailSecondItemBtn>
+          </DetailSecondItemWrap>
+        </DetailWrap>
+      </div>
+    </>
   );
 }
+
 const DetailWrap = styled.div`
   width: 800px;
   display: flex;
@@ -186,7 +251,7 @@ const DetailBody = styled.p`
   width: 100%;
   height: 200px;
   line-height: 24px;
-  background-color: #FBE8E7;
+  background-color: #fbe8e7;
   border-radius: 8px;
   padding: 10px;
   letter-spacing: 1.4px;
@@ -227,7 +292,7 @@ const DetailSecondItemtext = styled.p`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #F7DDDE;
+  background-color: #f7ddde;
   padding: 10px;
   border-radius: 8px;
   margin-bottom: 10px;
@@ -250,7 +315,7 @@ const DetailSecondItemBtn = styled.button`
   border: 1px solid black;
   cursor: pointer;
   &:hover {
-    background-color: #F7DDDE;
+    background-color: #f7ddde;
     transition: all 0.3s;
   }
 `;

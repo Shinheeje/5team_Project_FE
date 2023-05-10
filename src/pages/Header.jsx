@@ -4,6 +4,8 @@ import { Outlet } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Headerbox = styled.header`
   padding: 10px;
@@ -23,18 +25,19 @@ const StyledLink = styled(Link)`
 
 function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const token = Cookies.get("token");
 
   useEffect(() => {
     // console.log(location.pathname);
   }, [location]);
 
-  return location.pathname == "/" ? (
+  return !token ? (
     <>
       <Headerbox>
         <image>로고</image>
-
         <StyledLink to="/login">Login</StyledLink>
-        <StyledLink to="/signup">Signup</StyledLink>
+        <StyledLink to="/">Signup</StyledLink>
       </Headerbox>
       <Outlet />
     </>
@@ -42,7 +45,7 @@ function Header() {
     <>
       <Headerbox>
         <image>로고</image>
-        <StyledLink to="/signup">Logeout</StyledLink>
+        <StyledLink to="/">Logout</StyledLink>
       </Headerbox>
       <Outlet />
     </>
