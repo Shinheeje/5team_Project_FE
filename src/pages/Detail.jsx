@@ -23,8 +23,8 @@ function Detail() {
   //댓글
   const { data } = useQuery("getReply", getList);
 
+  // console.log(location.state.currentUserInfo.commentList);
   const test = location.state.currentUserInfo.commentList;
-
   const removeListMutation = useMutation(removeList, {
     onSuccess: () => {
       navigate("/");
@@ -80,14 +80,14 @@ function Detail() {
     },
   });
 
-  const removeReplyHandler = (event, id) => {
+  const removeReplyHandler = (event, id, postId) => {
     event.preventDefault();
-    console.log("댓글 ID:", id);
-    removeMutation.mutate(id);
+    console.log(postId);
+    // const postId = location.state.currentUserInfo.id;
+    // console.log("댓글 ID:", id);
+    removeMutation.mutate({ id, postId });
   };
 
-  console.log("얘:", location.state.currentUserInfo);
-  // console.log("^^:", currentUserInfo);
   return (
     <div
       style={{
@@ -134,7 +134,13 @@ function Detail() {
                   <DetailSecondItemtext key={item.id}>
                     {item.contents}
                     <button
-                      onClick={(event) => removeReplyHandler(event, item.id)}
+                      onClick={(event) =>
+                        removeReplyHandler(
+                          event,
+                          item.id,
+                          location.state.currentUserInfo.id
+                        )
+                      }
                     >
                       삭제
                     </button>

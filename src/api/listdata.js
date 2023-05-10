@@ -147,11 +147,35 @@ const addPosts = async (newPost) => {
 //   }
 // };
 
-const removePosts = async (id) => {
+//얘로 쭉했엇음
+// const removePosts = async (id, postId) => {
+//   const token = Cookies.get("token");
+
+//   console.log("포스트:", postId);
+
+//   try {
+//     const response = await axios.delete(
+//       `http://3.34.85.5:8080/api/posts/${postId}/comments/${id}`,
+//       {
+//         headers: {
+//           ACCESS_KEY: `Bearer ${token}`,
+//         },
+//       }
+//     );
+//     return response.data;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+const removePosts = async (deletePost) => {
   const token = Cookies.get("token");
+  const { id, postId } = deletePost;
+  console.log("포스트:", postId);
+
   try {
     const response = await axios.delete(
-      `http://3.34.85.5:8080/api/posts/comments/${id}`,
+      `http://3.34.85.5:8080/api/posts/${postId}/comments/${id}`,
       {
         headers: {
           ACCESS_KEY: `Bearer ${token}`,
