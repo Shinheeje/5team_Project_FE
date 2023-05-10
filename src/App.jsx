@@ -13,17 +13,7 @@ import axios from "axios";
 const queryClient = new QueryClient();
 
 function App() {
-  // const [hello, setHello] = useState("");
-
-  // useEffect(() => {
-  //   axios
-  //     .get("/api/hello")
-  //     .then((response) => setHello(response.data))
-  //     .catch((error) => console.log(error));
-  // }, []);
   return (
-    // <div>백엔드에서 가져온 데이터입니다 : {hello}</div>
-
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         {/* 헤더보여주는페이지 */}

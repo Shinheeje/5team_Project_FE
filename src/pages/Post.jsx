@@ -15,11 +15,10 @@ function Post() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const navigate = useNavigate(`/`);
-  const queryClient = useQueryClient();
 
   const mutation = useMutation(addList, {
     onSuccess: (response) => {
-      console.log(response);
+      navigate("/");
       // queryClient.invalidateQueries("list");
     },
   });
@@ -38,7 +37,6 @@ function Post() {
     newList.append("contents", content);
     newList.append("image", fileAttach);
     mutation.mutate(newList);
-    navigate("/");
   };
   return (
     <PostWrap>
@@ -108,9 +106,11 @@ const ImageWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const PostImg = styled.img`
   height: 250px;
 `;
+
 const PostBody = styled.textarea`
   width: 100%;
   height: 200px;

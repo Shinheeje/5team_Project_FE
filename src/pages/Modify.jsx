@@ -6,8 +6,13 @@ import { editList, getList, detailList } from "../api/listdata";
 import { useNavigate } from "react-router-dom";
 // import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function Modify() {
+  // const location = useLocation();
+
+  // const pathId = location.pathname.slice(8);
+
   const params = useParams();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -37,12 +42,13 @@ function Modify() {
     const objectUrl = URL.createObjectURL(event.target.files[0]);
     setPreview(objectUrl);
   };
-  console.log(preview);
+  // console.log(preview);
 
   //게시글수정하기
   const modifylist = useQuery("modifylist", () => detailList(params.id));
-  // console.log("전데이터: ", modifylist.data);
-  // console.log(modifylist.data.id);
+  console.log(modifylist);
+  console.log("전데이터11", modifylist.data);
+  console.log(modifylist?.data?.id);
 
   const mutation = useMutation(editList, {
     onSuccess: () => {
@@ -51,15 +57,19 @@ function Modify() {
     },
   });
 
+  // newList.append("image", fileAttach);
+
   const modifyButtonHandler = () => {
     const editedList = {
       id: modifylist.data.id,
+      // id: pathId,
       title: modifyTitle,
       contents: modifybody,
-      image: modifylist.data.files,
+      // image: modifylist.data.files,
+      image: fileAttach,
     };
 
-    // console.log(editedList);
+    console.log(editedList);
 
     mutation.mutate(editedList);
 
@@ -77,7 +87,10 @@ function Modify() {
         <ModifyItemWrap
           method="post"
           encType="multipart/form-data"
-          name="files"
+          // name="files"
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
         >
           <ModifyItemTitle
             value={modifyTitle}

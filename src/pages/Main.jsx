@@ -5,9 +5,12 @@ import { getList } from "../api/listdata";
 import { useQuery } from "react-query";
 import List from "./List";
 
-function Main() {
-  const { data } = useQuery("listdata", getList);
+// getUser임포트해야됨
 
+function Main() {
+  const { data } = useQuery("getList", getList);
+  // const { userData } = useQuery("getUser", getUser);
+  // console.log(userData)
   const [modalOpen, setModalOpen] = useState(false);
   // 모달창 노출
   const showModal = () => {
@@ -73,18 +76,6 @@ const WriteBox = styled.div`
     border: none;
   }
 `;
-
-// const VideoBox = styled.video`
-//   height: 100%;
-//   width: 20%;
-//   position: absolute;
-//   /* float: right; */
-//   right: 0;
-//   top: 230px;
-//   background-color: red;
-//   margin-right: 50px;
-//   /* https://developing-move.tistory.com/145 얘를다시보자 */
-// `;
 
 const VideoBox = styled.video`
   height: 100%;
