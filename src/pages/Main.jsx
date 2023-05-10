@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Modal from "./Modal";
-import { getList } from "../api/listdata";
+import { getList, getUser } from "../api/listdata";
 import { useQuery } from "react-query";
 import List from "./List";
 
 function Main() {
-  const { data } = useQuery("listdata", getList);
-
+  const { data } = useQuery("getList", getList);
+  const { userData } = useQuery("getUser", getUser);
+  // console.log(userData)
   const [modalOpen, setModalOpen] = useState(false);
   // 모달창 노출
   const showModal = () => {
@@ -27,7 +28,8 @@ function Main() {
         {data &&
           data.map((item) => {
             return <List key={item.id} listdata={item} />;
-          })}
+          })
+        }
       </ListWrap>
 
       <VideoBox>캐릭터관련동영상</VideoBox>
@@ -73,18 +75,6 @@ const WriteBox = styled.div`
     border: none;
   }
 `;
-
-// const VideoBox = styled.video`
-//   height: 100%;
-//   width: 20%;
-//   position: absolute;
-//   /* float: right; */
-//   right: 0;
-//   top: 230px;
-//   background-color: red;
-//   margin-right: 50px;
-//   /* https://developing-move.tistory.com/145 얘를다시보자 */
-// `;
 
 const VideoBox = styled.video`
   height: 100%;

@@ -18,11 +18,10 @@ function Post() {
 
   const [content, setContent] = useState("");
   const navigate = useNavigate(`/`);
-  const queryClient = useQueryClient();
 
   const mutation = useMutation(addList, {
     onSuccess: (response) => {
-      console.log(response.data)
+      navigate("/")
       // queryClient.invalidateQueries("list");
     },
   });
@@ -50,7 +49,6 @@ function Post() {
 
 
     mutation.mutate(newList);
-    navigate("/");
   };
   return (
     <PostWrap>
@@ -62,7 +60,9 @@ function Post() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <PostImg src={preview} alt="" />
+        <ImageWrapper>
+          <PostImg src={preview} alt="" />
+        </ImageWrapper>
         <FileWrap>
           <FileTextInput value={fileName} placeholder="첨부파일" readOnly />
           <FileButton for="file">파일찾기</FileButton>
@@ -114,14 +114,14 @@ const PostItemTitle = styled.input`
 `;
 
 const ImageWrapper = styled.div`
-  /* height: 400px; */
-`
-
-const PostImg = styled.img`
+  height: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px;
+`
+
+const PostImg = styled.img`
+  height: 250px;
 `;
 
 const PostBody = styled.textarea`
