@@ -1,28 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { editList, getList, detailList } from "../api/listdata";
+import { editList, getList, detailList} from "../api/listdata";
 import { useNavigate } from "react-router-dom";
 // import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-
+import axios from "axios";
+import Cookies from "js-cookie";
 function Modify() {
   // const location = useLocation();
 
   // const pathId = location.pathname.slice(8);
-
-  const params = useParams();
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
-  const [fileName, setFileName] = useState("");
-  const [preview, setPreview] = useState("");
-  const [fileAttach, setFileAttach] = useState("");
-
-  const [modifyTitle, setModifyTitle] = useState("");
-  const [modifybody, setModifyBody] = useState("");
-
   // const handleFileChange = (event) => {
   //   const file = event.target.files[0];
   //   const fileName = file ? file.name : "";
@@ -33,49 +23,70 @@ function Modify() {
   //   setPreview(objectUrl);
   // };
 
-  const handleFileChange = (event) => {
-    setFileAttach(event.target.files[0]);
-    const file = event.target.files[0];
-    const fileName = file ? file.name : "";
-    setFileName(fileName);
-
-    const objectUrl = URL.createObjectURL(event.target.files[0]);
-    setPreview(objectUrl);
-  };
-  // console.log(preview);
 
   //게시글수정하기
-  const modifylist = useQuery("modifylist", () => detailList(params.id));
-  // console.log(modifylist);
-  // console.log("전데이터11", modifylist.data);
-  console.log("아이디:", modifylist?.data?.id);
 
-  const mutation = useMutation(editList, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("modifylist");
-      navigate(`/detail/${modifylist.data.id}`);
-    },
-  });
+  const params = useParams();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
-  // newList.append("image", fileAttach);
+  const { isLoading, isError, data } = useQuery("modifylist", () => detailList(params.id));
 
-  const modifyButtonHandler = () => {
-    const editedList = new FormData();
+  const [modifyTitle, setModifyTitle] = useState('');
+  const [modifybody, setModifyBody] = useState('');
+  const [fileName, setFileName] = useState("");
+  const [fileAttach, setFileAttach] = useState("");
+  const [preview, setPreview] = useState('');
 
-    editedList.append("title", modifyTitle);
-    editedList.append("contents", modifybody);
-    editedList.append("image", fileAttach);
-    editedList.append("id", modifylist.data.id);
-    // console.log([...editedList]);
-    mutation.mutate(editedList);
-  };
+  useEffect(() => {
+    if (data !== undefined) {
+      setModifyTitle(data.title)
+      setModifyBody(data.contents)
+      setPreview(data.imageUrl)
+    }
+    }, [data])
 
-  // console.log(modifylist.data.id);
+    const modifyButtonHandler = (e) => {
+      e.preventDefault()
+      const modifyList = new FormData();
+      modifyList.append("title", modifyTitle);
+      modifyList.append("contents", modifybody);
+      modifyList.append("image", fileAttach);
+      modifyList.append("id", data.id);
+      if(modifyList !== null) {
+        editList(modifyList)
+      }
+    };
 
-  // const testHandler = () => {
-  //   navigate(`/detail/${modifylist.data.id}`);
-  //   console.log("바보");
-  // };
+  const editList = async (modifyList) => {
+  try {
+    const token = Cookies.get("token");
+    await axios.put(
+      `http://3.34.85.5:8080/api/posts/${data.id}`,modifyList,
+      {
+        headers: {
+          ACCESS_KEY: `Bearer ${token}`,
+        },
+      }
+    )
+    .then(response => {
+      console.log(response)
+      navigate(`/`)
+    })
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const handleFileChange = (event) => {
+  setFileAttach(event.target.files[0]);
+  const file = event.target.files[0];
+  const fileName = file ? file.name : "";
+  setFileName(fileName);
+
+  const objectUrl = URL.createObjectURL(event.target.files[0]);
+  setPreview(objectUrl);
+};
 
   return (
     <>
@@ -107,9 +118,7 @@ function Modify() {
           </ModifyBody>
           <ModifyBtnWrap>
             <ModifyBtn
-              onClick={() => {
-                modifyButtonHandler();
-              }}
+              onClick={modifyButtonHandler}
             >
               수정완료
             </ModifyBtn>
@@ -184,10 +193,10 @@ const ModifyBtn = styled.button`
   }};
   &:hover {
     background-color: ${(props) => {
-      return props.color
-        ? "rgba(255, 196, 208, 0.8)"
-        : "rgba(247, 221, 222, 0.8)";
-    }};
+    return props.color
+      ? "rgba(255, 196, 208, 0.8)"
+      : "rgba(247, 221, 222, 0.8)";
+  }};
     transition: all 0.3s;
   }
 `;
@@ -230,10 +239,10 @@ const FileButton = styled.label`
   box-sizing: border-box;
   &:hover {
     background-color: ${(props) => {
-      return props.color
-        ? "rgba(255, 196, 208, 0.8)"
-        : "rgba(247, 221, 222, 0.8)";
-    }};
+    return props.color
+      ? "rgba(255, 196, 208, 0.8)"
+      : "rgba(247, 221, 222, 0.8)";
+  }};
     transition: all 0.3s;
   }
 `;

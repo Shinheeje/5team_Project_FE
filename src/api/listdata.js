@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 //* 유저조회
 const getUser = async () => {
   const token = Cookies.get("token");
-  const response = await axios.get("http://3.34.85.5:8080/api/user-info",{
+  const response = await axios.get("http://3.34.85.5:8080/api/user-info", {
     headers: {
       ACCESS_KEY: `Bearer ${token}`,
     },
@@ -57,24 +57,23 @@ const detailList = async (id) => {
 };
 
 //게시글수정 얘가 원래거
-const editList = async (editedList) => {
-  console.log("넘어온애:", editedList);
-  try {
-    const token = Cookies.get("token");
-    const response = await axios.put(
-      `http://3.34.85.5:8080/api/posts/${editedList.id}`,
-      editedList,
-      {
-        headers: {
-          ACCESS_KEY: `Bearer ${token}`,
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+// const editList = async (editedList) => {
+//     const { title, contents, image, id } = editedList;
+//   try {
+//     const token = Cookies.get("token");
+//     const response = await axios.put(
+//       `http://3.34.85.5:8080/api/posts/${id}`,editedList,
+//       {
+//         headers: {
+//           ACCESS_KEY: `Bearer ${token}`,
+//         },
+//       }
+//     );
+//     return response.data;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 // const editList = async (editedList, id) => {
 //   try {
@@ -153,7 +152,6 @@ export {
   getList,
   addList,
   detailList,
-  editList,
   getUser,
   removeList,
   addPosts,
