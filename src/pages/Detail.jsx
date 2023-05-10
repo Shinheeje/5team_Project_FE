@@ -1,74 +1,58 @@
-import React, { useEffect, useMemo } from "react";
-import { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import React, { useEffect, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getPosts } from "../api/detail";
-import { useLocation, useParams } from "react-router-dom";
-import { removeList, addPosts, detailList } from "../api/listdata";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { getList } from "../api/listdata";
-import { useQuery } from "react-query";
-import { type } from "@testing-library/user-event/dist/type";
-import { removePosts } from "../api/listdata";
-import { loginCertify } from "../api/login";
+import { addPosts, detailList, removeList, removePosts } from "../api/listdata";
 import { getUser } from "../api/listdata";
-
 function Detail() {
   const navigate = useNavigate();
   const location = useLocation();
-
   const pathId = location.pathname.slice(8);
-  // console.log(pathId);
-  // console.log(typeof pathId);
 
-  //댓글
-  const data = useQuery("user", getUser);
-  console.log("현재로그인한애!", data.data);
-  const nowLoginUser = data.data;
-  // console.log(nowLoginUser);
-
-  //아래가 글쓴이 정보들
-  // console.log("이글글쓴이!", location.state.currentUserInfo.userid);
-
+  const nowdata = useQuery("user", getUser);
+  // console.log("현재로그인한애!", data.data);
+  const nowLoginUser = nowdata.data;
   const postUser = location.state.currentUserInfo.userid;
-  console.log(postUser);
+  // console.log(postUser);
 
-  // console.log(location.state.currentUserInfo.commentList);
+  const { data, isLoading, isError, error } = useQuery(
+    "getReply",
+    () => detailList(pathId),
+    {
+      enabled: true,
+      staleTime: 0,
+    }
+  );
+  const queryClient = useQueryClient();
   const test = location.state.currentUserInfo.commentList;
   const removeListMutation = useMutation(removeList, {
     onSuccess: () => {
       navigate("/");
     },
   });
-
   const removeButtonHandler = (id) => {
     removeListMutation.mutate(id);
   };
   const params = useParams();
-  const queryClient = useQueryClient();
-
   //* 댓글 데이터 가져오기
   const [reply, setReply] = useState({
     // write: '',
     contents: "",
   });
-
   const onChangeReplyContent = (e) => {
     setReply({
       ...reply,
       [e.target.name]: e.target.value,
     });
   };
-
   // * 댓글추가
   const addMutation = useMutation(addPosts, {
     onSuccess: () => {
       // queryClient.invalidateQueries(`/api/posts/${params.id}`);
       // queryClient.invalidateQueries("addPosts");
+      queryClient.invalidateQueries("getReply");
     },
   });
-
   const onSubmitClickHandler = (e) => {
     e.preventDefault();
     // if (reply.write === '' || reply.content === '') {
@@ -82,23 +66,13 @@ function Detail() {
     };
     addMutation.mutate(newPost);
   };
-
   // console.log(reply.content);
-
-  // 댓글삭제
+  // * 댓글삭제
   const removeMutation = useMutation(removePosts, {
     onSuccess: () => {
-      const postId = location.state.currentUserInfo.id;
-
-      queryClient.invalidateQueries(`/api/posts/${params.id}`);
-      // queryClient.invalidateQueries("newPost");
-
-      // queryClient.invalidateQueries(
-      //   `http://3.34.85.5:8080/api/posts/${postId}/comments/*}`
-      // );
+      queryClient.invalidateQueries("getReply");
     },
   });
-
   const removeReplyHandler = (event, id, postId) => {
     event.preventDefault();
     console.log(postId);
@@ -106,13 +80,14 @@ function Detail() {
     // console.log("댓글 ID:", id);
     removeMutation.mutate({ id, postId });
   };
-
   // * 댓글수정
   const editReplyHandler = (event) => {
     event.preventDefault();
     alert("수정하기");
   };
-
+  useEffect(() => {
+    queryClient.invalidateQueries("getReply");
+  }, []);
   return postUser == nowLoginUser ? (
     <>
       <div
@@ -133,7 +108,6 @@ function Detail() {
               alt=""
             />
             <DetailBody>{location.state.currentUserInfo.contents}</DetailBody>
-
             <DetailBtnWrap>
               <DetailBtn
                 onClick={() => {
@@ -152,10 +126,10 @@ function Detail() {
               </DetailBtn>
             </DetailBtnWrap>
           </DetailFirstItemWrap>
-
           <DetailSecondItemWrap>
-            {test &&
-              test.map((item) => {
+            {data &&
+              data.commentList &&
+              data.commentList.map((item) => {
                 return (
                   <>
                     <DetailSecondItemtext key={item.id}>
@@ -209,10 +183,10 @@ function Detail() {
             />
             <DetailBody>{location.state.currentUserInfo.contents}</DetailBody>
           </DetailFirstItemWrap>
-
           <DetailSecondItemWrap>
-            {test &&
-              test.map((item) => {
+            {data &&
+              data.commentList &&
+              data.commentList.map((item) => {
                 return (
                   <>
                     <DetailSecondItemtext key={item.id}>
@@ -257,26 +231,22 @@ const DetailWrap = styled.div`
   left: 50%;
   transform: translate(-50%, -50%); */
 `;
-
 const DetailFirstItemWrap = styled.div`
   background-color: white;
   padding: 20px;
   box-sizing: border-box;
   border-radius: 8px;
 `;
-
 const DetailFirstItemTitle = styled.h1`
   font-size: 24px;
   font-weight: 900;
 `;
-
 const DetailFirstItem = styled.img`
   width: 200px;
   display: flex;
   height: 200px;
   margin: 0 auto;
 `;
-
 const DetailBody = styled.p`
   width: 100%;
   height: 200px;
@@ -287,14 +257,12 @@ const DetailBody = styled.p`
   letter-spacing: 1.4px;
   margin-bottom: 20px;
 `;
-
 const DetailBtnWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 15px;
 `;
-
 const DetailBtn = styled.button`
   width: 50%;
   height: 40px;
@@ -312,7 +280,6 @@ const DetailBtn = styled.button`
     transition: all 0.3s;
   }
 `;
-
 const DetailSecondItemWrap = styled.form`
   padding: 20px;
   background-color: white;
@@ -321,7 +288,6 @@ const DetailSecondItemWrap = styled.form`
   margin-bottom: 20px;
   position: relative;
 `;
-
 const DetailSecondItemtext = styled.p`
   display: flex;
   justify-content: space-between;
@@ -331,7 +297,6 @@ const DetailSecondItemtext = styled.p`
   border-radius: 8px;
   margin-bottom: 10px;
 `;
-
 const DetailSecondItemInput = styled.input`
   margin-top: 50px;
   height: 30px;
