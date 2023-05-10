@@ -2,11 +2,15 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 //* 유저조회
-// const getUser = async () => {
-//   const response = await axios.get("http://3.34.85.5:8080/api/user-info");
-//   console.log(response);
-//   return response.data;
-// };
+const getUser = async () => {
+  const token = Cookies.get("token");
+  const response = await axios.get("http://3.34.85.5:8080/api/user-info",{
+    headers: {
+      ACCESS_KEY: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
 
 // //*게시글조회
 const getList = async () => {
@@ -132,7 +136,7 @@ export {
   addList,
   detailList,
   editList,
-  // getUser,
+  getUser,
   removeList,
   addPosts,
 };

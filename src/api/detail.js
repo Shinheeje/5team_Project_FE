@@ -11,6 +11,4 @@ import axios from "axios";
 //   await axios.post('http://3.34.85.5:8080/api/posts/comments', newDetail)
 // }
 
-
-
 export {}

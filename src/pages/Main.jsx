@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Modal from "./Modal";
-import { getList } from "../api/listdata";
+import { getList,getUser } from "../api/listdata";
 import { useQuery } from "react-query";
 import List from "./List";
 
-// getUser임포트해야됨
 
 function Main() {
   const { data } = useQuery("getList", getList);
-  // const { userData } = useQuery("getUser", getUser);
+  const { userData } = useQuery("getUser", getUser);
   // console.log(userData)
   const [modalOpen, setModalOpen] = useState(false);
   // 모달창 노출

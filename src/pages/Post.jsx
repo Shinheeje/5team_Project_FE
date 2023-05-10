@@ -30,7 +30,7 @@ function Post() {
     const objectUrl = URL.createObjectURL(event.target.files[0]);
     setPreview(objectUrl);
   };
-  console.log(preview);
+
   const submitButtonHandler = () => {
     const newList = new FormData();
     newList.append("title", title);
