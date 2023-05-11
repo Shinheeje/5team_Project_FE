@@ -3,6 +3,8 @@ import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { addList } from "../api/listdata";
+import Swal from "sweetalert2";
+
 function Post() {
   const [fileAttach, setFileAttach] = useState("");
   const [fileName, setFileName] = useState("");
@@ -26,7 +28,17 @@ function Post() {
     setPreview(objectUrl);
   };
 
-  const submitButtonHandler = () => {
+  const submitButtonHandler = (e) => {
+    // e.preventDefault();
+
+    if (title === "" || content === "" || fileAttach === "") {
+      Swal.fire({
+        text: `모든 입력창을 입력해주세요`,
+        icon: "warning",
+        confirmButtonColor: "#ffb3d2",
+      });
+      return;
+    }
     const newList = new FormData();
     newList.append("title", title);
     newList.append("contents", content);
@@ -56,12 +68,16 @@ function Post() {
             <FileButton for="file">파일찾기</FileButton>
             <FileInput type="file" id="file" onChange={handleFileChange} />
           </FileWrap>
-          <PostBody value={content} onChange={(e) => setContent(e.target.value)}>
+          <PostBody
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          >
             파닥파닥몬
           </PostBody>
           <PostBtnWrap>
             <PostBtn
               onClick={() => {
+                // e.preventDefault();
                 submitButtonHandler();
               }}
             >
@@ -71,7 +87,6 @@ function Post() {
         </PostItemWrap>
       </PostWrap>
     </>
-
   );
 }
 const PostWrap = styled.div`
@@ -140,10 +155,10 @@ const PostBtn = styled.button`
   }};
   &:hover {
     background-color: ${(props) => {
-    return props.color
-      ? "rgba(255, 196, 208, 0.8)"
-      : "rgba(247, 221, 222, 0.8)";
-  }};
+      return props.color
+        ? "rgba(255, 196, 208, 0.8)"
+        : "rgba(247, 221, 222, 0.8)";
+    }};
     transition: all 0.3s;
   }
 `;
@@ -182,10 +197,10 @@ const FileButton = styled.label`
   box-sizing: border-box;
   &:hover {
     background-color: ${(props) => {
-    return props.color
-      ? "rgba(255, 196, 208, 0.8)"
-      : "rgba(247, 221, 222, 0.8)";
-  }};
+      return props.color
+        ? "rgba(255, 196, 208, 0.8)"
+        : "rgba(247, 221, 222, 0.8)";
+    }};
     transition: all 0.3s;
   }
 `;

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
+import Swal from "sweetalert2";
 
 function Login() {
   const navigate = useNavigate();
@@ -37,9 +38,14 @@ function Login() {
       const token = response.headers.get("access_key").split(" ")[1];
       Cookies.set("token", token);
 
-      // console.log("데이터", response.data);
+      console.log("데이터", response.data);
       if ((response.data = "로그인 성공")) {
-        alert("로그인 성공");
+        Swal.fire({
+          text: `로그인이 완료되었습니다`,
+          icon: "success",
+          confirmButtonColor: "#ffb3d2",
+        });
+
         navigate("/");
       }
     },
@@ -145,7 +151,7 @@ const LoginBtn = styled(Link)`
   width: 50%;
   height: 50px;
   border: none;
-  background-color:  #FF9966;
+  background-color: #ff9966;
   text-align: center;
   line-height: 50px;
   text-decoration: none;
@@ -155,11 +161,11 @@ const LoginBtn = styled(Link)`
   cursor: pointer;
   border-radius: 8px;
   &:hover {
-    background-color:  #FF9966;
+    background-color: #ff9966;
     transition: all 0.3s;
-      font-size: 18px;
-      color: white;
-      transition: all 0.3s;
+    font-size: 18px;
+    color: white;
+    transition: all 0.3s;
   }
 `;
 export default Login;

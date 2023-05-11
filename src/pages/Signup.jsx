@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { addmock } from "../api/signup";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
 function Signup() {
   const navigate = useNavigate();
   const pwRef = useRef(null);
@@ -64,6 +65,11 @@ function Signup() {
       password: signUp.password,
     };
     mockPostMutation.mutate(newPost);
+    Swal.fire({
+      text: `회원가입이 완료되었습니다`,
+      icon: "success",
+      confirmButtonColor: "#ffb3d2",
+    });
   };
   console.log(signUp.password);
   return (
@@ -195,15 +201,15 @@ const SignupBtn = styled.button`
   align-items: center;
   cursor: pointer;
   font-weight: 900;
-  background-color:  #FF9966;
-    font-size: 16px;
+  background-color: #ff9966;
+  font-size: 16px;
   font-weight: 900;
-  &:hover{
-    background-color:  #FF9966;
+  &:hover {
+    background-color: #ff9966;
     transition: all 0.3s;
-      font-size: 20px;
-      color: white;
-      transition: all 0.3s;
+    font-size: 20px;
+    color: white;
+    transition: all 0.3s;
   }
 `;
 export default Signup;
