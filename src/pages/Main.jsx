@@ -1,31 +1,42 @@
 import React, { useState } from "react";
-import styled, { keyframes } from 'styled-components';
-import Modal from "./Modal";
+import styled, { keyframes } from "styled-components";
 import { getList, getUser } from "../api/listdata";
 import { useQuery } from "react-query";
 import List from "./List";
+import Postmodal from "./Postmodal";
 import Swal from "sweetalert2";
+import Cookies from "js-cookie";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Main() {
+  const navigate = useNavigate();
+  const token = Cookies.get("token");
   const { data } = useQuery("getList", getList);
   const { userData } = useQuery("getUser", getUser);
-  // console.log(userData)
-  const [modalOpen, setModalOpen] = useState(false);
-  // 모달창 노출
-  const showModal = () => {
-    setModalOpen(true);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const NavigateToPost = () => {
+    navigate("/post");
   };
 
   return (
     <>
       <HeaderTitle />
       <MainContent>
-
-        {/* {state !== "" >} */}
-        <WriteBox onClick={showModal}>
-          <p>작성하기</p>
-          {modalOpen && <Modal setModalOpen={setModalOpen} />}
-        </WriteBox>
+        {/* //로그인되어있을때 */}
+        {token ? (
+          <WriteBox onClick={NavigateToPost}>
+            <p>작성하기</p>
+          </WriteBox>
+        ) : (
+          <WriteBox onClick={openModal}>
+            <p>로그인 후 작성</p>
+            <Postmodal isOpen={isModalOpen} closeModal={closeModal} />
+          </WriteBox>
+        )}
 
         <ListWrap>
           {data &&
@@ -45,7 +56,7 @@ const MainContent = styled.div`
   height: 1500px;
   display: flex;
   justify-content: center;
-`
+`;
 
 const ListWrap = styled.div`
   display: grid;
@@ -57,7 +68,6 @@ const ListWrap = styled.div`
   align-items: center;
   margin-left: 65px;
 `;
-
 
 const WriteBox = styled.div`
   border-radius: 14px;
@@ -73,10 +83,10 @@ const WriteBox = styled.div`
   right: 130px;
   border: 2px solid black;
   font-size: 900;
-  &:hover{
-    background-color:  #FF9966;
+  &:hover {
+    background-color: #ff9966;
     transition: all 0.3s;
-    p{
+    p {
       font-size: 20px;
       color: white;
       transition: all 0.3s;
@@ -91,7 +101,13 @@ const HeaderTitle = () => {
   return (
     <TitleWrap>
       <TitleContent>
-        <p>CATCH <InlineTitle>CATCH</InlineTitle> CATCH <InlineTitle>CATCH</InlineTitle> CATCH <InlineTitle>CATCH</InlineTitle> CATCH <InlineTitle>CATCH</InlineTitle> CATCH <InlineTitle>CATCH</InlineTitle></p>
+        <p>
+          CATCH <InlineTitle>CATCH</InlineTitle> CATCH{" "}
+          <InlineTitle>CATCH</InlineTitle> CATCH{" "}
+          <InlineTitle>CATCH</InlineTitle> CATCH{" "}
+          <InlineTitle>CATCH</InlineTitle> CATCH{" "}
+          <InlineTitle>CATCH</InlineTitle>
+        </p>
       </TitleContent>
     </TitleWrap>
   );
@@ -99,7 +115,7 @@ const HeaderTitle = () => {
 
 const InlineTitle = styled.span`
   color: red;
-`
+`;
 
 const TitleAnimation = keyframes`
   0% { margin-left: 100%; }
