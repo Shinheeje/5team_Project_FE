@@ -23,17 +23,17 @@ function Modal({ setModalOpen }: ProsType) {
     <div>
       <ModalBackdrop>
         <Modalstyle>
-          <div>게시글 작성은 로그인 후 가능합니다</div>
+          <ModalTitle>게시글 작성은 로그인 후 가능합니다</ModalTitle>
           <Buttonbox>
             <Button
-              backgroundColor="#FFC4D0"
+              backgroundColor="#FF9966"
               color="#FCF5EE"
               onClick={NavigateToLogin}
             >
               로그인
             </Button>
             <Button
-              backgroundColor="#FFC4D0"
+              backgroundColor="#FF9966"
               color="#FCF5EE"
               onClick={NavigateToSignup}
             >
@@ -41,7 +41,7 @@ function Modal({ setModalOpen }: ProsType) {
             </Button>
             <Button
               id="closeModal"
-              backgroundColor="#FFC4D0"
+              backgroundColor="#FF9966"
               color="#FCF5EE"
               onClick={closeModal}
             >
@@ -53,12 +53,18 @@ function Modal({ setModalOpen }: ProsType) {
     </div>
   );
 }
+
+const ModalTitle = styled.div`
+  font-size: 24px;
+  font-weight: 900;
+`
+
 const Modalstyle = styled.div`
-  width: 400px;
-  height: 200px;
+  width: 600px;
+  height: 400px;
   position: fixed;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 16px;
   background-color: #fcf5ee;
   padding: 30px;
   display: flex;
@@ -85,10 +91,10 @@ const Button = styled.button`
   background-color: ${(props) => props.backgroundColor};
   color: ${(props) => props.color};
   border-radius: 8px;
-  width: 85px;
-  height: 35px;
+  width: 185px;
+  height: 50px;
   margin-right: 10px;
-  font-weight: bold;
+  font-weight: 900;
   border: none;
   cursor: pointer;
 

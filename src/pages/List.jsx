@@ -10,7 +10,7 @@ function List(listdata) {
   const data = listdata.listdata;
   console.log("리스트:", data);
 
-  // const 변수 = true 변수가 ? 버튼보이는거 : 안보이는거
+
   return (
     <div>
       <ImageBox
@@ -22,9 +22,11 @@ function List(listdata) {
           });
         }}
       >
+
         <Image src={data.imageUrl} alt="" />
-        <div>{data.title}</div>
-        <div>{data.userid}</div>
+
+        <ListItemTitle>{data.title}</ListItemTitle>
+        <ListItemUserid>{data.userid}</ListItemUserid>
       </ImageBox>
     </div>
   );
@@ -33,19 +35,37 @@ function List(listdata) {
 const ImageBox = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin-right: 30px;
   margin-bottom: 30px;
-
-  div {
-    margin-top: 10px;
+  width: 300px;
+  background-color: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 10px;
+  box-shadow: 4px 4px 4px rgba(0, 0, 6, 0.4);
+  &:hover{
+    transform: translateY(-10px);
+    transition: all 0.5s;
   }
 `;
 
+const ListItemUserid = styled.p`
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 900;
+`
+
+const ListItemTitle = styled.p`
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: 900;
+`
+
 const Image = styled.img`
   display: block;
-  width: 270px;
   height: 250px;
-  border: 1px solid #fbe8e7;
 `;
 
 export default List;

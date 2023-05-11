@@ -70,11 +70,17 @@ const WriteBox = styled.div`
   align-items: center;
   cursor: pointer;
   position: absolute;
-  right: 195px;
+  right: 130px;
   border: 2px solid black;
   font-size: 900;
   &:hover{
-    background-color: red;
+    background-color:  #FF9966;
+    transition: all 0.3s;
+    p{
+      font-size: 20px;
+      color: white;
+      transition: all 0.3s;
+    }
   }
   p {
     font-weight: 900;
