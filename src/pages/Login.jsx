@@ -145,20 +145,21 @@ const LoginBtn = styled(Link)`
   width: 50%;
   height: 50px;
   border: none;
-  background-color: ${(props) => {
-    return props.color ? "#FFC4D0" : "#F7DDDE";
-  }};
+  background-color:  #FF9966;
   text-align: center;
   line-height: 50px;
   text-decoration: none;
   color: black;
   font-size: 16px;
-  font-weight: 900;
+  font-weight: 700;
   cursor: pointer;
   border-radius: 8px;
   &:hover {
-    filter: brightness(90%);
-    transition: all 0.5s;
+    background-color:  #FF9966;
+    transition: all 0.3s;
+      font-size: 18px;
+      color: white;
+      transition: all 0.3s;
   }
 `;
 export default Login;

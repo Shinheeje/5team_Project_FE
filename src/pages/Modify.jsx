@@ -103,7 +103,9 @@ function Modify() {
             placeholder="수정할 제목"
             onChange={(e) => setModifyTitle(e.target.value)}
           />
-          <ModifyImg src={preview} alt="" />
+          <ImageWrapper>
+            <ModifyImg src={preview} alt="" />
+          </ImageWrapper>
           <FileWrap>
             <FileTextInput value={fileName} placeholder="첨부파일" readOnly />
             <FileButton for="file">파일찾기</FileButton>
@@ -132,6 +134,7 @@ const ModifyWrap = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  margin-top: 40px;
 `;
 const ModifyItemWrap = styled.form`
   background-color: white;
@@ -148,6 +151,13 @@ const ModifyItemTitle = styled.input`
   box-sizing: border-box;
   padding: 10px;
   outline: none;
+`;
+
+const ImageWrapper = styled.div`
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ModifyImg = styled.img`
@@ -188,10 +198,10 @@ const ModifyBtn = styled.button`
   }};
   &:hover {
     background-color: ${(props) => {
-      return props.color
-        ? "rgba(255, 196, 208, 0.8)"
-        : "rgba(247, 221, 222, 0.8)";
-    }};
+    return props.color
+      ? "rgba(255, 196, 208, 0.8)"
+      : "rgba(247, 221, 222, 0.8)";
+  }};
     transition: all 0.3s;
   }
 `;
@@ -234,10 +244,10 @@ const FileButton = styled.label`
   box-sizing: border-box;
   &:hover {
     background-color: ${(props) => {
-      return props.color
-        ? "rgba(255, 196, 208, 0.8)"
-        : "rgba(247, 221, 222, 0.8)";
-    }};
+    return props.color
+      ? "rgba(255, 196, 208, 0.8)"
+      : "rgba(247, 221, 222, 0.8)";
+  }};
     transition: all 0.3s;
   }
 `;

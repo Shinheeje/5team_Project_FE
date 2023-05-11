@@ -187,16 +187,23 @@ const SignupBtn = styled.button`
   width: 50%;
   height: 50px;
   border: none;
-  background-color: ${(props) => {
-    return props.color ? "#FFC4D0" : "#F7DDDE";
-  }};
-  font-size: 16px;
-  font-weight: 900;
+  border-radius: 14px;
+  height: 60px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
-  border-radius: 8px;
-  &:hover {
-    filter: brightness(90%);
-    transition: all 0.5s;
+  font-weight: 900;
+  background-color:  #FF9966;
+    font-size: 16px;
+  font-weight: 900;
+  &:hover{
+    background-color:  #FF9966;
+    transition: all 0.3s;
+      font-size: 20px;
+      color: white;
+      transition: all 0.3s;
   }
 `;
 export default Signup;

@@ -100,7 +100,6 @@ function Detail() {
   return (
     <div
       style={{
-        marginTop: "150px",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -111,10 +110,12 @@ function Detail() {
           <DetailFirstItemTitle>
             {location.state.currentUserInfo.title}
           </DetailFirstItemTitle>
-          <DetailFirstItem
-            src={location.state.currentUserInfo.imageUrl}
-            alt=""
-          />
+          <ImageWrapper>
+            <DetailFirstItem
+              src={location.state.currentUserInfo.imageUrl}
+              alt=""
+            />
+          </ImageWrapper>
           <DetailBody>{location.state.currentUserInfo.contents}</DetailBody>
 
           {nowLoginUser == postUser ? (
@@ -150,7 +151,7 @@ function Detail() {
                     {item.contents}
 
                     {item.userid == nowLoginUser ? (
-                      <button
+                      <DetailReplyDeleteBtn
                         onClick={(event) =>
                           removeReplyHandler(
                             event,
@@ -160,7 +161,7 @@ function Detail() {
                         }
                       >
                         삭제
-                      </button>
+                      </DetailReplyDeleteBtn>
                     ) : (
                       <></>
                     )}
@@ -186,10 +187,7 @@ const DetailWrap = styled.div`
   width: 800px;
   display: flex;
   flex-direction: column;
-  /* position: absolute; */
-  /* top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
+  margin-top: 40px;
 `;
 const DetailFirstItemWrap = styled.div`
   background-color: white;
@@ -201,6 +199,14 @@ const DetailFirstItemTitle = styled.h1`
   font-size: 24px;
   font-weight: 900;
 `;
+
+const ImageWrapper = styled.div`
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const DetailFirstItem = styled.img`
   width: 200px;
   display: flex;
@@ -233,10 +239,10 @@ const DetailBtn = styled.button`
   }};
   &:hover {
     background-color: ${(props) => {
-      return props.color
-        ? "rgba(255, 196, 208, 0.8)"
-        : "rgba(247, 221, 222, 0.8)";
-    }};
+    return props.color
+      ? "rgba(255, 196, 208, 0.8)"
+      : "rgba(247, 221, 222, 0.8)";
+  }};
     transition: all 0.3s;
   }
 `;
@@ -267,10 +273,11 @@ const DetailSecondItemInput = styled.input`
 `;
 const DetailSecondItemBtn = styled.button`
   position: absolute;
-  width: 50px;
+  width: 60px;
   height: 25px;
   right: 25px;
   bottom: 28px;
+  font-weight: 900;
   background-color: white;
   border: 1px solid black;
   cursor: pointer;
@@ -279,4 +286,17 @@ const DetailSecondItemBtn = styled.button`
     transition: all 0.3s;
   }
 `;
+
+const DetailReplyDeleteBtn = styled.button`
+    width: 60px;
+  height: 25px;
+  background-color: white;
+  font-weight: 900;
+  border: 1px solid black;
+  &:hover {
+    background-color: #f79191;
+    transition: all 0.3s;
+    color: white;
+  }
+`
 export default Detail;

@@ -57,9 +57,14 @@ function Header() {
       <Headerbox>
         <HeaderLogo src={`${process.env.PUBLIC_URL}/img/Logo.png`} alt="" onClick={() => {
           navigate('/')
-        }}/>
-        <StyledLink to="/login">Login</StyledLink>
-        <StyledLink to="/">Signup</StyledLink>
+        }} />
+        <div style={{
+          display: "flex",
+          gap: '10px'
+        }}>
+          <StyledLink to="/login">Login</StyledLink>
+          <StyledLink to="/">Signup</StyledLink>
+        </div>
       </Headerbox>
       <Outlet />
     </>
@@ -68,7 +73,7 @@ function Header() {
       <Headerbox>
         <HeaderLogo src={`${process.env.PUBLIC_URL}/img/Logo.png`} alt="" onClick={() => {
           navigate('/')
-        }}/>
+        }} />
         <img src="" alt="" />
         <StyledLink to="/">Logout</StyledLink>
       </Headerbox>

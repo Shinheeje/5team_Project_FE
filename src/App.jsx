@@ -24,9 +24,9 @@ function App() {
             <Route path="/modify/:id" element={<Modify />} />
             <Route path="/post" element={<Post />} />
             <Route path="/detail/:id" element={<Detail />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
           </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

@@ -4,7 +4,7 @@ import Modal from "./Modal";
 import { getList, getUser } from "../api/listdata";
 import { useQuery } from "react-query";
 import List from "./List";
-import Swal from "sweetalert2";
+import Character from "./Character";
 
 function Main() {
   const { data } = useQuery("getList", getList);
@@ -33,8 +33,7 @@ function Main() {
               return <List key={item.id} listdata={item} />;
             })}
         </ListWrap>
-
-        {/* <VideoBox>캐릭터관련동영상</VideoBox> */}
+        <Character />
       </MainContent>
     </>
   );
@@ -56,6 +55,8 @@ const ListWrap = styled.div`
   justify-content: center;
   align-items: center;
   margin-left: 65px;
+  position: absolute;
+  top: 100px;
 `;
 
 
@@ -123,4 +124,6 @@ const TitleContent = styled.div`
   white-space: nowrap;
   animation: ${TitleAnimation} 15s linear infinite;
 `;
+
+
 export default Main;

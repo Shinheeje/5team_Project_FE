@@ -136,3 +136,7 @@ body {
   background-color: #dcefb5;
   font-family: "Nunito Sans", "Gothic A1";
 }
+
+body::-webkit-scrollbar {
+  display: none;
+}

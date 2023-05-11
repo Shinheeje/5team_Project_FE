@@ -8,6 +8,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useCookies } from "react-cookie";
 import { Image } from "cloudinary-react";
 import axios from "axios";
+import Character from "./Character";
 function Post() {
   const [fileAttach, setFileAttach] = useState("");
   const [fileName, setFileName] = useState("");
@@ -39,41 +40,45 @@ function Post() {
     mutation.mutate(newList);
   };
   return (
-    <PostWrap>
-      <PostItemWrap
-        method="post"
-        encType="multipart/form-data"
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
-        <PostItemTitle
-          placeholder="제목"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <ImageWrapper>
-          <PostImg src={preview} alt="" />
-        </ImageWrapper>
-        <FileWrap>
-          <FileTextInput value={fileName} placeholder="첨부파일" readOnly />
-          <FileButton for="file">파일찾기</FileButton>
-          <FileInput type="file" id="file" onChange={handleFileChange} />
-        </FileWrap>
-        <PostBody value={content} onChange={(e) => setContent(e.target.value)}>
-          파닥파닥몬
-        </PostBody>
-        <PostBtnWrap>
-          <PostBtn
-            onClick={() => {
-              submitButtonHandler();
-            }}
-          >
-            제출하기
-          </PostBtn>
-        </PostBtnWrap>
-      </PostItemWrap>
-    </PostWrap>
+    <>
+      <PostWrap>
+        <PostItemWrap
+          method="post"
+          encType="multipart/form-data"
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <PostItemTitle
+            placeholder="제목"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <ImageWrapper>
+            <PostImg src={preview} alt="" />
+          </ImageWrapper>
+          <FileWrap>
+            <FileTextInput value={fileName} placeholder="첨부파일" readOnly />
+            <FileButton for="file">파일찾기</FileButton>
+            <FileInput type="file" id="file" onChange={handleFileChange} />
+          </FileWrap>
+          <PostBody value={content} onChange={(e) => setContent(e.target.value)}>
+            파닥파닥몬
+          </PostBody>
+          <PostBtnWrap>
+            <PostBtn
+              onClick={() => {
+                submitButtonHandler();
+              }}
+            >
+              제출하기
+            </PostBtn>
+          </PostBtnWrap>
+        </PostItemWrap>
+      </PostWrap>
+      <Character />
+    </>
+
   );
 }
 const PostWrap = styled.div`
@@ -84,6 +89,7 @@ const PostWrap = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  margin-top: 40px;
 `;
 const PostItemWrap = styled.form`
   background-color: white;
@@ -141,10 +147,10 @@ const PostBtn = styled.button`
   }};
   &:hover {
     background-color: ${(props) => {
-      return props.color
-        ? "rgba(255, 196, 208, 0.8)"
-        : "rgba(247, 221, 222, 0.8)";
-    }};
+    return props.color
+      ? "rgba(255, 196, 208, 0.8)"
+      : "rgba(247, 221, 222, 0.8)";
+  }};
     transition: all 0.3s;
   }
 `;
@@ -183,10 +189,10 @@ const FileButton = styled.label`
   box-sizing: border-box;
   &:hover {
     background-color: ${(props) => {
-      return props.color
-        ? "rgba(255, 196, 208, 0.8)"
-        : "rgba(247, 221, 222, 0.8)";
-    }};
+    return props.color
+      ? "rgba(255, 196, 208, 0.8)"
+      : "rgba(247, 221, 222, 0.8)";
+  }};
     transition: all 0.3s;
   }
 `;
