@@ -8,6 +8,8 @@ function Character() {
       <Image3 src={`${process.env.PUBLIC_URL}/img/gif4-unscreen.gif`}/>
       <Image4 src={`${process.env.PUBLIC_URL}/img/gif5-unscreen.gif`}/>
       <Image5 src={`${process.env.PUBLIC_URL}/img/gif6-unscreen.gif`}/>
+      <Image6 src={`${process.env.PUBLIC_URL}/img/gif7-unscreen.gif`}/>
+      <Image7 src={`${process.env.PUBLIC_URL}/img/gif8-unscreen.gif`}/>
     </>
   )
 }
@@ -46,17 +48,17 @@ const Image2 = styled.img`
   width: 100px;
   height: 100px;
   position: absolute;
-  top: 200px;
+  top: 350px;
   right: 0px;
   animation: ${gif2} 1s linear infinite;
 `;
 
 const gif3 = keyframes`
   0%, 100% {
-    transform: translateX(20px) rotate(-40deg);
+    transform: translateX(30px) rotate(-40deg);
   }
   50% {
-    transform: translateX(70px)  rotate(-40deg);
+    transform: translateX(55px)  rotate(-40deg);
   }
 `;
 
@@ -65,7 +67,7 @@ const Image3 = styled.img`
   width: 100px;
   height: 100px;
   position: absolute;
-  top: 550px;
+  top: 100px;
   right: 0px;
   animation: ${gif3} 1s linear infinite;
 `;
@@ -106,8 +108,47 @@ const Image5 = styled.img`
   width: 100px;
   height: 100px;
   position: absolute;
-  top: 670px;
+  top: 550px;
   left: 0px;
   animation: ${gif5} 1s linear infinite;
+`;
+
+
+const gif6 = keyframes`
+  0%, 100% {
+    transform: translateX(50px) rotate(-60deg);
+  }
+  50% {
+    transform: translateX(60px)  rotate(-60deg);
+  }
+`;
+
+
+const Image6 = styled.img`
+  width: 150px;
+  height: 100px;
+  position: absolute;
+  top: 550px;
+  right: 0px;
+  animation: ${gif6} 1s linear infinite;
+`;
+
+const gif7 = keyframes`
+  0%, 100% {
+    transform: translateX(50px) rotate(-60deg);
+  }
+  50% {
+    transform: translateX(60px)  rotate(-60deg);
+  }
+`;
+
+
+const Image7 = styled.img`
+  width: 150px;
+  height: 100px;
+  position: absolute;
+  top: 550px;
+  right: 0px;
+  animation: ${gif7} 1s linear infinite;
 `;
 export default Character
