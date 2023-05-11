@@ -1,14 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { addList } from "../api/listdata";
+import React, { useState } from "react";
+import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useCookies } from "react-cookie";
-import { Image } from "cloudinary-react";
-import axios from "axios";
-import Character from "./Character";
+import styled from "styled-components";
+import { addList } from "../api/listdata";
 function Post() {
   const [fileAttach, setFileAttach] = useState("");
   const [fileName, setFileName] = useState("");
@@ -76,7 +70,6 @@ function Post() {
           </PostBtnWrap>
         </PostItemWrap>
       </PostWrap>
-      <Character />
     </>
 
   );

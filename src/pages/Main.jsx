@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import Cookies from "js-cookie";
 import { Navigate, useNavigate } from "react-router-dom";
 import Character from "./Character";
+import MainFooter from "./Footer";
 
 function Main() {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ function Main() {
         </ListWrap>
         <Character />
       </MainContent>
+      <MainFooter />
     </>
   );
 }

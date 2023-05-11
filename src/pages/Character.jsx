@@ -10,6 +10,10 @@ function Character() {
       <Image5 src={`${process.env.PUBLIC_URL}/img/gif6-unscreen.gif`}/>
       <Image6 src={`${process.env.PUBLIC_URL}/img/gif7-unscreen.gif`}/>
       <Image7 src={`${process.env.PUBLIC_URL}/img/gif8-unscreen.gif`}/>
+      <Image8 src={`${process.env.PUBLIC_URL}/img/gif9-unscreen.gif`}/>
+      <Image9 src={`${process.env.PUBLIC_URL}/img/gif10.gif`}/>
+      <Image11 src={`${process.env.PUBLIC_URL}/img/gif12.gif`}/>
+      <Image12 src={`${process.env.PUBLIC_URL}/img/gif13.gif`}/>
     </>
   )
 }
@@ -128,27 +132,106 @@ const Image6 = styled.img`
   width: 150px;
   height: 100px;
   position: absolute;
-  top: 550px;
+  top: 700px;
   right: 0px;
   animation: ${gif6} 1s linear infinite;
 `;
 
 const gif7 = keyframes`
   0%, 100% {
-    transform: translateX(50px) rotate(-60deg);
+    transform: translateX(60px) rotate(-65deg);
   }
   50% {
-    transform: translateX(60px)  rotate(-60deg);
+    transform: translateX(70px)  rotate(-65deg);
   }
 `;
 
 
 const Image7 = styled.img`
-  width: 150px;
+  width: 200px;
   height: 100px;
   position: absolute;
-  top: 550px;
+  top: 990px;
   right: 0px;
   animation: ${gif7} 1s linear infinite;
 `;
+
+const gif8 = keyframes`
+  0%, 100% {
+    transform: translateX(-80px) rotate(100deg);
+  }
+  50% {
+    transform: translateX(-90px)  rotate(100deg);
+  }
+`;
+
+
+const Image8 = styled.img`
+  width: 200px;
+  height: 100px;
+  position: absolute;
+  top: 750px;
+  left: 0px;
+  animation: ${gif8} 1s linear infinite;
+`;
+
+
+const gif9 = keyframes`
+  0%, 100% {
+    transform: translateX(-80px) rotate(100deg);
+  }
+  50% {
+    transform: translateX(-90px)  rotate(100deg);
+  }
+`;
+
+
+const Image9 = styled.img`
+  width: 200px;
+  height: 100px;
+  position: absolute;
+  bottom: 330px;
+  left: 0px;
+  animation: ${gif9} 1s linear infinite;
+`;
+
+const gif11 = keyframes`
+  0%, 100% {
+    transform: translateX(-30px) rotate(0deg);
+  }
+  50% {
+    transform: translateX(-30px)  rotate(0deg);
+  }
+`;
+
+
+const Image11 = styled.img`
+  width: 200px;
+  height: 100px;
+  position: absolute;
+  bottom: 0px;
+  right: 40px;
+  animation: ${gif11} 1s linear infinite;
+`;
+
+
+const gif12 = keyframes`
+  0%, 100% {
+    transform: translateX(-30px) rotate(0deg);
+  }
+  50% {
+    transform: translateX(-30px)  rotate(0deg);
+  }
+`;
+
+
+const Image12 = styled.img`
+  width: 200px;
+  height: 100px;
+  position: absolute;
+  bottom: 0px;
+  left: 140px;
+  animation: ${gif12} 1s linear infinite;
+`;
+
 export default Character

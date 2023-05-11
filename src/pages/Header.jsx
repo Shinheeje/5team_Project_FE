@@ -52,6 +52,9 @@ function Header() {
     // console.log(location.pathname);
   }, [location]);
 
+const Logout = () => {
+  Cookies.remove('token')
+}
   return !token ? (
     <>
       <Headerbox>
@@ -75,7 +78,7 @@ function Header() {
           navigate('/')
         }} />
         <img src="" alt="" />
-        <StyledLink to="/">Logout</StyledLink>
+        <StyledLink to="/" onClick={Logout}>Logout</StyledLink>
       </Headerbox>
       <Outlet />
     </>
