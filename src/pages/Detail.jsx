@@ -4,6 +4,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { addPosts, detailList, removeList, removePosts } from "../api/listdata";
 import { getUser } from "../api/listdata";
+import Swal from "sweetalert2";
 
 function Detail() {
   const navigate = useNavigate();
@@ -33,11 +34,25 @@ function Detail() {
 
   const test = location.state.currentUserInfo.commentList;
   const removeListMutation = useMutation(removeList, {
-    onSuccess: () => {
-      navigate("/");
+    onSuccess: (e) => {
+      e.preventDefault();
+      // navigate("/");
     },
   });
-  const removeButtonHandler = (id) => {
+  const removeButtonHandler = (id, e) => {
+    e.preventDefault();
+    Swal.fire({
+      title: "정말 삭제 하시겠습니까?",
+
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "확인",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/");
+      }
+    });
     removeListMutation.mutate(id);
   };
   const params = useParams();
@@ -106,7 +121,11 @@ function Detail() {
       }}
     >
       <DetailWrap>
-        <DetailFirstItemWrap>
+        <DetailFirstItemWrap
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
           <DetailFirstItemTitle>
             {location.state.currentUserInfo.title}
           </DetailFirstItemTitle>
@@ -129,8 +148,8 @@ function Detail() {
               </DetailBtn>
               <DetailBtn
                 color="#FBE8E7"
-                onClick={() => {
-                  removeButtonHandler(pathId);
+                onClick={(e) => {
+                  removeButtonHandler(pathId, e);
                 }}
               >
                 삭제하기
@@ -239,10 +258,10 @@ const DetailBtn = styled.button`
   }};
   &:hover {
     background-color: ${(props) => {
-    return props.color
-      ? "rgba(255, 196, 208, 0.8)"
-      : "rgba(247, 221, 222, 0.8)";
-  }};
+      return props.color
+        ? "rgba(255, 196, 208, 0.8)"
+        : "rgba(247, 221, 222, 0.8)";
+    }};
     transition: all 0.3s;
   }
 `;
@@ -288,7 +307,7 @@ const DetailSecondItemBtn = styled.button`
 `;
 
 const DetailReplyDeleteBtn = styled.button`
-    width: 60px;
+  width: 60px;
   height: 25px;
   background-color: white;
   font-weight: 900;
@@ -298,5 +317,5 @@ const DetailReplyDeleteBtn = styled.button`
     transition: all 0.3s;
     color: white;
   }
-`
+`;
 export default Detail;

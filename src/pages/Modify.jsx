@@ -6,6 +6,7 @@ import { editList, getList, detailList } from "../api/listdata";
 import { useNavigate } from "react-router-dom";
 // import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -54,6 +55,11 @@ function Modify() {
     modifyList.append("contents", modifybody);
     modifyList.append("image", fileAttach);
     modifyList.append("id", data.id);
+    Swal.fire({
+      text: `수정이 완료되었습니다`,
+      icon: "success",
+      confirmButtonColor: "#ffb3d2",
+    });
     if (modifyList !== null) {
       editList(modifyList);
     }
@@ -198,10 +204,10 @@ const ModifyBtn = styled.button`
   }};
   &:hover {
     background-color: ${(props) => {
-    return props.color
-      ? "rgba(255, 196, 208, 0.8)"
-      : "rgba(247, 221, 222, 0.8)";
-  }};
+      return props.color
+        ? "rgba(255, 196, 208, 0.8)"
+        : "rgba(247, 221, 222, 0.8)";
+    }};
     transition: all 0.3s;
   }
 `;
@@ -244,10 +250,10 @@ const FileButton = styled.label`
   box-sizing: border-box;
   &:hover {
     background-color: ${(props) => {
-    return props.color
-      ? "rgba(255, 196, 208, 0.8)"
-      : "rgba(247, 221, 222, 0.8)";
-  }};
+      return props.color
+        ? "rgba(255, 196, 208, 0.8)"
+        : "rgba(247, 221, 222, 0.8)";
+    }};
     transition: all 0.3s;
   }
 `;

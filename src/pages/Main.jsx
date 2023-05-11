@@ -28,6 +28,7 @@ function Main() {
     <>
       <HeaderTitle />
       <MainContent>
+        <MainDescription>나의 최애 캐릭터를 자랑해주세요!</MainDescription>
         {/* //로그인되어있을때 */}
         {token ? (
           <WriteBox onClick={NavigateToPost}>
@@ -35,7 +36,7 @@ function Main() {
           </WriteBox>
         ) : (
           <WriteBox onClick={openModal}>
-            <p>로그인 후 작성</p>
+            <p>작성하기</p>
             <Postmodal isOpen={isModalOpen} closeModal={closeModal} />
           </WriteBox>
         )}
@@ -71,6 +72,12 @@ const ListWrap = styled.div`
   margin-left: 65px;
   position: absolute;
   top: 100px;
+`;
+const MainDescription = styled.h1`
+  margin-top: 42px;
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: 2px;
 `;
 
 const WriteBox = styled.div`
@@ -143,6 +150,5 @@ const TitleContent = styled.div`
   white-space: nowrap;
   animation: ${TitleAnimation} 15s linear infinite;
 `;
-
 
 export default Main;

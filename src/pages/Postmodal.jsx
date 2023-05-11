@@ -62,8 +62,10 @@ export const ModalBackdrop = styled.div`
   bottom: 0;
 `;
 const Button = styled.button`
-  background-color: ${(props) => props.backgroundColor};
-  color: ${(props) => props.color};
+  background-color: #dcefb5;
+  /* background-color: ${(props) => props.backgroundColor}; */
+
+  color: black;
   border-radius: 8px;
   width: 185px;
   height: 50px;

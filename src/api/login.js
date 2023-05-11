@@ -10,7 +10,8 @@ const loginCertify = async (newLogin) => {
     );
     return response;
   } catch (error) {
-    console.log(error);
+    // console.log("에러코드:", error);
+    return error;
   }
 };
 
