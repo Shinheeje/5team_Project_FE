@@ -88,7 +88,7 @@ function Detail() {
   useEffect(() => {
     queryClient.invalidateQueries("getReply");
   }, []);
-  return postUser == nowLoginUser ? (
+  return  (
     <>
       <div
         style={{
@@ -99,7 +99,7 @@ function Detail() {
         }}
       >
         <DetailWrap>
-          <DetailFirstItemWrap>
+          {/* <DetailFirstItemWrap> */}
             <DetailFirstItemTitle>
               {location.state.currentUserInfo.title}
             </DetailFirstItemTitle>
@@ -108,6 +108,8 @@ function Detail() {
               alt=""
             />
             <DetailBody>{location.state.currentUserInfo.contents}</DetailBody>
+
+            {postUser == nowLoginUser ? (
             <DetailBtnWrap>
               <DetailBtn
                 onClick={() => {
@@ -125,7 +127,10 @@ function Detail() {
                 삭제하기
               </DetailBtn>
             </DetailBtnWrap>
-          </DetailFirstItemWrap>
+           
+             ) : () } 
+        
+
           <DetailSecondItemWrap>
             {data &&
               data.commentList &&
@@ -161,66 +166,9 @@ function Detail() {
           </DetailSecondItemWrap>
         </DetailWrap>
       </div>
-    </>
-  ) : (
-    <>
-      <div
-        style={{
-          marginTop: "150px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <DetailWrap>
-          <DetailFirstItemWrap>
-            <DetailFirstItemTitle>
-              {location.state.currentUserInfo.title}
-            </DetailFirstItemTitle>
-            <DetailFirstItem
-              src={location.state.currentUserInfo.imageUrl}
-              alt=""
-            />
-            <DetailBody>{location.state.currentUserInfo.contents}</DetailBody>
-          </DetailFirstItemWrap>
-          <DetailSecondItemWrap>
-            {data &&
-              data.commentList &&
-              data.commentList.map((item) => {
-                return (
-                  <>
-                    <DetailSecondItemtext key={item.id}>
-                      {item.contents}
-                      <button
-                        onClick={(event) =>
-                          removeReplyHandler(
-                            event,
-                            item.id,
-                            location.state.currentUserInfo.id
-                          )
-                        }
-                      >
-                        삭제
-                      </button>
-                    </DetailSecondItemtext>
-                  </>
-                );
-              })}
-            <DetailSecondItemInput
-              type="text"
-              value={reply.contents}
-              onChange={onChangeReplyContent}
-              name="contents"
-            />
-            <DetailSecondItemBtn onClick={onSubmitClickHandler}>
-              등록
-            </DetailSecondItemBtn>
-          </DetailSecondItemWrap>
-        </DetailWrap>
-      </div>
-    </>
+  </>
   );
-}
+
 
 const DetailWrap = styled.div`
   width: 800px;
