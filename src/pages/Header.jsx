@@ -37,7 +37,7 @@ const HeaderLogo = styled.img`
 
   border-radius: 8px;
   &:hover {
-    background-color: #d1b9ee;
+    background-color: #dcefb5;
     transition: all 0.4s;
     transform: scale(0.9);
   }
@@ -66,7 +66,7 @@ const Logout = () => {
           gap: '10px'
         }}>
           <StyledLink to="/login">Login</StyledLink>
-          <StyledLink to="/">Signup</StyledLink>
+          <StyledLink to="/signup">Signup</StyledLink>
         </div>
       </Headerbox>
       <Outlet />

@@ -88,7 +88,7 @@ const WriteBox = styled.div`
   border: 2px solid black;
   font-size: 900;
   &:hover {
-    background-color: #ff9966;
+    background-color: red;
     transition: all 0.3s;
     p {
       font-size: 20px;
