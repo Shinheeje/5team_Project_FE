@@ -8,8 +8,11 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 const Headerbox = styled.header`
-  padding: 10px;
-  background-color: #fbe8e7;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 10px;
+background-color: white;
 `;
 
 const StyledLink = styled(Link)`
@@ -17,15 +20,32 @@ const StyledLink = styled(Link)`
   color: black;
   float: right;
   margin-right: 10px;
+  font-size: 30px;
+  font-weight: 900;
 
   &:hover {
-    color: #ffaaa4;
+    color: red;
+    transition: all 0.4s;
+    transform: scale(0.9);
   }
 `;
 
+const HeaderLogo = styled.img`
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+
+  border-radius: 8px;
+  &:hover {
+    background-color: #d1b9ee;
+    transition: all 0.4s;
+    transform: scale(0.9);
+  }
+`
+
 function Header() {
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
   const token = Cookies.get("token");
 
   useEffect(() => {
@@ -35,7 +55,9 @@ function Header() {
   return !token ? (
     <>
       <Headerbox>
-        <image>로고</image>
+        <HeaderLogo src={`${process.env.PUBLIC_URL}/img/Logo.png`} alt="" onClick={() => {
+          navigate('/')
+        }}/>
         <StyledLink to="/login">Login</StyledLink>
         <StyledLink to="/">Signup</StyledLink>
       </Headerbox>
@@ -44,12 +66,16 @@ function Header() {
   ) : (
     <>
       <Headerbox>
-        <image>로고</image>
+        <HeaderLogo src={`${process.env.PUBLIC_URL}/img/Logo.png`} alt="" onClick={() => {
+          navigate('/')
+        }}/>
+        <img src="" alt="" />
         <StyledLink to="/">Logout</StyledLink>
       </Headerbox>
       <Outlet />
     </>
   );
 }
+
 
 export default Header;
