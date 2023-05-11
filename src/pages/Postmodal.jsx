@@ -1,10 +1,8 @@
 import React from "react";
-import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Login from "./Login";
-import { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
-function Modal({ isOpen, closeModal }) {
+function Postmodal({ isOpen, closeModal }) {
   const Navigate = useNavigate();
 
   const NavigateToLogin = () => {
@@ -14,11 +12,10 @@ function Modal({ isOpen, closeModal }) {
   const NavigateToSignup = () => {
     Navigate("/signup");
   };
-
   return (
     <div style={{ display: isOpen ? "block" : "none" }}>
       <ModalBackdrop onClick={closeModal}>
-        <Modalstyle>
+        <Modalstyle onClick={(e) => e.stopPropagation()}>
           <ModalTitle>게시글 작성은 로그인 후 가능합니다</ModalTitle>
           <Buttonbox>
             <Button
@@ -37,11 +34,11 @@ function Modal({ isOpen, closeModal }) {
             </Button>
             <Button
               id="closeModal"
-              backgroundColor="#FF9966"
+              backgroundColor="transparent"
               color="#FCF5EE"
               onClick={closeModal}
             >
-              x
+              ❌
             </Button>
           </Buttonbox>
         </Modalstyle>
@@ -49,24 +46,6 @@ function Modal({ isOpen, closeModal }) {
     </div>
   );
 }
-
-const ModalTitle = styled.div`
-  font-size: 24px;
-  font-weight: 900;
-`;
-
-const Modalstyle = styled.div`
-  width: 600px;
-  height: 400px;
-  position: fixed;
-  align-items: center;
-  border-radius: 16px;
-  background-color: #fcf5ee;
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-`;
 
 export const ModalBackdrop = styled.div`
   // Modal이 떴을 때의 배경을 깔아주는 CSS를 구현
@@ -82,7 +61,6 @@ export const ModalBackdrop = styled.div`
   right: 0;
   bottom: 0;
 `;
-
 const Button = styled.button`
   background-color: ${(props) => props.backgroundColor};
   color: ${(props) => props.color};
@@ -105,8 +83,8 @@ const Button = styled.button`
     color: white;
     top: 15px;
     right: 10px;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
   }
 `;
 
@@ -114,4 +92,23 @@ const Buttonbox = styled.div`
   display: flex;
   gap: 5px;
 `;
-export default Modal;
+
+const ModalTitle = styled.div`
+  font-size: 24px;
+  font-weight: 900;
+`;
+
+const Modalstyle = styled.div`
+  width: 600px;
+  height: 400px;
+  position: fixed;
+  align-items: center;
+  border-radius: 16px;
+  background-color: #fcf5ee;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+`;
+
+export default Postmodal;
