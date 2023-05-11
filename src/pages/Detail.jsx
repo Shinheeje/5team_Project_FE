@@ -3,14 +3,22 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { addPosts, detailList, removeList, removePosts } from "../api/listdata";
+import { getUser } from "../api/listdata";
+
 function Detail() {
   const navigate = useNavigate();
   const location = useLocation();
   const pathId = location.pathname.slice(8);
-  // console.log(pathId);
-  // console.log(typeof pathId);
-  //댓글
-  // const { data } = useQuery("getReply", getList);
+
+  //게시글권한위한것들
+  const nowdata = useQuery("user", getUser);
+  // console.log("현재로그인한애!", data.data);
+  const nowLoginUser = nowdata.data;
+  const postUser = location.state.currentUserInfo.userid;
+  // console.log("지금로그인", nowLoginUser);
+
+  //댓글권한위한것들
+  //item.userid 얘랑 nowLoginUser 얘 비교
 
   const { data, isLoading, isError, error } = useQuery(
     "getReply",
@@ -79,6 +87,7 @@ function Detail() {
     // console.log("댓글 ID:", id);
     removeMutation.mutate({ id, postId });
   };
+
   // * 댓글수정
   const editReplyHandler = (event) => {
     event.preventDefault();
@@ -107,24 +116,30 @@ function Detail() {
             alt=""
           />
           <DetailBody>{location.state.currentUserInfo.contents}</DetailBody>
-          <DetailBtnWrap>
-            <DetailBtn
-              onClick={() => {
-                navigate(`/modify/${pathId}`);
-              }}
-            >
-              수정하기
-            </DetailBtn>
-            <DetailBtn
-              color="#FBE8E7"
-              onClick={() => {
-                removeButtonHandler(pathId);
-              }}
-            >
-              삭제하기
-            </DetailBtn>
-          </DetailBtnWrap>
+
+          {nowLoginUser == postUser ? (
+            <DetailBtnWrap>
+              <DetailBtn
+                onClick={() => {
+                  navigate(`/modify/${pathId}`);
+                }}
+              >
+                수정하기
+              </DetailBtn>
+              <DetailBtn
+                color="#FBE8E7"
+                onClick={() => {
+                  removeButtonHandler(pathId);
+                }}
+              >
+                삭제하기
+              </DetailBtn>
+            </DetailBtnWrap>
+          ) : (
+            <></>
+          )}
         </DetailFirstItemWrap>
+
         <DetailSecondItemWrap>
           {data &&
             data.commentList &&
@@ -133,17 +148,22 @@ function Detail() {
                 <>
                   <DetailSecondItemtext key={item.id}>
                     {item.contents}
-                    <button
-                      onClick={(event) =>
-                        removeReplyHandler(
-                          event,
-                          item.id,
-                          location.state.currentUserInfo.id
-                        )
-                      }
-                    >
-                      삭제
-                    </button>
+
+                    {item.userid == nowLoginUser ? (
+                      <button
+                        onClick={(event) =>
+                          removeReplyHandler(
+                            event,
+                            item.id,
+                            location.state.currentUserInfo.id
+                          )
+                        }
+                      >
+                        삭제
+                      </button>
+                    ) : (
+                      <></>
+                    )}
                   </DetailSecondItemtext>
                 </>
               );
